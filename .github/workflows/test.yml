@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Run global-random lint
+      - name: Run global-random lint (ADR-5)
         run: python tools/ci/lint_no_global_random.py --root .
 
   gut:
@@ -27,6 +27,19 @@ jobs:
           sudo mv Godot_v4.3-stable_linux.x86_64 /usr/local/bin/godot
           sudo chmod +x /usr/local/bin/godot
           godot --version
+
+      # GUT 为 Godot 编辑器插件，需先于 GUT 测试安装进工程 addons/。
+      # 注意：请团队在首次跑通时核对下方 GUT_VER 与发布包资产名是否匹配
+      # （GUT 9.x 面向 Godot 4.x；发布页 https://github.com/bitwes/Gut/releases）。
+      - name: Install GUT (pin to Godot 4.3-compatible release)
+        run: |
+          GUT_VER=9.3.0
+          curl -fsSL "https://github.com/bitwes/Gut/releases/download/${GUT_VER}/gut_${GUT_VER}.zip" -o gut.zip
+          mkdir -p addons
+          unzip -q gut.zip -d gut_tmp
+          if [ -d gut_tmp/gut ]; then mv gut_tmp/gut addons/gut; else mv gut_tmp/* addons/ ; fi
+          rm -rf gut_tmp gut.zip
+
       - name: Run GUT headless
         run: |
           godot --headless --path . --quit res://addons/gut/gut_cmdln.gd \

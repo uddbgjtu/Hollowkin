@@ -121,4 +121,13 @@ Epic A–G 全部"验收"列勾选 + 依赖图无环 + 三角色确认，方可�
 
 ---
 
+## 5. Epic A 执行进度（2026-11-03 · 主理人直接落地）
+
+- **A1** `src/core/rng/rng_service.gd` 补 `floor_rng(run_seed, floor_index)`（对齐架构 §3.1）；`tests/unit/rng_service_test.gd` 落 GUT 确定性单测（同 seed 同序列 / 异 seed 分叉 / floor_rng 确定性 / 调用时序无关）。
+- **A2** `src/core/save/save_service.gd`（extends Node，Autoload）落地：save_run/load_run/clear_run（回退庇护所）、save_meta/load_meta、NOTIFICATION_APPLICATION_PAUSED 同步落盘、new_run_seed() 经 RNGService 派生（禁全局随机）。承载 ADR-1。
+- **A3** `project.godot`（Godot 4.3 / config_version=5 / 竖屏 720×1280 / main 场景 / SaveService Autoload）+ `src/main.tscn` + `src/main.gd`（启动读档/新 run，演示 RNGService.floor_rng 链路）。
+- **A4** `.github/workflows/lint.yml` + `test.yml` 双绿流水线；test.yml 增 GUT 9.x 安装步骤（pin 版本 + 注释待团队验证布局）。
+- **质量门**：`tools/ci/lint_no_global_random.py` 复跑 OK（扫描 5 个 .gd，exit 0）；新增 .gd 无误触发全局随机拦截。
+- **待真机/后续**：ADR-1 与 DungeonGen 联测重建一致、R2 iOS 后台强杀双保险、GUT 在 CI 真跑（本沙箱无 Godot）。
+
 *本拆分为 Phase 5 排期依据；工作量占位为 Lean 估算，正式排期在 Phase 5 kickoff 敲定。未 git commit。*

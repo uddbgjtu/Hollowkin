@@ -20,8 +20,8 @@
 
 | 字段 | 内容 |
 |---|---|
-| **状态** | 进行中（E-A 已拍板，可完整实现；此前为"拟采纳·依赖 E-A"） |
-| **落地文件（拟）** | `src/core/save/save_manager.gd`、`src/core/save/event_log.gd`、`src/core/dungeon_gen/dungeon_generator.gd`、`src/core/dungeon_gen/fallback_template.gd` |
+| **状态** | 进行中（Epic A2 已落地 `save_service.gd` 骨架；待与 DungeonGen 联测重建一致 + 真机 R2 双保险） |
+| **落地文件（实）** | `src/core/save/save_service.gd`（层间落盘 + 暂停同步 + 损坏回退，承载 ADR-1）；`src/core/dungeon_gen/dungeon_generator.gd`、`src/core/dungeon_gen/fallback_template.gd`（Epic B 待落）；event_log 以内嵌 `Array` 存于 `save_run.cfg` |
 | **关联模块** | Save + DungeonGen（见 architecture-doc.md §1.1/§1.5、§4） |
 | **验证点** | ① 层间硬存档点写入 `user://save_run.cfg`（seed+floor+log）；② `NOTIFICATION_APPLICATION_PAUSED` 同步落盘；③ 读档损坏 → 回退庇护所且永久进度不受影响；④ 同 (run_seed, floor_index) 重建布局与事件日志重放一致 |
 | **负责人** | engineering-lead |
@@ -76,7 +76,7 @@
 
 | 字段 | 内容 |
 |---|---|
-| **状态** | 进行中（CI lint 已落地；待 RNGService 单测 + ADR-1 联测） |
+| **状态** | 进行中（CI lint 已落地；RNGService + `floor_rng` 已落 + 单测已落 `tests/unit/rng_service_test.gd`；待与 ADR-1 联测重建一致） |
 | **落地文件（拟）** | `src/core/rng/rng_service.gd`（跨切）+ 各随机源模块 |
 | **关联模块** | RNGService（见 architecture-doc.md §1.9、§4） |
 | **验证点** | ① `floor_seed = hash_mix(run_seed, floor_index)`，每层独立 `RandomNumberGenerator.seed`；② 生成/掉落/战斗方差全走本层 RNG；③ 禁 `randf()/randi()` 全局随机（CI lint 阻断）；④ 同 (seed,floor) → 同布局（与 ADR-1 联测） |
@@ -104,11 +104,11 @@
 
 | ADR | 状态 | 主要阻塞/风险 | 闭环前置 |
 |---|---|---|---|
-| ADR-1 | 进行中 | R2 iOS 后台强杀边界 | 真机双保险实测 |
+| ADR-1 | 进行中 | R2 iOS 后台强杀边界 | save_service.gd 已落；真机双保险实测 + DungeonGen 联测 |
 | ADR-2 | 进行中 | 低 | R3 同帧预算验证 |
 | ADR-3 | 进行中 | 低 | R3 真机达标 |
 | ADR-4 | 实现完成 + 待真机/签字闭环 | PNG-8 人工绕过风险 | 脚本唯一出口 + CI 校验 + Python selftest 已通过（含 boss/sanctuary R3 严格） |
-| ADR-5 | 进行中 | 待 RNGService 单测 + ADR-1 联测 | 全局随机调用拦截（lint 已落地） |
+| ADR-5 | 进行中 | 待与 ADR-1 联测 | RNGService+单测已落；全局随机调用拦截（lint 已落地） |
 | C1 | 已闭环（设计） | 低 | 随模块实现落地 |
 
 > **总评**：6 项决策均"技术可落地、无 FAIL"。ADR-1 因 E-A 拍板由拟采纳升级为可完整实现；**ADR-4 已实现完成（引擎 4.3 签字、Python `--selftest` 实跑通过含 boss/sanctuary R3 严格硬阻断）**，仅待 Godot 环境接 CI headless 实跑；剩余开放项集中在 **R1/R3 真机测量** 与 **R2/ADR-5 的工程纪律（CI 校验/lint）**，不构成架构阻断。

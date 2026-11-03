@@ -30,6 +30,14 @@ static func new_floor_rng(seed_value: int) -> RandomNumberGenerator:
 	return rng
 
 
+# 便捷：为某一层派生确定性 RNG（ADR-1 重建 + ADR-5）。
+# 等价于架构 §3.1 的 RNGService.new_floor_rng(run_seed, floor_index)：
+#   组合 run_seed 与 floor_index（hash_mix）→ 单 seed → 同 (run_seed, floor_index)
+#   必产生唯一且逐字节一致的序列。地窟布局/敌人/掉落/战斗方差一律经此取随机。
+static func floor_rng(run_seed: int, floor_index: int) -> RandomNumberGenerator:
+	return new_floor_rng(derive_seed([run_seed, floor_index]))
+
+
 # 便捷：由字符串 slug 派生确定性 seed（如实体 slug、资产文件名）。
 # 同一 slug 永远映射到同一 seed，避免散列漂移（与 bestiary §0.1 命名源协同）。
 static func seed_from_string(s: String) -> int:

@@ -64,7 +64,7 @@
 
 ### 1.5 存档（Save）`src/core/save/`
 - **职责**：`save_run.cfg`（种子+层号+事件日志）、`save_meta.cfg`（ember+节点激活）。仅层间硬存档点写入（E-A）；`NOTIFICATION_APPLICATION_PAUSED` 同步落盘；损坏→回退庇护所（永久进度独立）。
-- **关键文件（拟）**：`save_manager.gd`、`event_log.gd`（append-only 命令日志，预留层内恢复升级空间）。
+- **关键文件（实）**：`src/core/save/save_service.gd`（承载 ADR-1；层间落盘 `user://save_run.cfg` / `user://save_meta.cfg`）。事件日志以 `Array` 内嵌于 `save_run.cfg`（`event_log` 字段），预留将来升为独立 append-only 命令日志的空间。
 - **关键约束**：
   - run 存档体积极小（种子+层号+短日志 ≈ 数百字节）；永久快照 ≈ 数 KB。
   - 读档异常 → 丢弃 run、回庇护所（ADR-1 损坏回退）。
@@ -100,7 +100,7 @@
 - **关联 ADR**：ADR-4（核心落地）。
 
 ### 1.9 跨切核心服务（Cross-cutting Core）—— 不属上述任一业务模块，被全局依赖
-- **RNGService** `src/core/rng/rng_service.gd`：单一随机出口。`floor_seed=hash_mix(run_seed, floor_index)`；`new_floor_rng()` 返回种子化 `RandomNumberGenerator`；提供全局 lint 钩子禁 `randf()/randi()`。**承载 ADR-5**。
+- **RNGService** `src/core/rng/rng_service.gd`：单一随机出口。`floor_seed=hash_mix(run_seed, floor_index)`；`new_floor_rng(seed)` 返回种子化 `RandomNumberGenerator`，`floor_rng(run_seed, floor_index)` 由 `derive_seed` 派生层 RNG（§3.1）；提供全局 lint 钩子禁 `randf()/randi()`。**承载 ADR-5**。
 - **StatBlock** `src/core/stats/stat_block.gd`：Resource 单一真源，`FinalStat = (Base + ΣVeinAdd) × ΠRuneMult`（C1 契约）。`build_run_base()`（灵脉注入）、`recompute_rune_mult()`（符文变动）、`final_stat()`（每击 O(1)）。**承载 C1**。
 
 ---
@@ -145,7 +145,7 @@
 ### 3.1 RNG 单一出口
 ```
 任意模块需要随机
-   → RNGService.new_floor_rng(run_seed, floor_index)  # 返回种子化 RandomNumberGenerator
+   → RNGService.floor_rng(run_seed, floor_index)  # 返回种子化 RandomNumberGenerator（等价 new_floor_rng(derive_seed([run_seed,floor_index]))）
    → 全程只用该实例的 .randi()/.randf()/.randf_range()
    ✗ 禁止 randomize() / randf() / randi() 全局调用（CI lint 阻断）
 ```
@@ -187,7 +187,7 @@ run 起始:
 
 | ADR | 标题 | 落地模块 | 关键文件（拟） | 完成判据（摘要） |
 |---|---|---|---|---|
-| **ADR-1** | 可恢复存档架构 | Save + DungeonGen + EventLog | `save_manager.gd` / `event_log.gd` / `dungeon_generator.gd` | 层间硬存档点写 seed+floor+log；paused 同步落盘；损坏回退庇护所；同 (seed,floor) 重建一致 |
+| **ADR-1** | 可恢复存档架构 | Save + DungeonGen + EventLog | `save_service.gd` / `dungeon_generator.gd`（Epic B） | 层间硬存档点写 seed+floor+log；paused 同步落盘；损坏回退庇护所；同 (seed,floor) 重建一致 |
 | **ADR-2** | 触屏输入并发仲裁 | InputArbiter | `input_queue.gd` / `hit_zone.gd` / `joystick_pointer.gd` | 输入入队、帧末结算、去重、cd 下限 0.5s；30/60fps 行为一致 |
 | **ADR-3** | AI 定步长 10Hz | SpiritAI | `simulation_clock.gd` / `enemy_ai.gd` / `spirit_ai.gd` | 10Hz tick、MAX_CATCHUP=3、移动插值、自适应降 5Hz |
 | **ADR-4** | 像素资产后处理 | AssetPipeline | `src/core/asset_pipeline/pixel_pipeline.py` / `palette_validator.gd` / `palette_source.json` / `docs/engine-reference/godot/pixel_texture.import.tpl` | PNG-8 索引、导入预设关 filter/mipmap、CI 校验 ≤16 色 |
