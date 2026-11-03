@@ -1,0 +1,33 @@
+name: test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run global-random lint
+        run: python tools/ci/lint_no_global_random.py --root .
+
+  gut:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Godot 4.3
+        run: |
+          wget -q https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
+          unzip -q Godot_v4.3-stable_linux.x86_64.zip
+          sudo mv Godot_v4.3-stable_linux.x86_64 /usr/local/bin/godot
+          sudo chmod +x /usr/local/bin/godot
+          godot --version
+      - name: Run GUT headless
+        run: |
+          godot --headless --path . --quit res://addons/gut/gut_cmdln.gd \
+            -gdir=res://tests/unit/ -gexit

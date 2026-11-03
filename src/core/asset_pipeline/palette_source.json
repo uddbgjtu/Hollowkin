@@ -1,0 +1,56 @@
+{
+  "_meta": {
+    "doc_authority": "art-bible v0.2 §2.2 (MASTER_PALETTE, ≤32 母库) + bestiary v1.3 §4 (SCENE_SUBSET, ≤16/场景)",
+    "generated_from": [
+      "docs/art-bible/art-bible.md §2.2 主调色板母库",
+      "docs/design/gdd/mvp-spirit-bestiary.md §4 ≤16 色场景子集适配"
+    ],
+    "rule": "单一来源：本文件是像素管线调色板的唯一真源。修改颜色须回到上述文档章节重新派生，禁止在 pixel_pipeline.py 内硬编码漂移。",
+    "outline_color_hex": "1A1C2C",
+    "alpha_cutoff": 128,
+    "dither": "ordered 2x2 Bayer [[0,2],[3,1]]/4 (art-bible §5)"
+  },
+  "master_palette": {
+    "sun_ember":     {"hex": "FF8C42", "rgb": [255, 140, 66],  "src": "art-bible §2.2 品牌主色"},
+    "sky_bolt":      {"hex": "3FA7FF", "rgb": [63, 167, 255],   "src": "art-bible §2.2 品牌主色"},
+    "leaf_pop":      {"hex": "5FD35A", "rgb": [95, 211, 90],    "src": "art-bible §2.2 品牌主色"},
+    "mist_teal":     {"hex": "7BC9B0", "rgb": [123, 201, 176],  "src": "art-bible §2.2 场景主色(上层)"},
+    "honey":         {"hex": "FFD23F", "rgb": [255, 210, 63],   "src": "art-bible §2.2 场景主色(上层/暖黄)"},
+    "dusk_purple":   {"hex": "7A5E9E", "rgb": [122, 94, 158],   "src": "art-bible §2.2 场景主色(中层)"},
+    "amber":         {"hex": "D98E32", "rgb": [217, 142, 50],   "src": "art-bible §2.2 场景主色(中层/琥珀)"},
+    "abyss_indigo":  {"hex": "2B3A66", "rgb": [43, 58, 102],    "src": "art-bible §2.2 场景主色(Boss深层冷靛)"},
+    "lava_orange":   {"hex": "FF6A2C", "rgb": [255, 106, 44],   "src": "art-bible §2.2 场景主色(Boss深层熔岩橙)"},
+    "lavender":      {"hex": "9B6BFF", "rgb": [155, 107, 255],  "src": "art-bible §2.2 辅色/点缀"},
+    "teal":          {"hex": "2EC4B6", "rgb": [46, 196, 182],   "src": "art-bible §2.2 辅色/点缀(青绿)"},
+    "sakura":        {"hex": "FF6FB5", "rgb": [255, 111, 181],  "src": "art-bible §2.2 辅色/点缀(樱粉)"},
+    "clay":          {"hex": "A56A43", "rgb": [165, 106, 67],   "src": "art-bible §2.2 辅色/点缀(陶土棕)"},
+    "danger_red":    {"hex": "FF4D4D", "rgb": [255, 77, 77],    "src": "art-bible §2.2 警示色(危险红)"},
+    "poison_green":  {"hex": "A6FF4D", "rgb": [166, 255, 77],   "src": "art-bible §2.2 警示色(剧毒绿)"},
+    "night_indigo":  {"hex": "1A1C2C", "rgb": [26, 28, 44],     "src": "art-bible §2.2 背景/中性(夜靛·最暗色·描边)"},
+    "dusk_blue":     {"hex": "2B2F4A", "rgb": [43, 47, 74],     "src": "art-bible §2.2 背景/中性(暮蓝)"},
+    "parchment":     {"hex": "F4E4C1", "rgb": [244, 228, 193],  "src": "art-bible §2.2 背景/中性(羊皮暖白·高光)"},
+    "rock_gray":     {"hex": "9AA0B5", "rgb": [154, 160, 181],  "src": "art-bible §2.2 背景/中性(中性岩灰·抖动过渡)"}
+  },
+  "scene_subset": {
+    "upper": {
+      "src": "bestiary §4 上层(9/16)",
+      "colors": ["mist_teal", "leaf_pop", "honey", "clay", "teal", "night_indigo", "parchment", "sun_ember", "dusk_blue"]
+    },
+    "mid": {
+      "src": "bestiary §4 中层(7/16)",
+      "colors": ["amber", "lava_orange", "dusk_purple", "sky_bolt", "teal", "parchment", "night_indigo"]
+    },
+    "boss": {
+      "src": "bestiary §4（v1.2 由 art-director 签批回填；美术圣经 §2.1 Boss深层冷靛+熔岩橙 / 锚点D / §4 危险红·剧毒绿）",
+      "pending_bestiary": false,
+      "note": "10 色 ≤16；由美术工程规格签批，与 pixel-asset-pipeline.md §1.4/§4 一字不差。R3 严格硬阻断（同 upper/mid）。",
+      "colors": ["night_indigo", "abyss_indigo", "lava_orange", "honey", "teal", "danger_red", "dusk_purple", "poison_green", "parchment", "rock_gray"]
+    },
+    "sanctuary": {
+      "src": "bestiary §4（v1.2 由 art-director 签批回填；美术圣经 §1 暖橙+奶白 治愈/收集 / §4 符文灯彩UI）",
+      "pending_bestiary": false,
+      "note": "9 色 ≤16；由美术工程规格签批，与 pixel-asset-pipeline.md §1.4/§4 一字不差。R3 严格硬阻断（同 upper/mid）。",
+      "colors": ["sun_ember", "parchment", "honey", "clay", "dusk_blue", "sky_bolt", "leaf_pop", "night_indigo", "rock_gray"]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+# WorkBuddy agent 内部数据（非项目源码，不入库）
+.workbuddy/
+
+# OS / 编辑器垃圾
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
