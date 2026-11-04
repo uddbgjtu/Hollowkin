@@ -139,3 +139,14 @@ Epic A–G 全部"验收"列勾选 + 依赖图无环 + 三角色确认，方可�
 - **待真机/后续**：DungeonGen↔Save 重建联测（Epic A2↔B 闭环验证 ADR-1）、R1 渲染尖峰真机测量（set_cell 批量写入）、GUT 在 CI 真跑（本沙箱无 Godot）。
 
 *本拆分为 Phase 5 排期依据；工作量占位为 Lean 估算，正式排期在 Phase 5 kickoff 敲定。未 git commit。*
+
+## 7. Epic C 执行进度（2026-11-04 · 工程负责人交付，主理人质量门核验）
+
+- **C1** `src/gameplay/combat/combat_director.gd`（`extends RefCounted`，`step_simulation(dt)` 由 SimulationClock 10Hz tick 调用）：锁敌最近敌人、自动普攻（APS 累加发射）、灵兽协战、技能 CD 推进、敌人薄 AI（朝主角移动+普攻，EnemyAI 接缝）、死亡结算（C3 30% 转化）；无敌人→idle（GDD §6.1）；确定性（同 `_rng` 序列+输入+dt 必一致）。
+- **C2** `src/gameplay/ai/simulation_clock.gd`（`extends Node`，由 R3 原型晋升）：`advance(delta)` 累加器 + 10Hz tick（TICK_DT=0.1）+ MAX_CATCHUP=3（积压丢弃防雪崩）+ 自适应降 5Hz（TICK_DT_SLOW=0.2，连续 OVER_BUDGET_LIMIT=30 超预算帧触发）；tick 内先 `input_queue.consume_into` 再 `combat_director.step_simulation`（ADR-2+ADR-3 联动）。
+- **C3** `src/gameplay/input/input_queue.gd` + `hit_zone.gd` + `joystick_pointer.gd`（均 `extends RefCounted`）：输入入队帧末结算、按热区去重、技能 0.5s cd 下限钳；热区 ≥48px a11y 警告；浮杆独占单一 `touch_id`、15% 死区、8 向吸附。
+- **C4** `src/gameplay/combat/damage_calc.gd`（GDD §3.5 逐字落地：Raw=ATK×Coeff、Mitigated=Raw×100/(100+DEF×K)、K=8、CritMult(crit_dmg/100，rng.randf())、Variance∈[0.90,1.10](rng.randf_range)、RuneMult(StatBlock)、clamp(1,99999)、floor）+ `skill_runtime.gd`（灵击 tap/cd4/coeff1.6/nearest、缚灵 swipe/cd8/coeff1.0/cone）+ `death_settlement.gd`（C3 30% 转化）。
+- **C 依赖 D 的前置**：`src/core/stats/stat_block.gd`（`extends Resource`，C1 最小前置版，带 MINIMAL 头注释，Epic D1 重叠）：`build_run_base`(负 atk/def 钳 0) + `recompute_rune_mult`(Π 乘区) + `final_stat`(O(1))。
+- **测试** `tests/unit/combat_test.gd`（GUT）：DamageCalc 确定性/钳制/Variance/Crit、SimulationClock 10Hz 稳态/追帧钳 3/自适应 5Hz、InputQueue 去重+0.5s 钳、JoystickPointer 8 向+死区、DeathSettlement 30%、StatBlock C1、CombatDirector 确定性+无敌人 idle。**本 sandbox 无 Godot，GUT 未执行**，仅按规范书写。
+- **质量门**：主理人独立复验 `tools/ci/lint_no_global_random.py` → 退出码 0、扫描 18 个 .gd、ADR-5 通过；10 个文件逐一读盘确认结构与架构/ADR/GDD 一致（R3 原型晋升路径、K=8、MAX_CATCHUP=3、cd 0.5s 钳）。
+- **待真机/后续**：EnemyAI/SpiritAI 独立文件（`enemy_ai.gd`/`spirit_ai.gd`）、OffscreenCuller、InputArbiter 集成层（把 `InputEventScreenTouch/Drag` 抽 dict→push、浮杆/按钮 touch 仲裁）留 Epic-C 后续桩；R3 真机 60/30fps 预算测量、GUT 在 CI 真跑（本沙箱无 Godot）。

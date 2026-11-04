@@ -34,13 +34,13 @@
 
 | 字段 | 内容 |
 |---|---|
-| **状态** | 进行中 |
-| **落地文件（拟）** | `src/gameplay/input/input_queue.gd`、`src/gameplay/input/hit_zone.gd`、`src/gameplay/input/joystick_pointer.gd` |
+| **状态** | 进行中（生产模块已落 + 单测已落；待真机 R3 测量 / GUT CI 实跑） |
+| **落地文件（实）** | `src/gameplay/input/input_queue.gd`、`src/gameplay/input/hit_zone.gd`、`src/gameplay/input/joystick_pointer.gd`（由 R3 原型晋升；InputArbiter 集成层节点——把 `InputEventScreenTouch/Drag` 抽 dict→push、浮杆/按钮 touch 仲裁——留 Epic-C 后续桩） |
 | **关联模块** | InputArbiter（见 architecture-doc.md §1.6、§4） |
 | **验证点** | ① 所有 `InputEventScreenTouch/Drag` 入队、不立即改仿真；② 帧末单次结算、按热区归并；③ 技能重复触发去重；④ cd 下限钳 0.5s（战斗 GDD §6.4）；⑤ 浮杆独占单一 `touch_id`，与技能热区互不抢占；⑥ 30/60fps 设备行为一致 |
 | **负责人** | engineering-lead |
 | **风险** | 低。注意 iOS 多指 `index` 与 Godot `touch_id` 映射、Android 指序变化——已统一以 `touch_id` 仲裁规避 |
-| **完成判据** | 1) 输入队列单测覆盖去重/归并；2) 摇杆+2 按钮+滑动并发无抢占；3) 跨帧率行为一致有对比验证（R3 同帧预算内） |
+| **完成判据** | 1) 输入队列单测覆盖去重/归并（`test_input_queue_dedupe_same_zone`）；2) 摇杆+按钮并发无抢占（浮杆独占 `touch_id` 已由 `test_joystick_8_direction_and_deadzone` 演练）；3) 跨帧率行为一致有对比验证（R3 同帧预算内，**待真机测量**）。去重/归并/0.5s cd 钳/浮杆独占已由 `tests/unit/combat_test.gd` 覆盖 |
 
 ---
 
@@ -48,13 +48,13 @@
 
 | 字段 | 内容 |
 |---|---|
-| **状态** | 进行中 |
-| **落地文件（拟）** | `src/gameplay/ai/simulation_clock.gd`、`src/gameplay/ai/enemy_ai.gd`、`src/gameplay/ai/spirit_ai.gd`、`src/gameplay/ai/offscreen_culler.gd` |
+| **状态** | 进行中（SimulationClock + CombatDirector 已落 + 单测已落；enemy_ai/spirit_ai/offscreen_culler 留 Epic-C 后续桩；待真机 R3 测量） |
+| **落地文件（实）** | `src/gameplay/ai/simulation_clock.gd`（由 R3 原型晋升：10Hz / MAX_CATCHUP=3 / 自适应 5Hz）、`src/gameplay/combat/combat_director.gd`（step_simulation 在 tick 内调用）、`src/gameplay/input/input_queue.gd`（tick 内消费）；`enemy_ai.gd`/`spirit_ai.gd`/`offscreen_culler.gd` 留 Epic-C 后续桩 |
 | **关联模块** | SpiritAI（见 architecture-doc.md §1.7、§4） |
-| **验证点** | ① `SimulationClock` 累加器每满 0.1s（10Hz）跑 `tick()`，MAX_CATCHUP=3；② tick 内消费输入队列→`CombatDirector.step_simulation`；③ 移动/动画逐帧 lerp 读 AI 目标（不重算决策）；④ 连续超帧预算降 5Hz、后台暂停；⑤ 屏外实体经 `VisibleOnScreenNotifier2D` 停用 AI/动画 |
+| **验证点** | ① `SimulationClock` 累加器每满 0.1s（10Hz）跑 `tick()`，MAX_CATCHUP=3；② tick 内消费输入队列→`CombatDirector.step_simulation`；③ 移动/动画逐帧 lerp 读 AI 目标（不重算决策）；④ 连续超帧预算降 5Hz、后台暂停；⑤ 屏外实体经 `VisibleOnScreenNotifier2D` 停用 AI/动画（留桩） |
 | **负责人** | engineering-lead |
 | **风险** | 低。10Hz 下技能响应最大 ~100ms，对休闲单手可接受；若手感偏钝，仅玩家主动技能走即时通道（备注方案） |
-| **完成判据** | 1) 10Hz tick 计数/追帧断言；2) 自适应降频触发逻辑有单测；3) 同屏 ≤12 敌人渲染 <4ms、粒子 <3ms 在真机达标（R3） |
+| **完成判据** | 1) 10Hz tick 计数/追帧断言（`test_clock_steady_state_10hz` / `test_clock_stall_capped_at_max_catchup`）；2) 自适应降频触发逻辑有单测（`test_clock_adaptive_5hz_after_over_budget`）；3) 同屏 ≤12 敌人渲染 <4ms、粒子 <3ms 在真机达标（R3，**待真机测量**）。① ② 已由 `tests/unit/combat_test.gd` 覆盖 |
 
 ---
 
@@ -105,8 +105,8 @@
 | ADR | 状态 | 主要阻塞/风险 | 闭环前置 |
 |---|---|---|---|
 | ADR-1 | 进行中 | R2 iOS 后台强杀边界 | save_service.gd + dungeon_generator.gd/room_stitcher.gd/floor_cache.gd/fallback_template.gd 均已落（Epic A2/B）；剩余 DungeonGen↔Save 重建联测 + R2 真机双保险实测 |
-| ADR-2 | 进行中 | 低 | R3 同帧预算验证 |
-| ADR-3 | 进行中 | 低 | R3 真机达标 |
+| ADR-2 | 进行中（生产模块+单测已落） | 低 | R3 同帧预算验证（真机） |
+| ADR-3 | 进行中（生产模块+单测已落） | 低 | R3 真机达标（同屏≤12敌人<4ms等） |
 | ADR-4 | 实现完成 + 待真机/签字闭环 | PNG-8 人工绕过风险 | 脚本唯一出口 + CI 校验 + Python selftest 已通过（含 boss/sanctuary R3 严格） |
 | ADR-5 | 进行中 | 待与 ADR-1 联测 | RNGService+单测已落；全局随机调用拦截（lint 已落地） |
 | C1 | 已闭环（设计） | 低 | 随模块实现落地 |
