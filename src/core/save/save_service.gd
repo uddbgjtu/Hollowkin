@@ -55,10 +55,19 @@ func save_run(run_seed: int, floor_index: int, event_log: Array) -> bool:
 
 
 func _write_run(d: Dictionary) -> bool:
+	# 写 run 档：先 load 保留既有键（层间硬存档共存），再按需覆写。
+	# 仅写入 d 中实际存在的键，避免 save_pouch 等增量写操作把 run_seed/floor/event_log 覆写为 0。
 	var cfg := ConfigFile.new()
-	cfg.set_value("run", "run_seed", d["run_seed"])
-	cfg.set_value("run", "floor_index", d["floor_index"])
-	cfg.set_value("run", "event_log", d["event_log"])
+	if cfg.load(RUN_PATH) == OK:
+		pass
+	if d.has("run_seed"):
+		cfg.set_value("run", "run_seed", d["run_seed"])
+	if d.has("floor_index"):
+		cfg.set_value("run", "floor_index", d["floor_index"])
+	if d.has("event_log"):
+		cfg.set_value("run", "event_log", d["event_log"])
+	if d.has("pouch"):
+		cfg.set_value("run", "pouch", d["pouch"])
 	return cfg.save(RUN_PATH) == OK
 
 
@@ -103,9 +112,16 @@ func save_meta(ember: int, activated_nodes: Array) -> bool:
 
 
 func _write_meta(d: Dictionary) -> bool:
+	# 写 meta 档：load 保留既有键，再按需覆写（ember / activated_nodes / progress 共存）。
 	var cfg := ConfigFile.new()
-	cfg.set_value("meta", "ember", d["ember"])
-	cfg.set_value("meta", "activated_nodes", d["activated_nodes"])
+	if cfg.load(META_PATH) == OK:
+		pass
+	if d.has("ember"):
+		cfg.set_value("meta", "ember", d["ember"])
+	if d.has("activated_nodes"):
+		cfg.set_value("meta", "activated_nodes", d["activated_nodes"])
+	if d.has("progress"):
+		cfg.set_value("meta", "progress", d["progress"])
 	return cfg.save(META_PATH) == OK
 
 
@@ -119,3 +135,46 @@ func load_meta() -> Dictionary:
 	out["activated_nodes"] = cfg.get_value("meta", "activated_nodes", [])
 	_last_meta = out
 	return out
+
+
+# ----------------------------------------------------------------------
+# 扩展（Epic D）：Pouch（run 级）与永久进度（bestiary / vein / ember）
+# ----------------------------------------------------------------------
+# ADR-1 容错：读档异常 -> 回退庇护所语义（返回安全默认值，不抛异常）。
+# 现有 save_run/load_run/save_meta/load_meta 签名保持不变。
+
+# 把 Pouch 序列化 dict 写入 save_run.cfg 的 "pouch" 键（与 run_seed/floor/event_log 共存）。
+func save_pouch(dict: Dictionary) -> void:
+	var cfg := ConfigFile.new()
+	if cfg.load(RUN_PATH) != OK:
+		# 文件不存在/损坏：仍尽力写入 pouch（真实流程先 save_run 保证 run 共存）
+		pass
+	cfg.set_value("run", "pouch", dict)
+	if cfg.save(RUN_PATH) == OK:
+		_last_run["pouch"] = dict
+
+
+# 读 Pouch 序列化 dict；无档或缺失返回 {}。
+func load_pouch() -> Dictionary:
+	var cfg := ConfigFile.new()
+	if cfg.load(RUN_PATH) != OK:
+		return {}
+	return cfg.get_value("run", "pouch", {})
+
+
+# 把永久进度（{bestiary:..., vein_activated:..., ember:...}）写入 save_meta.cfg。
+func save_permanent(progress: Dictionary) -> void:
+	var cfg := ConfigFile.new()
+	if cfg.load(META_PATH) != OK:
+		pass
+	cfg.set_value("meta", "progress", progress)
+	if cfg.save(META_PATH) == OK:
+		_last_meta["progress"] = progress
+
+
+# 读永久进度；无档返回 {}。
+func load_permanent() -> Dictionary:
+	var cfg := ConfigFile.new()
+	if cfg.load(META_PATH) != OK:
+		return {}
+	return cfg.get_value("meta", "progress", {})

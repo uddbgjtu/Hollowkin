@@ -150,3 +150,13 @@ Epic A–G 全部"验收"列勾选 + 依赖图无环 + 三角色确认，方可�
 - **测试** `tests/unit/combat_test.gd`（GUT）：DamageCalc 确定性/钳制/Variance/Crit、SimulationClock 10Hz 稳态/追帧钳 3/自适应 5Hz、InputQueue 去重+0.5s 钳、JoystickPointer 8 向+死区、DeathSettlement 30%、StatBlock C1、CombatDirector 确定性+无敌人 idle。**本 sandbox 无 Godot，GUT 未执行**，仅按规范书写。
 - **质量门**：主理人独立复验 `tools/ci/lint_no_global_random.py` → 退出码 0、扫描 18 个 .gd、ADR-5 通过；10 个文件逐一读盘确认结构与架构/ADR/GDD 一致（R3 原型晋升路径、K=8、MAX_CATCHUP=3、cd 0.5s 钳）。
 - **待真机/后续**：EnemyAI/SpiritAI 独立文件（`enemy_ai.gd`/`spirit_ai.gd`）、OffscreenCuller、InputArbiter 集成层（把 `InputEventScreenTouch/Drag` 抽 dict→push、浮杆/按钮 touch 仲裁）留 Epic-C 后续桩；R3 真机 60/30fps 预算测量、GUT 在 CI 真跑（本沙箱无 Godot）。
+
+## 8. Epic D 执行进度（2026-11-04 · 工程负责人交付，主理人质量门核验）
+
+- **D1** `src/core/stats/stat_block.gd`（原地扩展 Epic C 最小前置为完整版）：保留 `build_run_base`/`recompute_rune_mult`/`final_stat`，新增 `set_base_stat`/`get_base`/`add_vein_add`/`reset` 增量 API；`FinalStat=(Base+ΣVeinAdd)×ΠRuneMult`；负 atk/def 钳 0；`_init` 重分配容器规避 Godot 类级可变默认陷阱。
+- **D2** `src/gameplay/pouch/`：`pouch.gd`（三栏自动分拣、容量 12/24/24、满栏拒绝不静默丢、`equip_rune`、`get_equipped_rune_mults`→`StatBlock.recompute_rune_mult`、`to_dict/from_dict` 以 `{slug:count}` 排序确定、`coin_temp`、`tamer_runes`）+ `spirit_entry.gd`（`count` 堆叠）+ `rune_entry.gd`（`mult:{stat:factor}` 乘区）+ `party_manager.gd`（`PARTY_SLOTS=3`，满返回 false）+ `bestiary.gd`（首次解锁、`KNOWN_SLUGS`）。
+- **D3** `src/gameplay/spirit_vein/`：`vein_node.gd`（MODIFY_STAT/UNLOCK_SKILL/GRANT_START；effect 支持 `add` 直加 / `pct=base×frac`）+ `vein_graph.gd`（三色 DFS 无环断言、前置依赖校验、`activate` 返回剩余 ember、`get_activated_modify_stats` 聚合 `ΣVeinAdd`、`to_dict/from_dict`）+ `run_snapshot.gd`（`apply_to` 把灵脉基底喂入 `StatBlock`）。
+- **存档贯通** `src/core/save/save_service.gd`（ADR-1 扩展，未破坏既有 `save_run/load_run/save_meta/load_meta` 签名）：新增 `save_pouch`/`load_pouch`（run 级·存灵囊）、`save_permanent`/`load_permanent`（meta 级·存 bestiary+vein+ember）；`_write_run`/`_write_meta` 改为 load-first 增量写，多写操作互不覆写（ADR-1 语义保持）。
+- **测试** `tests/unit/pouch_vein_test.gd`（GUT）：C1 公式（atk=(10+5)×(2.0×1.5)=45、def=(5+3)×1.5=12）、负 atk/def 钳 0、D1 增量 API、ENG-2 +1 堆叠、满栏拒绝不静默丢、`{slug:count}` 序列化往返、RuneEntry 格式、PartyManager slots、DAG 无环正反例、activate/ember 扣减、`ΣVeinAdd` 聚合、run_snapshot 注入、Bestiary 解锁+联动、save 重建一致。**本 sandbox 无 Godot，GUT 未执行**，仅按规范书写。
+- **质量门**：主理人独立复验 `tools/ci/lint_no_global_random.py` → 退出码 0、扫描 32 个 .gd、ADR-5 通过；11 个文件逐一读盘确认契约正确（C1 公式、ENG-2、DAG、ember 扣减、save 增量写 ADR-1 安全）。
+- **待真机/后续**：`save_service` 真实 `ConfigFile` 往返 + 全部 GUT 断言待 Godot 实跑（本沙箱无 Godot）；单一灵兽 `equipped_runes` 为运行时叠加层、本 MVP 不持久化（已在 `pouch.gd` 注明边界）。

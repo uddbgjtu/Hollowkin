@@ -21,7 +21,7 @@
 | 字段 | 内容 |
 |---|---|
 | **状态** | 进行中（Epic A2 `save_service.gd` + Epic B `dungeon_generator.gd`/`room_stitcher.gd`/`floor_cache.gd`/`fallback_template.gd` 已落；待 DungeonGen↔Save 重建联测一致 + 真机 R2 双保险） |
-| **落地文件（实）** | `src/core/save/save_service.gd`（层间落盘 + 暂停同步 + 损坏回退，承载 ADR-1）；`src/core/dungeon_gen/dungeon_generator.gd`（入口）、`src/core/dungeon_gen/room_stitcher.gd`（确定性核心）、`src/core/dungeon_gen/floor_cache.gd`（布局缓存）、`src/core/dungeon_gen/fallback_template.gd`（保底，Epic B 已落）；event_log 以内嵌 `Array` 存于 `save_run.cfg` |
+| **落地文件（实）** | `src/core/save/save_service.gd`（层间落盘 + 暂停同步 + 损坏回退，承载 ADR-1）；`src/core/dungeon_gen/dungeon_generator.gd`（入口）、`src/core/dungeon_gen/room_stitcher.gd`（确定性核心）、`src/core/dungeon_gen/floor_cache.gd`（布局缓存）、`src/core/dungeon_gen/fallback_template.gd`（保底，Epic B 已落）；event_log 以内嵌 `Array` 存于 `save_run.cfg`；Epic D 扩展 `save_pouch`/`load_pouch`（run 级·存灵囊）/ `save_permanent`/`load_permanent`（meta 级·存 bestiary+vein+ember），load-first 增量写互不覆写（ADR-1 语义保持） |
 | **关联模块** | Save + DungeonGen（见 architecture-doc.md §1.1/§1.5、§4） |
 | **验证点** | ① 层间硬存档点写入 `user://save_run.cfg`（seed+floor+log）；② `NOTIFICATION_APPLICATION_PAUSED` 同步落盘；③ 读档损坏 → 回退庇护所且永久进度不受影响；④ 同 (run_seed, floor_index) 重建布局与事件日志重放一致 |
 | **负责人** | engineering-lead |
@@ -90,13 +90,13 @@
 
 | 字段 | 内容 |
 |---|---|
-| **状态** | 已闭环（设计层面；实现随 Pouch/SpiritVein 落地） |
-| **落地文件（拟）** | `src/core/stats/stat_block.gd`、`src/gameplay/pouch/rune_entry.gd`、`src/gameplay/spirit_vein/run_snapshot.gd` |
+| **状态** | 已闭环（实现随 Epic D 落地：`stat_block.gd` 完整版 + `rune_entry.gd` + `run_snapshot.gd` + Pouch/SpiritVein 生产模块 + 单测已落） |
+| **落地文件（实）** | `src/core/stats/stat_block.gd`（完整 D1）、`src/gameplay/pouch/rune_entry.gd`、`src/gameplay/spirit_vein/run_snapshot.gd`、`src/gameplay/pouch/pouch.gd`、`src/gameplay/pouch/spirit_entry.gd`、`src/gameplay/pouch/party_manager.gd`、`src/gameplay/pouch/bestiary.gd`、`src/gameplay/spirit_vein/vein_graph.gd`、`src/gameplay/spirit_vein/vein_node.gd`（Epic D 已落） |
 | **关联模块** | StatBlock（跨切）+ Pouch + SpiritVein（见 architecture-doc.md §1.3/§1.4/§1.9、§4） |
-| **验证点** | ① `FinalStat = (Base + ΣVeinAdd) × ΠRuneMult`；② 灵脉加算聚合 run 起始算一次缓存；③ 符文乘区变动时重算缓存；④ 每击 O(1) 取最终值；⑤ 符文字段为 `mult:{stat:factor}`（非 `mods` 加算） |
+| **验证点** | ① `FinalStat = (Base + ΣVeinAdd) × ΠRuneMult`；② 灵脉加算聚合 run 起始算一次缓存；③ 符文乘区变动时重算缓存；④ 每击 O(1) 取最终值；⑤ 符文字段为 `mult:{stat:factor}`（非 `mods` 加算）；⑥ C1 公式单测（`tests/unit/pouch_vein_test.gd`：atk=(10+5)×(2.0×1.5)=45、def=(5+3)×1.5=12、负 atk/def 钳 0、每击 O(1) 一致）；⑦ ENG-2 +1 堆叠 + `{slug:count}` 序列化往返一致 |
 | **负责人** | engineering-lead（+ 设计侧已对齐字段命名） |
 | **风险** | 低。纯命名/语义对齐，已写入灵囊 GDD §3 与战斗 GDD §3.5 |
-| **完成判据** | 1) StatBlock 单测覆盖加算/乘区/每击；2) 灵囊 GDD 字段命名一致；3) 伤害公式调用一致无溢出 |
+| **完成判据** | 1) StatBlock 单测覆盖加算/乘区/每击（已达成）；2) 灵囊 GDD 字段命名一致；3) 伤害公式调用一致无溢出（Combat `damage_calc` 取 `StatBlock.final_stat`，Epic C 已落）；4) ENG-2 +1 堆叠 + 序列化单测（已达成） |
 
 ---
 
@@ -109,7 +109,7 @@
 | ADR-3 | 进行中（生产模块+单测已落） | 低 | R3 真机达标（同屏≤12敌人<4ms等） |
 | ADR-4 | 实现完成 + 待真机/签字闭环 | PNG-8 人工绕过风险 | 脚本唯一出口 + CI 校验 + Python selftest 已通过（含 boss/sanctuary R3 严格） |
 | ADR-5 | 进行中 | 待与 ADR-1 联测 | RNGService+单测已落；全局随机调用拦截（lint 已落地） |
-| C1 | 已闭环（设计） | 低 | 随模块实现落地 |
+| C1 | 已闭环（Epic D 实现已落） | 低 | 单测覆盖加算/乘区/堆叠（`pouch_vein_test.gd`） |
 
 > **总评**：6 项决策均"技术可落地、无 FAIL"。ADR-1 因 E-A 拍板由拟采纳升级为可完整实现；**ADR-4 已实现完成（引擎 4.3 签字、Python `--selftest` 实跑通过含 boss/sanctuary R3 严格硬阻断）**，仅待 Godot 环境接 CI headless 实跑；剩余开放项集中在 **R1/R3 真机测量** 与 **R2/ADR-5 的工程纪律（CI 校验/lint）**，不构成架构阻断。
 

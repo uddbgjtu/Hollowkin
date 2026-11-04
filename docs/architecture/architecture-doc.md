@@ -45,7 +45,7 @@
 
 ### 1.3 灵囊（Pouch）`src/gameplay/pouch/`
 - **职责**：三栏（灵兽/符文/物资）自动分拣、符文镶嵌（提供乘区因子）、队伍编制（party_slots=3）、货币（coin_temp/ember_eternal）。持有本局符文集，喂给 `StatBlock` 的乘区。
-- **关键文件（拟）**：`pouch.gd`、`spirit_entry.gd`、`rune_entry.gd`（字段 `mult:{stat:factor}`，对齐 C1）、`party_manager.gd`。
+- **关键文件（实）**：`pouch.gd`、`spirit_entry.gd`、`rune_entry.gd`（字段 `mult:{stat:factor}`，对齐 C1）、`party_manager.gd`、`bestiary.gd`（图鉴解锁，Epic D 已落）。
 - **关键约束**：
   - 符文条目字段 **`mult:{stat:factor}`**（乘算，**非** `mods:{stat:delta}` 加算）——已与 C1 对齐（灵囊 GDD §3 已修订）。
   - 重复灵兽蛋：同 species 标记 +1 计数（设计侧拍板默认，见 §6）。
@@ -55,7 +55,7 @@
 
 ### 1.4 灵脉图谱（SpiritVein）`src/gameplay/spirit_vein/`
 - **职责**：永久元进度 DAG——节点激活（MODIFY_STAT/UNLOCK_SKILL/GRANT_START）、`ember_eternal` 消耗、run 起始属性快照（Base+ΣVeinAdd 算一次）、激活即时持久化。
-- **关键文件（拟）**：`vein_graph.gd`（DAG 静态校验、构建期断言无环）、`vein_node.gd`、`run_snapshot.gd`（run 起始聚合基底）。
+- **关键文件（实）**：`vein_graph.gd`（DAG 静态校验、构建期断言无环）、`vein_node.gd`、`run_snapshot.gd`（run 起始聚合基底，Epic D 已落）。
 - **关键约束**：
   - 节点激活即时写 `save_meta.cfg`（灵脉 GDD §5，即时存档点）。
   - `run_snapshot` 在进地窟时把灵脉修正后的基础属性喂给 `StatBlock.build_run_base()`。
@@ -101,7 +101,7 @@
 
 ### 1.9 跨切核心服务（Cross-cutting Core）—— 不属上述任一业务模块，被全局依赖
 - **RNGService** `src/core/rng/rng_service.gd`：单一随机出口。`floor_seed=hash_mix(run_seed, floor_index)`；`new_floor_rng(seed)` 返回种子化 `RandomNumberGenerator`，`floor_rng(run_seed, floor_index)` 由 `derive_seed` 派生层 RNG（§3.1）；提供全局 lint 钩子禁 `randf()/randi()`。**承载 ADR-5**。
-- **StatBlock** `src/core/stats/stat_block.gd`：Resource 单一真源，`FinalStat = (Base + ΣVeinAdd) × ΠRuneMult`（C1 契约）。`build_run_base()`（灵脉注入）、`recompute_rune_mult()`（符文变动）、`final_stat()`（每击 O(1)）。**承载 C1**。
+- **StatBlock** `src/core/stats/stat_block.gd`：Resource 单一真源，`FinalStat = (Base + ΣVeinAdd) × ΠRuneMult`（C1 契约）。`build_run_base()`（灵脉注入）、`recompute_rune_mult()`（符文变动）、`final_stat()`（每击 O(1)）；Epic D 扩展 `add_vein_add()`/`set_base_stat()`/`reset()` 增量 API。**承载 C1**。
 
 ---
 
@@ -192,7 +192,7 @@ run 起始:
 | **ADR-3** | AI 定步长 10Hz | SpiritAI | `simulation_clock.gd` / `enemy_ai.gd` / `spirit_ai.gd` | 10Hz tick、MAX_CATCHUP=3、移动插值、自适应降 5Hz |
 | **ADR-4** | 像素资产后处理 | AssetPipeline | `src/core/asset_pipeline/pixel_pipeline.py` / `palette_validator.gd` / `palette_source.json` / `docs/engine-reference/godot/pixel_texture.import.tpl` | PNG-8 索引、导入预设关 filter/mipmap、CI 校验 ≤16 色 |
 | **ADR-5** | RNG 种子化 | RNGService（跨切）+ 全部随机源 | `rng_service.gd` + 各模块 | 单一出口、floor_seed 派生、lint 禁全局随机、重建一致 |
-| **C1（契约）** | StatBlock 乘算 | StatBlock（跨切）+ Pouch + SpiritVein | `stat_block.gd` / `rune_entry.gd` / `run_snapshot.gd` | `FinalStat=(Base+ΣVeinAdd)×ΠRuneMult`，每击 O(1) |
+| **C1（契约）** | StatBlock 乘算 | StatBlock（跨切）+ Pouch + SpiritVein | `stat_block.gd`（完整 D1）/ `rune_entry.gd` / `run_snapshot.gd` / `vein_graph.gd`（无环断言）/ `pouch.gd`（+1 堆叠） | `FinalStat=(Base+ΣVeinAdd)×ΠRuneMult`，每击 O(1) |
 
 ---
 
