@@ -130,4 +130,12 @@ Epic A–G 全部"验收"列勾选 + 依赖图无环 + 三角色确认，方可�
 - **质量门**：`tools/ci/lint_no_global_random.py` 复跑 OK（扫描 5 个 .gd，exit 0）；新增 .gd 无误触发全局随机拦截。
 - **待真机/后续**：ADR-1 与 DungeonGen 联测重建一致、R2 iOS 后台强杀双保险、GUT 在 CI 真跑（本沙箱无 Godot）。
 
+## 6. Epic B 执行进度（2026-11-03 · 工程负责人交付，主理人质量门核验）
+
+- **B1** `src/core/dungeon_gen/dungeon_generator.gd`（入口，`generate_sync` + 异步 `generate_floor` 分段 `await process_frame`）、`room_stitcher.gd`（确定性核心，四局部构建函数）、`floor_cache.gd`（同 (seed,floor) 缓存）、`fallback_template.gd`（保底安全层）。复用 R1 原型算法，仅产逻辑网格+实体表，不含瓦片渲染态。
+- **B2** 全随机走 `RNGService.floor_rng(run_seed, floor_index)`；已删除原型内联 `RandomNumberGenerator` 与 `floor_seed` 旧哈希；零全局随机（lint 复验 OK）。
+- **B3** `tests/unit/dungeon_gen_test.gd`（GUT）：同 (seed,floor,tier) 两次生成 JSON 逐字节相等、不同 floor 必分叉、非法 floor 切保底。
+- **质量门**：`tools/ci/lint_no_global_random.py` 独立复验 OK（扫描 9 个 .gd，exit 0）；5 个文件主理人逐一读盘确认结构正确、抽取顺序 sync/async 一致。
+- **待真机/后续**：DungeonGen↔Save 重建联测（Epic A2↔B 闭环验证 ADR-1）、R1 渲染尖峰真机测量（set_cell 批量写入）、GUT 在 CI 真跑（本沙箱无 Godot）。
+
 *本拆分为 Phase 5 排期依据；工作量占位为 Lean 估算，正式排期在 Phase 5 kickoff 敲定。未 git commit。*

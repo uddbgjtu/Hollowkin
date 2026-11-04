@@ -25,7 +25,7 @@
 
 ### 1.1 地窟生成（DungeonGen）`src/core/dungeon_gen/`
 - **职责**：按 `(run_seed, floor_index)` 确定性重建地窟布局——房间拼接（`room_stitcher`）、敌人模板挑选、掉落表抽取。**不含瓦片渲染状态**（渲染交 Godot `TileMapLayer`，生成只产出逻辑网格+实体放置表）。
-- **关键文件（拟）**：`dungeon_generator.gd`（入口，调 `RNGService.new_floor_rng`）、`room_stitcher.gd`、`floor_cache.gd`（同 run 内 (seed,floor) 布局缓存）、`fallback_template.gd`（保底安全层）。
+- **关键文件（实）**：`dungeon_generator.gd`（入口，调 `RNGService.floor_rng`）、`room_stitcher.gd`（确定性核心）、`floor_cache.gd`（同 run 内 (seed,floor) 布局缓存）、`fallback_template.gd`（保底安全层）。
 - **关键约束**：
   - 全随机源走本层 `RandomNumberGenerator` 实例（ADR-5）。
   - **分步生成 + `await get_tree().process_frame` 让帧**（R1 缓解 1），按房间/区域分片跨帧写入，避免单帧尖峰。

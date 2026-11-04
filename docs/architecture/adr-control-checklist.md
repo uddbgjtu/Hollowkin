@@ -20,8 +20,8 @@
 
 | 字段 | 内容 |
 |---|---|
-| **状态** | 进行中（Epic A2 已落地 `save_service.gd` 骨架；待与 DungeonGen 联测重建一致 + 真机 R2 双保险） |
-| **落地文件（实）** | `src/core/save/save_service.gd`（层间落盘 + 暂停同步 + 损坏回退，承载 ADR-1）；`src/core/dungeon_gen/dungeon_generator.gd`、`src/core/dungeon_gen/fallback_template.gd`（Epic B 待落）；event_log 以内嵌 `Array` 存于 `save_run.cfg` |
+| **状态** | 进行中（Epic A2 `save_service.gd` + Epic B `dungeon_generator.gd`/`room_stitcher.gd`/`floor_cache.gd`/`fallback_template.gd` 已落；待 DungeonGen↔Save 重建联测一致 + 真机 R2 双保险） |
+| **落地文件（实）** | `src/core/save/save_service.gd`（层间落盘 + 暂停同步 + 损坏回退，承载 ADR-1）；`src/core/dungeon_gen/dungeon_generator.gd`（入口）、`src/core/dungeon_gen/room_stitcher.gd`（确定性核心）、`src/core/dungeon_gen/floor_cache.gd`（布局缓存）、`src/core/dungeon_gen/fallback_template.gd`（保底，Epic B 已落）；event_log 以内嵌 `Array` 存于 `save_run.cfg` |
 | **关联模块** | Save + DungeonGen（见 architecture-doc.md §1.1/§1.5、§4） |
 | **验证点** | ① 层间硬存档点写入 `user://save_run.cfg`（seed+floor+log）；② `NOTIFICATION_APPLICATION_PAUSED` 同步落盘；③ 读档损坏 → 回退庇护所且永久进度不受影响；④ 同 (run_seed, floor_index) 重建布局与事件日志重放一致 |
 | **负责人** | engineering-lead |
@@ -76,7 +76,7 @@
 
 | 字段 | 内容 |
 |---|---|
-| **状态** | 进行中（CI lint 已落地；RNGService + `floor_rng` 已落 + 单测已落 `tests/unit/rng_service_test.gd`；待与 ADR-1 联测重建一致） |
+| **状态** | 进行中（CI lint 已落地；RNGService + `floor_rng` 已落 + 单测已落 `tests/unit/rng_service_test.gd`；DungeonGen 经 `floor_rng` 接入完成（Epic B）；待 DungeonGen↔Save 联测重建一致） |
 | **落地文件（拟）** | `src/core/rng/rng_service.gd`（跨切）+ 各随机源模块 |
 | **关联模块** | RNGService（见 architecture-doc.md §1.9、§4） |
 | **验证点** | ① `floor_seed = hash_mix(run_seed, floor_index)`，每层独立 `RandomNumberGenerator.seed`；② 生成/掉落/战斗方差全走本层 RNG；③ 禁 `randf()/randi()` 全局随机（CI lint 阻断）；④ 同 (seed,floor) → 同布局（与 ADR-1 联测） |
@@ -104,7 +104,7 @@
 
 | ADR | 状态 | 主要阻塞/风险 | 闭环前置 |
 |---|---|---|---|
-| ADR-1 | 进行中 | R2 iOS 后台强杀边界 | save_service.gd 已落；真机双保险实测 + DungeonGen 联测 |
+| ADR-1 | 进行中 | R2 iOS 后台强杀边界 | save_service.gd + dungeon_generator.gd/room_stitcher.gd/floor_cache.gd/fallback_template.gd 均已落（Epic A2/B）；剩余 DungeonGen↔Save 重建联测 + R2 真机双保险实测 |
 | ADR-2 | 进行中 | 低 | R3 同帧预算验证 |
 | ADR-3 | 进行中 | 低 | R3 真机达标 |
 | ADR-4 | 实现完成 + 待真机/签字闭环 | PNG-8 人工绕过风险 | 脚本唯一出口 + CI 校验 + Python selftest 已通过（含 boss/sanctuary R3 严格） |
