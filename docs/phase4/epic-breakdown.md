@@ -186,4 +186,18 @@ Epic A–G 全部"验收"列勾选 + 依赖图无环 + 三角色确认，方可�
 - **质量门**：主理人独立读盘核验（17 个生产类源码 + 5 个测试文件 + CI 脚本 + README 修正），非仅信文档声明；`tools/ci/lint_no_global_random.py` 不在 G 范围（已由 lint.yml 覆盖，ADR-5 通过）。
 - **待真机/后续（环境阻断·非缺陷）**：① CI 在装有 Godot 4.3 的 runner 上**真实执行** `test.yml` 并反馈绿/红（当前沙箱无 Godot，无法本地验证 CI 绿）；② `save_service` 真实 `ConfigFile` 往返（pouch_vein_test 的 `save_reconstruction`）在 Godot 下验证文件 IO 一致；③ 若实跑暴露 GUT 9.x 版本/布局差异，按脚本内注释回写 `GUT_VER`。
 
-*本拆分为 Phase 5 排期依据；A/B/C/D 已 commit（a6261a4/f078082/b666d46），E 工具链已验证闭环，F 半成品已备份，G 已完成 CI 接入 + 静态对账（实跑待 Godot 环境）。*
+## 11. Epic F 执行进度（2026-11-05 · 主理人直接落地 + 质量门核验）
+
+> **关键事实**：Epic F 半成品曾备份于 `C:/tmp/hollowkin_epicF_backup_20261104/`（6 文件，2026-11-04 因 429 限流中断）。本次 kickoff 不复用半成品的空 DTO，而是基于已落地（D2/D3/C3）的**真实 Pouch/VeinGraph/CombatDirector API** 重建，使 UI 真正绑定领域层（质量门"报告不跑在代码前"）。
+
+- **F1（底部 Tab 栏 + 总览）**：`bottom_tab_bar.gd` 四槽 [总览/灵囊/灵脉/地图]，每槽 56×56px、间距 ≥8px（a11y §3.2），文字标签优先（弱图标·政务式，ux-spec §0.2）；`overview_screen.gd` 顶部资源文字标签 + 进入地牢主按钮（≥64px，热区偏下）+ 底部 Tab。
+- **F2（战斗屏）**：`battle_screen.gd` 下半屏技能键（≥56px，拇指热区）+ 防御/跳过键；HUD view 暴露 hp/低血双编码(≤30%→heart+红框，a11y §3.4)/敌数/技能就绪态；zone_id 直转 `CombatDirector.on_action`（lingji/fuling），经帧末输入队列（ADR-2）。
+- **F3（灵囊屏）**：`pouch_screen.gd` 三栏分段控件（≥48px）+ 物品格（≥48px）；`pouch_view_data.gd` 绑定真实 `Pouch`+`Bestiary`——灵兽按 slug 聚合、count>1→+1 堆叠角标（ENG-2）、符文 mult 乘区（C1）。
+- **F4（灵脉图谱屏）**：`spirit_vein_screen.gd` 节点圆形命中区（半径 24→直径 48 ≥48px，a11y §3.2 澄清）+ 缩放按钮（重建合并热区）；`spirit_vein_view_data.gd` 绑定真实 `VeinGraph`——状态形状编码（active=星 / available=高亮 / locked=锁，ux-spec §3.3），点击经 `can_activate`→`activate` 扣 ember。
+- **F5（可访问性 Basic）**：`accessibility.gd` 静态助手——`clamp_font`(≥14/18)、`is_cvd_safe`（危险红须配形状、禁纯红绿对立）、`dual_code`（形状+色相矩阵）；CVD 母库子集、低血/禁用形状提示齐备。
+- **路由/架构**：`ui_screen.gd`（屏基类，RefCounted 可无头单测）+ `screen_router.gd`（复用 Epic C 的 InputQueue/HitZone 做帧末结算 ADR-2；**战斗中隐藏 Tab 防误触**）+ `ui_context.gd`（领域依赖注入容器）。
+- **测试**：`tests/unit/ui_test.gd`（GUT）6 例，绑定真实 Pouch/VeinGraph/CombatDirector——tab 布局 / 路由派发 / 战斗中 Tab 禁用 / 可访问性钳制与双编码 / +1 角标 / 节点状态分类 / 战斗技能热区。
+- **质量门**：主理人独立复验 `lint_no_global_random.py` → 退出码 0、扫描 38 个 .gd、ADR-5 通过；12 个 UI 文件 + 1 测试逐一读盘，绑定 API 与 D2/D3/C3 源码逐一对账（关键调用全吻合）。
+- **待真机/后续（环境阻断·非缺陷）**：① 本沙箱无 Godot，`ui_test.gd` 未执行，仅按规范书写，待 CI（`test.yml`）真跑；② 真实 Godot Control 场景文件（`*.tscn`）与像素资产（ADR-4）为 UI 集成层，不在本 Epic 代码范围；③ 灵兽格长按/拖拽装备、防御/跳过语义为后续交互增强。
+
+*本拆分为 Phase 5 排期依据；A/B/C/D 已 commit（a6261a4/f078082/b666d46），E 工具链已验证闭环，F 已提交（见 §11），G 已完成 CI 接入 + 静态对账（实跑待 Godot 环境）。*
