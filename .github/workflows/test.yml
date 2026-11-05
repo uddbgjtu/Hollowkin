@@ -6,20 +6,13 @@ on:
   pull_request:
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Run global-random lint (ADR-5)
-        run: python tools/ci/lint_no_global_random.py --root .
-
+  # GUT 单测：在 Godot 4.3 headless 中实跑 tests/unit/ 下全部 GUT 用例。
+  # lint 由 .github/workflows/lint.yml 单独覆盖（push + PR），此处不重复。
   gut:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Install Godot 4.3
         run: |
           wget -q https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
@@ -29,18 +22,26 @@ jobs:
           godot --version
 
       # GUT 为 Godot 编辑器插件，需先于 GUT 测试安装进工程 addons/。
-      # 注意：请团队在首次跑通时核对下方 GUT_VER 与发布包资产名是否匹配
+      # 请团队在首次跑通时核对下方 GUT_VER 与发布包资产名是否匹配
       # （GUT 9.x 面向 Godot 4.x；发布页 https://github.com/bitwes/Gut/releases）。
       - name: Install GUT (pin to Godot 4.3-compatible release)
         run: |
           GUT_VER=9.3.0
           curl -fsSL "https://github.com/bitwes/Gut/releases/download/${GUT_VER}/gut_${GUT_VER}.zip" -o gut.zip
-          mkdir -p addons
+          mkdir -p addons gut_tmp
           unzip -q gut.zip -d gut_tmp
-          if [ -d gut_tmp/gut ]; then mv gut_tmp/gut addons/gut; else mv gut_tmp/* addons/ ; fi
+          # GUT 9.x 发布包含 addons/gut/；个别历史版本根目录直接为 gut/
+          if [ -d gut_tmp/addons/gut ]; then
+            cp -r gut_tmp/addons/gut addons/gut
+          elif [ -d gut_tmp/gut ]; then
+            cp -r gut_tmp/gut addons/gut
+          else
+            echo "::error::Unexpected GUT zip layout"; ls -R gut_tmp; exit 1
+          fi
           rm -rf gut_tmp gut.zip
 
       - name: Run GUT headless
+        # -gexit：测试全绿则进程退出码 0，任一失败则非 0（CI 据此判红）。
         run: |
-          godot --headless --path . --quit res://addons/gut/gut_cmdln.gd \
+          godot --headless --path . -s res://addons/gut/gut_cmdln.gd \
             -gdir=res://tests/unit/ -gexit

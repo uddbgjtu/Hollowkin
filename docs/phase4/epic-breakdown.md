@@ -172,3 +172,18 @@ Epic A–G 全部"验收"列勾选 + 依赖图无环 + 三角色确认，方可�
 - **测试** `tests/unit/pouch_vein_test.gd`（GUT）：C1 公式（atk=(10+5)×(2.0×1.5)=45、def=(5+3)×1.5=12）、负 atk/def 钳 0、D1 增量 API、ENG-2 +1 堆叠、满栏拒绝不静默丢、`{slug:count}` 序列化往返、RuneEntry 格式、PartyManager slots、DAG 无环正反例、activate/ember 扣减、`ΣVeinAdd` 聚合、run_snapshot 注入、Bestiary 解锁+联动、save 重建一致。**本 sandbox 无 Godot，GUT 未执行**，仅按规范书写。
 - **质量门**：主理人独立复验 `tools/ci/lint_no_global_random.py` → 退出码 0、扫描 32 个 .gd、ADR-5 通过；11 个文件逐一读盘确认契约正确（C1 公式、ENG-2、DAG、ember 扣减、save 增量写 ADR-1 安全）。
 - **待真机/后续**：`save_service` 真实 `ConfigFile` 往返 + 全部 GUT 断言待 Godot 实跑（本沙箱无 Godot）；单一灵兽 `equipped_runes` 为运行时叠加层、本 MVP 不持久化（已在 `pouch.gd` 注明边界）。
+
+## 10. Epic G 执行进度（2026-11-05 · 主理人静态 API 对账 + CI 硬化）
+
+> **核心事实**：Epic G 目标为「GUT 接入 Godot CI 实跑」。本沙箱**无 Godot**（已 `which godot` 验证：NO_GODOT_ON_PATH），故真实边界是**接线 + 静态审计**，而非运行时实跑；此属环境阻断，非测试缺陷。
+
+- **G1（CI 接入·硬化）**：`.github/workflows/test.yml` 重写——移除与 `lint.yml` 重复的 lint job，仅保留 `gut` job；修正 GUT 调用为 canonical 形式 `godot --headless --path . -s res://addons/gut/gut_cmdln.gd -gdir=res://tests/unit/ -gexit`（原稿的 `--quit` 位置非标准），`-gexit` 使全绿退出码 0、任一失败非 0（CI 据此判红）；GUT 解包逻辑加固（兼容 `addons/gut/` 与根目录 `gut/` 两种发布布局，异常即 `exit 1` 并 `ls -R` 暴露结构）。GUT 版本固定 `9.3.0`，注释提示团队首跑核对与 Godot 4.3 兼容性。
+- **G2（本地运行脚本）**：新增 `tools/ci/run_gut_tests.sh`，镜像 CI 的 gut 步骤；前置校验 `godot` 4.3 在 PATH、`addons/gut` 已安装，否则给出明确报错退出。
+- **G3（静态 API 对账·质量门核心）**：主理人对 `tests/unit/` 下 **5 个 GUT 文件**引用的 **17 个生产类**逐一读真实源码核验方法/属性/签名：
+  - `simulation_clock`（tick_count/is_slow/advance/combat_director/input_queue）、`combat_director`（setup/step_simulation/on_action/player.hp/enemy_count/coin_temp/is_player_dead）、`damage_calc`（compute 7 参 / compute_from_stats 4 参）、`input_queue`（set_hit_zone/push/advance_time/consume_into）、`hit_zone`（register_rect/resolve）、`joystick_pointer`（max_radius/press/move/get_direction/release 8 向+15% 死区）、`stat_block`（build_run_base/recompute_rune_mult/final_stat/set_base_stat/get_base/add_vein_add/reset）、`save_service`（save_pouch(dict)/load_pouch/save_permanent/load_permanent）、`rng_service`（new_floor_rng/floor_rng/seed_from_string/derive_seed）、`dungeon_generator`（generate_sync 3 参）、`fallback_template`（build→{seed:-1,floor:-1,fallback:true}）、`pouch`（CAP_RUNE/CAP_MATERIAL=24、add_spirit_egg/get_spirit_count/add_rune 满栏 false/equip_rune/tamer_runes/recompute_stat_block/to_dict/from_dict）、`rune_entry`（mult_dict/to_dict/from_dict）、`party_manager`（PARTY_SLOTS=3/recruit 满 false/remove/get_party）、`bestiary`（unlock 幂等/is_discovered/to_dict/from_dict）、`vein_graph`（register_node/assert_acyclic/can_activate/activate 返回剩余 ember/-1/get_activated_modify_stats 加算+pct/get_activated_node_ids）、`vein_node`、`run_snapshot`（apply_to）。
+  - **结果：17/17 类全部吻合，0 处签名/方法名偏差**。可高置信度预期在 Godot 环境一次跑通（唯一未覆盖的是编译与运行时执行本身）。
+- **G4（文档漂移修正）**：`tests/README.md` §1/§3 实际清单（smoke/rng_service/dungeon_gen/combat/pouch_vein 五件）替换原稿对 `save_rebuild_test.gd`/`combat_tick_test.gd` 的计划清单；新增 §6「CI 与本地运行」与 Epic G 状态注记；版本 v1.0→v1.1。
+- **质量门**：主理人独立读盘核验（17 个生产类源码 + 5 个测试文件 + CI 脚本 + README 修正），非仅信文档声明；`tools/ci/lint_no_global_random.py` 不在 G 范围（已由 lint.yml 覆盖，ADR-5 通过）。
+- **待真机/后续（环境阻断·非缺陷）**：① CI 在装有 Godot 4.3 的 runner 上**真实执行** `test.yml` 并反馈绿/红（当前沙箱无 Godot，无法本地验证 CI 绿）；② `save_service` 真实 `ConfigFile` 往返（pouch_vein_test 的 `save_reconstruction`）在 Godot 下验证文件 IO 一致；③ 若实跑暴露 GUT 9.x 版本/布局差异，按脚本内注释回写 `GUT_VER`。
+
+*本拆分为 Phase 5 排期依据；A/B/C/D 已 commit（a6261a4/f078082/b666d46），E 工具链已验证闭环，F 半成品已备份，G 已完成 CI 接入 + 静态对账（实跑待 Godot 环境）。*

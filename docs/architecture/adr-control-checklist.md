@@ -108,7 +108,7 @@
 | ADR-2 | 进行中（生产模块+单测已落） | 低 | R3 同帧预算验证（真机） |
 | ADR-3 | 进行中（生产模块+单测已落） | 低 | R3 真机达标（同屏≤12敌人<4ms等） |
 | ADR-4 | 已闭环（工具链 verified 2026-11-04；selftest 实跑 PASS） | E1 资产产出 / Godot 应用待办（非架构阻断） | 脚本唯一出口 + CI 校验 + Python selftest 实跑 PASS（upper=9/mid=7/boss=10/sanctuary=9） |
-| ADR-5 | 进行中 | 待与 ADR-1 联测 | RNGService+单测已落；全局随机调用拦截（lint 已落地） |
+| ADR-5 | 进行中（GUT 单测已接线 CI） | 待与 ADR-1 联测；GUT 实跑待 Godot 环境 | RNGService+单测已落；全局随机调用拦截（lint 已落地）；`rng_service_test.gd` 等 5 件套经 `.github/workflows/test.yml` 接 Godot 4.3 headless（Epic G 接线，主理人已做静态 API 对账，待实跑） |
 | C1 | 已闭环（Epic D 实现已落） | 低 | 单测覆盖加算/乘区/堆叠（`pouch_vein_test.gd`） |
 
 > **总评**：6 项决策均"技术可落地、无 FAIL"。ADR-1 因 E-A 拍板由拟采纳升级为可完整实现；**ADR-4 已实现完成（引擎 4.3 签字、Python `--selftest` 实跑通过含 boss/sanctuary R3 严格硬阻断）**，仅待 Godot 环境接 CI headless 实跑；剩余开放项集中在 **R1/R3 真机测量** 与 **R2/ADR-5 的工程纪律（CI 校验/lint）**，不构成架构阻断。
