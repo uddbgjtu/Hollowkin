@@ -38,17 +38,23 @@ jobs:
       # 已核实：GUT 9.3.0 的 Release 没有独立 zip 资产（gut_9.3.0.zip 为 404），
       # 且 tag 带 v 前缀（v9.3.0）。故改用 tag 源码归档，其顶层目录为
       # Gut-9.3.0/，插件位于 Gut-9.3.0/addons/gut/（与本地实跑所用版本一致）。
+      # 2026-11-05 教训：归档必须解压到项目外（RUNNER_TEMP）。若留在项目根，
+      # gen_global_class_cache.gd 扫描 res:// 时会把副本里的 class_name 一并注册，
+      # 导致 Class "GutMain" hides a global script class、GUT 挂住直到 CI 超时。
       - name: Install GUT (pin to v9.3.0)
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
           $GUT_VER = "9.3.0"
           $url = "https://github.com/bitwes/Gut/archive/refs/tags/v${GUT_VER}.zip"
-          Invoke-WebRequest -Uri $url -OutFile gut.zip
-          Expand-Archive -Path gut.zip -DestinationPath gut_tmp -Force
-          $src = "gut_tmp/Gut-$GUT_VER/addons/gut"
+          $zip = Join-Path $env:RUNNER_TEMP "gut.zip"
+          $unpack = Join-Path $env:RUNNER_TEMP "gut_unpack"
+          if (Test-Path $unpack) { Remove-Item -Recurse -Force $unpack }
+          Invoke-WebRequest -Uri $url -OutFile $zip
+          Expand-Archive -Path $zip -DestinationPath $unpack
+          $src = Join-Path $unpack "Gut-$GUT_VER/addons/gut"
           if (-not (Test-Path "$src/gut_cmdln.gd")) {
-            Get-ChildItem -Recurse gut_tmp | Select-Object -First 50
+            Get-ChildItem -Recurse $unpack | Select-Object -First 50
             throw "Unexpected GUT archive layout"
           }
           # 目标目录不存在时才不会嵌套成 addons/gut/gut；显式清理更稳。
@@ -58,6 +64,8 @@ jobs:
           if (-not (Test-Path "addons/gut/gut_cmdln.gd")) {
             throw "GUT install failed"
           }
+          # 清理临时产物，确保任何插件副本都不会落入 res:// 扫描范围。
+          Remove-Item -Recurse -Force $unpack, $zip
 
       # Godot 4.3 headless（非编辑器）模式不会扫描并注册 class_name 全局类，
       # 仅从 global_script_class_cache.cfg 读取；缺失时 GUT 会因 GutUtils 等

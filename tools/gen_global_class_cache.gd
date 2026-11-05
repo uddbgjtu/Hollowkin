@@ -13,10 +13,22 @@ extends SceneTree
 # 在 CI / 本地无编辑器导入时也能解析全局类。
 # 用法：godot --headless --path . -s res://tools/gen_global_class_cache.gd
 # 幂等：可重复运行；应在 GUT（addons/gut）安装之后调用，以纳入其 class_name。
+#
+# 2026-11-05 CI 教训：若把 GUT 源码归档解压到项目根（如 gut_tmp/Gut-9.3.0/），
+# 扫描会把插件副本里的 class_name 一并写入缓存，造成同名类出现两条不同 path。
+# Godot 注册后加载真正的 addons/gut/*.gd 时会报
+#   Parse Error: Class "GutMain" hides a global script class
+# 使 GUT 主类加载失败、run_tests 等不到完成信号、进程挂住直到 CI 超时。
+# 故此处双保险：① 跳过已知临时解压目录；② 对同名 class_name 去重，
+# 优先保留 res://addons/ 下的正式插件路径。
+
+const SKIP_DIR_NAMES := ["gut_tmp", "godot_bin", "gut_probe", "gut_unpack", "gut_src"]
+
 
 func _init() -> void:
 	var classes: Array = []
 	_scan_dir("res://", classes)
+	classes = _dedupe(classes)
 	# make_dir_recursive 是实例方法，须经 DirAccess 实例调用（Godot 4.x）。
 	var da := DirAccess.open("res://")
 	if da != null and not da.dir_exists(".godot"):
@@ -31,6 +43,32 @@ func _init() -> void:
 	quit()
 
 
+# 同名 class_name 只保留一条：优先 res://addons/（正式插件路径），
+# 其余取字典序最小者以保证确定性；被丢弃的通常是临时解压出来的副本。
+func _dedupe(classes: Array) -> Array:
+	var best: Dictionary = {}
+	var dropped: int = 0
+	for e in classes:
+		var cls: String = e["class"]
+		var path: String = e["path"]
+		if not best.has(cls):
+			best[cls] = e
+			continue
+		dropped += 1
+		var cur: Dictionary = best[cls]
+		var cur_path: String = cur["path"]
+		var cur_score: int = 0 if cur_path.begins_with("res://addons/") else 1
+		var new_score: int = 0 if path.begins_with("res://addons/") else 1
+		if new_score < cur_score or (new_score == cur_score and path < cur_path):
+			best[cls] = e
+	var result: Array = []
+	for k in best.keys():
+		result.append(best[k])
+	if dropped > 0:
+		print("gen_global_class_cache: skipped %d duplicate class_name(s) from temporary copies" % dropped)
+	return result
+
+
 func _scan_dir(dir_path: String, classes: Array) -> void:
 	var d := DirAccess.open(dir_path)
 	if d == null:
@@ -38,7 +76,7 @@ func _scan_dir(dir_path: String, classes: Array) -> void:
 	d.list_dir_begin()
 	var name := d.get_next()
 	while name != "":
-		if name == "." or name == ".." or name.begins_with("."):
+		if name == "." or name == ".." or name.begins_with(".") or SKIP_DIR_NAMES.has(name):
 			name = d.get_next()
 			continue
 		var full := dir_path.path_join(name)
