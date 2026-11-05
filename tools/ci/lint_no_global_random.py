@@ -79,6 +79,15 @@ def scan_file(path: str):
 
 
 def main() -> int:
+    # Windows CI runner 的 stdout 常为 cp1252 等单字节编码，中文提示会触发
+    # UnicodeEncodeError 并以非 0 退出（与 ADR-5 检查结果无关）。强制 UTF-8 输出，
+    # 使本 lint 在任何终端编码下都只按「是否命中禁项」决定退出码。
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError):
+            pass
+
     parser = argparse.ArgumentParser(
         description="Ban global random calls in GDScript (ADR-5)."
     )

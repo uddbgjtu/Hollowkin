@@ -13,6 +13,8 @@ jobs:
   # lint 由 .github/workflows/lint.yml 单独覆盖（push + PR），此处不重复。
   gut:
     runs-on: windows-latest
+    # 防御：headless GUT 异常挂起时不要占满 Actions 默认的 360 分钟。
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
