@@ -18,7 +18,7 @@ var view: Dictionary = {}   # HUD 数据：floor/seed/ember/coin/spirit_count/pa
 
 
 func _init() -> void:
-	id = "overview"
+	super._init("overview")
 
 
 func _build() -> void:

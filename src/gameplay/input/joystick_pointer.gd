@@ -61,8 +61,15 @@ func get_direction() -> Vector2:
 
 
 func _snap_8(dir: Vector2) -> Vector2:
-    # 吸附到最近的 45° 方向（8 向）。
+    # 吸附到最近的 45° 方向（8 向），并归一到精确单位向量
+    # （避免用 cos/sin 直接生成时因浮点噪声导致 (0,1)≠(0,1) 的判定误差）。
     var angle := dir.angle()
     var step := PI / 4.0
-    var snapped_angle := round(angle / step) * step
-    return Vector2(cos(snapped_angle), sin(snapped_angle))
+    var snapped_angle: float = round(angle / step) * step
+    var x := cos(snapped_angle)
+    var y := sin(snapped_angle)
+    if abs(x) < 0.001:
+        x = 0.0
+    if abs(y) < 0.001:
+        y = 0.0
+    return Vector2(x, y).normalized()

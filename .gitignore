@@ -6,3 +6,12 @@
 Thumbs.db
 *.tmp
 *.swp
+
+# Godot 4.x 编辑器/导入生成物。
+# global_script_class_cache.cfg 由 CI（tools/gen_global_class_cache.gd）幂等重建，
+# 无需入库；headless -s 模式依赖它注册 class_name 全局类。
+.godot/
+# asset_manifest.csv 由 palette_validator.gd 用 FileAccess 直接读纯文本；
+# Godot 会误把它当翻译表导入并生成 .csv.import / *.translation 副产物，均为噪音。
+src/core/asset_pipeline/*.translation
+src/core/asset_pipeline/*.csv.import

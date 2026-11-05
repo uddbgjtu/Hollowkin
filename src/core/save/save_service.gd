@@ -16,6 +16,10 @@
 class_name SaveService
 extends Node
 
+# 显式 preload：确保本 autoload 在加载时即可解析 RNGService 的 class_name
+# （Godot 4.x 在 autoload 编译期不会自动解析非 autoload 的 class_name 依赖）。
+const RNG := preload("res://src/core/rng/rng_service.gd")
+
 const RUN_PATH := "user://save_run.cfg"
 const META_PATH := "user://save_meta.cfg"
 
@@ -42,7 +46,7 @@ func _flush() -> void:
 static func new_run_seed() -> int:
 	# 用系统时间 + 进程 id 作熵源，经 RNGService 混出 32 位 seed。
 	# 这是「初始」种子，本身不要求可复现；可复现的是之后由它派生的各层 RNG。
-	return RNGService.derive_seed([int(Time.get_unix_time_from_system()), OS.get_process_id()])
+	return RNG.derive_seed([int(Time.get_unix_time_from_system()), OS.get_process_id()])
 
 
 # ----------------------------------------------------------------------
@@ -99,7 +103,9 @@ func has_run() -> bool:
 # 回退庇护所：丢弃 run（保留 meta，ADR-1 永久进度独立）。
 func clear_run() -> void:
 	if FileAccess.file_exists(RUN_PATH):
-		DirAccess.remove(RUN_PATH)
+		var _dir := DirAccess.open(RUN_PATH.get_base_dir())
+		if _dir != null:
+			_dir.remove(RUN_PATH.get_file())
 	_last_run = {}
 
 

@@ -38,6 +38,8 @@ func register(screen: UiScreen, tab_index: int = -1) -> void:
 
 func build(bottom_region: Rect2) -> void:
 	tab_bar.build(bottom_region)
+	# 底部 Tab 为导航热区，豁免技能 0.5s 重触发 cd（tab 始终可用，ux-spec §2）。
+	queue.set_cooldown_exempt(tab_bar.tab_ids())
 
 
 func switch_to(screen_id: String) -> bool:
@@ -99,7 +101,7 @@ func on_action(zone_id: String) -> void:
 	if idx >= 0:
 		if not _tab_bar_enabled:
 			return   # 战斗中忽略 tab 热区，避免误切
-		var sid := _order[idx]
+		var sid: String = _order[idx]
 		if sid != "" and sid != active_id:
 			_pending_switch = sid
 		return

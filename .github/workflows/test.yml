@@ -22,23 +22,29 @@ jobs:
           godot --version
 
       # GUT 为 Godot 编辑器插件，需先于 GUT 测试安装进工程 addons/。
-      # 请团队在首次跑通时核对下方 GUT_VER 与发布包资产名是否匹配
-      # （GUT 9.x 面向 Godot 4.x；发布页 https://github.com/bitwes/Gut/releases）。
-      - name: Install GUT (pin to Godot 4.3-compatible release)
+      # 已核实：GUT 9.3.0 的 Release 没有独立 zip 资产（gut_9.3.0.zip 为 404），
+      # 且 tag 带 v 前缀（v9.3.0）。故改用 tag 源码归档，其顶层目录为
+      # Gut-9.3.0/，插件位于 Gut-9.3.0/addons/gut/（与本地实跑所用版本一致）。
+      - name: Install GUT (pin to v9.3.0)
         run: |
           GUT_VER=9.3.0
-          curl -fsSL "https://github.com/bitwes/Gut/releases/download/${GUT_VER}/gut_${GUT_VER}.zip" -o gut.zip
+          curl -fsSL "https://github.com/bitwes/Gut/archive/refs/tags/v${GUT_VER}.zip" -o gut.zip
           mkdir -p addons gut_tmp
           unzip -q gut.zip -d gut_tmp
-          # GUT 9.x 发布包含 addons/gut/；个别历史版本根目录直接为 gut/
-          if [ -d gut_tmp/addons/gut ]; then
-            cp -r gut_tmp/addons/gut addons/gut
-          elif [ -d gut_tmp/gut ]; then
-            cp -r gut_tmp/gut addons/gut
-          else
-            echo "::error::Unexpected GUT zip layout"; ls -R gut_tmp; exit 1
+          SRC="gut_tmp/Gut-${GUT_VER}/addons/gut"
+          if [ ! -f "${SRC}/gut_cmdln.gd" ]; then
+            echo "::error::Unexpected GUT archive layout"; ls -R gut_tmp | head -50; exit 1
           fi
+          cp -r "${SRC}" addons/gut
           rm -rf gut_tmp gut.zip
+          test -f addons/gut/gut_cmdln.gd
+
+      # Godot 4.3 headless（非编辑器）模式不会扫描并注册 class_name 全局类，
+      # 仅从 global_script_class_cache.cfg 读取；缺失时 GUT 会因 GutUtils 等
+      # 全局类无法解析而解析失败。此步在 GUT 安装之后、GUT 测试之前幂等生成缓存。
+      - name: Generate global script class cache
+        run: |
+          godot --headless --path . -s res://tools/gen_global_class_cache.gd
 
       - name: Run GUT headless
         # -gexit：测试全绿则进程退出码 0，任一失败则非 0（CI 据此判红）。

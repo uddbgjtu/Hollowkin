@@ -21,7 +21,7 @@ var last_selected: String = ""
 
 
 func _init() -> void:
-	id = "pouch"
+	super._init("pouch")
 
 
 func _build() -> void:
@@ -58,13 +58,13 @@ func _layout() -> void:
 	for ci in range(COLS.size()):
 		var cx := region.position.x + PAD + float(ci) * (col_w + PAD)
 		# 分段控件标题（每栏，≥48px）
-		var seg_id := "seg_" + COLS[ci]
+		var seg_id: String = "seg_" + COLS[ci]
 		_add_rect(seg_id, Rect2(cx, region.position.y + PAD * 0.5, col_w, SEG_H))
 		# 该栏物品格
 		var items: Array = _items_for(COLS[ci])
 		for i in range(items.size()):
 			var ry := top + float(i) * (CELL_H + PAD)
-			var zid := COLS[ci] + "_" + str(i)
+			var zid: String = COLS[ci] + "_" + str(i)
 			_add_rect(zid, Rect2(cx, ry, col_w, CELL_H))
 
 

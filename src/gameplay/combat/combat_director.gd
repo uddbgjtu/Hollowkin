@@ -219,7 +219,7 @@ func _enemies_in_cone(origin: CombatEntity) -> Array:
         var f := nearest.pos - origin.pos
         if f.length() > 0.0001:
             forward = f / f.length()
-    for e in enemies:
+    for e: CombatEntity in enemies:
         if not e.alive:
             continue
         var to := e.pos - origin.pos

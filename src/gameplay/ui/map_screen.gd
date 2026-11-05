@@ -13,7 +13,7 @@ var view: Dictionary = {}
 
 
 func _init() -> void:
-	id = "map"
+	super._init("map")
 
 
 func _build() -> void:

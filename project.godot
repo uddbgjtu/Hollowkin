@@ -16,7 +16,7 @@ config/features=PackedStringArray("4.3", "GL Compatibility")
 
 [autoload]
 
-SaveService="*res://src/core/save/save_service.gd"
+SaveSvc="*res://src/core/save/save_service.gd"
 
 [display]
 

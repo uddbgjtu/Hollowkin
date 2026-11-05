@@ -32,7 +32,7 @@ func register_circle(id: String, center: Vector2, radius: float, skill_binding: 
 # 命中判定：后注册者优先（上层 UI 覆盖下层），返回 id 或 ""。
 func resolve(position: Vector2) -> String:
     for i in range(_zones.size() - 1, -1, -1):
-        var z := _zones[i]
+        var z: Dictionary = _zones[i]
         if z["type"] == "rect":
             if z["rect"].has_point(position):
                 return z["id"]

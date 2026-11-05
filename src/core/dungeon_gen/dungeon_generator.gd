@@ -23,7 +23,7 @@ func generate_sync(run_seed: int, floor_index: int, tier: int) -> Dictionary:
 	if floor_index < 0 or floor_index > 9999:
 		return FallbackTemplate.build()
 	if _cache.has(run_seed, floor_index):
-		return _cache.get(run_seed, floor_index)
+		return _cache.fetch(run_seed, floor_index)
 	var rng := RNGService.floor_rng(run_seed, floor_index)
 	var layout := RoomStitcher.build(rng, floor_index, tier)
 	layout["run_seed"] = run_seed
@@ -39,7 +39,7 @@ func generate_floor(run_seed: int, floor_index: int, tier: int) -> Dictionary:
 	if floor_index < 0 or floor_index > 9999:
 		return FallbackTemplate.build()
 	if _cache.has(run_seed, floor_index):
-		return _cache.get(run_seed, floor_index)
+		return _cache.fetch(run_seed, floor_index)
 	var rng := RNGService.floor_rng(run_seed, floor_index)
 	var rooms := RoomStitcher.build_rooms(rng, tier)
 	await get_tree().process_frame

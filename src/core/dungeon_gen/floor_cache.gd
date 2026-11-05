@@ -18,11 +18,13 @@ static func _key(run_seed: int, floor: int) -> String:
 
 
 # 取缓存布局；miss 返回 null。
-func get(run_seed: int, floor: int) -> Dictionary:
+# 注：方法名 fetch（非 get）——Godot 4.x 的 Object.get 已移除，
+# 自定义名为 get 的成员会与解析器冲突，导致调用方报 "Could not resolve external class member 'get'"。
+func fetch(run_seed: int, floor: int) -> Dictionary:
 	var k := _key(run_seed, floor)
 	if _store.has(k):
 		return _store[k]
-	return null
+	return {}
 
 
 # 写入缓存。

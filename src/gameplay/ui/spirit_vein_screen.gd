@@ -23,7 +23,7 @@ var _offset: Vector2 = Vector2.ZERO
 
 
 func _init() -> void:
-	id = "spirit_vein"
+	super._init("spirit_vein")
 
 
 func _build() -> void:
@@ -87,7 +87,7 @@ func on_action(zone_id: String) -> void:
 		var g = ctx.vein_graph
 		if g.nodes.has(zone_id):
 			if g.can_activate(zone_id, ctx.ember):
-				var rem := g.activate(zone_id, ctx.ember)
+				var rem: int = g.activate(zone_id, ctx.ember)
 				if rem >= 0:
 					ctx.ember = rem
 					_refresh()   # 状态变化（positions 不变，无需 re-layout）

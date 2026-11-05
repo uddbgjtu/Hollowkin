@@ -22,7 +22,7 @@ var skill_ids: Array = []
 
 
 func _init() -> void:
-	id = "battle"
+	super._init("battle")
 
 
 func _build() -> void:
@@ -59,7 +59,7 @@ func _refresh_hud() -> void:
 	var c = ctx.combat
 	var p = c.player
 	if p != null:
-		var ratio := p.hp / max(p.max_hp, 1.0)
+		var ratio: float = p.hp / max(p.max_hp, 1.0)
 		view["hp"] = p.hp
 		view["max_hp"] = p.max_hp
 		view["low_hp"] = ratio <= LOW_HP_RATIO   # 低血双编码触发（a11y §3.4）
