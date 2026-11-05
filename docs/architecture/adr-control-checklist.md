@@ -62,7 +62,7 @@
 
 | 字段 | 内容 |
 |---|---|
-| **状态** | **实现完成 + 待真机/签字闭环**（引擎已签字 Godot 4.3；实现已落地；仅剩 Godot 环境接 CI headless 实跑） |
+| **状态** | **已闭环（工具链 verified · 2026-11-04 主理人独立实跑 `pixel_pipeline.py --selftest` → PASS / exit 0；引擎已签字 Godot 4.3）**；开放项：① E1 真实资产产出（art-director，AI 原图→pipeline→manifest）② Godot 侧 `.import`/Import Preset 固化 + `palette_validator` headless CI 实跑 —— 二者均非架构阻断 |
 | **落地文件（实）** | `src/core/asset_pipeline/pixel_pipeline.py`（全链路·Pillow）、`src/core/asset_pipeline/palette_source.json`（调色板单一来源）、`src/core/asset_pipeline/palette_validator.gd`（R1–R6）、`src/core/asset_pipeline/asset_manifest.csv`（14 列表头）、`docs/engine-reference/godot/pixel_texture.import.tpl`（ADR-4 导入预设）、`docs/engine-reference/godot/VERSION.md`（引擎 4.3 签字版） |
 | **关联模块** | AssetPipeline（见 architecture-doc.md §1.8、§4） |
 | **验证点** | ① 离线脚本输出 PNG-8 索引色 + 登记 manifest（seed/提示词/色数/校验）；② 目录 `.import` 覆写 `compress/mode=0或1`、`filter=false`、`gen_mipmaps=false`、`detect_3d/compress_to=0`；③ `PaletteValidator` 断言每资产 ≤16 色且取自母库，否则阻断导入；④ CI headless 接口就绪；**⑤ Python `--selftest` 已实跑通过（upper=9 色 / mid=7 色，R1–R4 绿），与 bestiary §4（9/16、7/16）吻合** |
@@ -107,7 +107,7 @@
 | ADR-1 | 进行中 | R2 iOS 后台强杀边界 | save_service.gd + dungeon_generator.gd/room_stitcher.gd/floor_cache.gd/fallback_template.gd 均已落（Epic A2/B）；剩余 DungeonGen↔Save 重建联测 + R2 真机双保险实测 |
 | ADR-2 | 进行中（生产模块+单测已落） | 低 | R3 同帧预算验证（真机） |
 | ADR-3 | 进行中（生产模块+单测已落） | 低 | R3 真机达标（同屏≤12敌人<4ms等） |
-| ADR-4 | 实现完成 + 待真机/签字闭环 | PNG-8 人工绕过风险 | 脚本唯一出口 + CI 校验 + Python selftest 已通过（含 boss/sanctuary R3 严格） |
+| ADR-4 | 已闭环（工具链 verified 2026-11-04；selftest 实跑 PASS） | E1 资产产出 / Godot 应用待办（非架构阻断） | 脚本唯一出口 + CI 校验 + Python selftest 实跑 PASS（upper=9/mid=7/boss=10/sanctuary=9） |
 | ADR-5 | 进行中 | 待与 ADR-1 联测 | RNGService+单测已落；全局随机调用拦截（lint 已落地） |
 | C1 | 已闭环（Epic D 实现已落） | 低 | 单测覆盖加算/乘区/堆叠（`pouch_vein_test.gd`） |
 

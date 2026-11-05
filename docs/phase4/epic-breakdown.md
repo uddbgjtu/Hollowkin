@@ -138,7 +138,19 @@ Epic A–G 全部"验收"列勾选 + 依赖图无环 + 三角色确认，方可�
 - **质量门**：`tools/ci/lint_no_global_random.py` 独立复验 OK（扫描 9 个 .gd，exit 0）；5 个文件主理人逐一读盘确认结构正确、抽取顺序 sync/async 一致。
 - **待真机/后续**：DungeonGen↔Save 重建联测（Epic A2↔B 闭环验证 ADR-1）、R1 渲染尖峰真机测量（set_cell 批量写入）、GUT 在 CI 真跑（本沙箱无 Godot）。
 
-*本拆分为 Phase 5 排期依据；工作量占位为 Lean 估算，正式排期在 Phase 5 kickoff 敲定。未 git commit。*
+## 9. Epic E 执行进度（2026-11-04 · 主理人独立核验 + selftest 实跑 + 文档闭环）
+
+> **关键事实**：ADR-4 实现工具链（pixel_pipeline.py / palette_source.json / palette_validator.gd / asset_manifest.csv / 导入预设模板）早在 `9e32d09`（Phase 3 收口）已入库；本 kickoff 不重复造轮子，而是做**独立核验 + 真实验证 + 规格对齐 + 文档闭环**。
+
+- **E1（资产生产规格·已定稿）**：`docs/art-bible/asset-production-spec.md` v1.0 已锁定 MVP 清单（char: tamer/mossback/emberhorn/frostling/voltsprite @24 upper、boss_deep @32–48 boss；tile/props/ui 按场景子集）。slug/尺寸/场景子集与 bestiary §0.1/§4 一致。**但真实 AI 原图尚未产出**（art-director 待办）——故 `asset_manifest.csv` 仅表头、零资产登记，属 E1 真·剩余工作，非工具链缺陷。
+- **E2（后处理 + 校验·已实现 + 实跑验证）**：`src/core/asset_pipeline/pixel_pipeline.py` 全链路（最近邻降采样→≤16 色固定索引→2×2 有序 Bayer 抖动→1–2px 描边 #1A1C2C→PNG-8 + manifest 登记 sha256）；`palette_validator.gd`（R1–R6，EditorScript + CI headless 入口）。**主理人 2026-11-04 独立实跑 `python pixel_pipeline.py selftest` → 退出码 0、RESULT: PASS**：`upper=9` / `mid=7` / `upper(16)=9` / `boss=10` / `sanctuary=9`，全部 `validate=True`，与 bestiary §4 子集（9/7/10/9）逐一吻合，R1–R4 全绿。Python 端 `validate_python` 镜像 R1–R4；R5/R6 为 Godot/manifest 侧。
+- **E3（Godot 导入预设·模板就位 + 应用待 Godot）**：`docs/engine-reference/godot/pixel_texture.import.tpl` 已固化覆写（compress/mode=0或1、filter=false、gen_mipmaps=false、detect_3d/compress_to=0、fix_alpha_border=true）；`palette_validator.gd` 的 EditorPlugin + `godot --headless --script` 入口已写。**真实 `.import` / Import Preset 文件待在 Godot 编辑器内一次性固化并提交**（VERSION.md 已声明本沙箱无法运行 Godot）。
+- **工具链 ↔ 规格交叉核对（一致）**：manifest 14 列 = pixel-asset-pipeline §2（canonical）；MASTER(19)/SCENE(upper9/mid7/boss10/sanctuary9) = palette_source.json；VALID_SIZES(16/24/32/48)、描边 1–2px、alpha_cutoff=128、Bayer `[[0,2],[3,1]]/4` 与规格逐字对齐；CLAUDE.md §3 导入预设、§6 资产红线、§8.2 禁止项（人工绕过脚本即违规）齐备。
+- **文档不一致（开放项·低优先）**：`asset-production-spec.md §3` 另列一套 14 列 manifest schema（`src_md5/validator_pass/import_preset/palette_version/author/note`），与 canonical 14 列（pixel-asset-pipeline §2 = 代码实现）字段语义冲突；建议对齐到 canonical，以免 manifest 字段歧义。
+- **质量门**：主理人独立复验（读全部 6 个文件 + 实跑 selftest PASS + 规格交叉核对），非仅信文档声明。
+- **待办 / 开放项（非臆造）**：① E1 真实资产产出（art-director，AI 原图 → 跑 pipeline → 登记 manifest）；② Godot 侧 `.import`/Import Preset 固化 + `palette_validator` headless CI 实跑；③ R5/R6 与真实导入校验依赖 Godot 环境，本沙箱无 Godot 故未跑。
+
+*本拆分为 Phase 5 排期依据；A/B/C/D 已 commit（a6261a4/f078082/b666d46），E 工具链已验证闭环（E1 资产产出 + Godot 应用为开放项），F 半成品已备份，G 待接。*
 
 ## 7. Epic C 执行进度（2026-11-04 · 工程负责人交付，主理人质量门核验）
 
