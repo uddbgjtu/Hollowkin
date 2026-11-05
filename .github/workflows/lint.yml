@@ -1,12 +1,13 @@
 name: Lint
 
+# 2026-11-05 范围决策：暂时只在 Windows 运行，不做 Linux 侧验证。
 on:
   push:
   pull_request:
 
 jobs:
   gd-lint:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

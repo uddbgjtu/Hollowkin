@@ -1,53 +1,74 @@
 name: test
 
+# 2026-11-05 范围决策：暂时只在 Windows 运行，不做 Linux 侧验证。
+# 故 gut job 固定 windows-latest；待需要 Linux 覆盖时再恢复多平台矩阵。
 on:
   push:
-    branches: [ main ]
+    # 本地仓库当前分支为 master，纳入触发分支以确保 push 后 Windows CI 真的会跑。
+    branches: [ main, master ]
   pull_request:
 
 jobs:
   # GUT 单测：在 Godot 4.3 headless 中实跑 tests/unit/ 下全部 GUT 用例。
   # lint 由 .github/workflows/lint.yml 单独覆盖（push + PR），此处不重复。
   gut:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Godot 4.3
+      # 官方 Release 资产名是 Godot_v4.3-stable_win64.exe.zip（注意 .exe.zip，
+      # 而非 ..._win64.zip，后者为 404）。解压后顶层即两个可执行文件，无子目录。
+      # CI 用 console 版，以便 headless 下的 stdout/stderr 完整进入 Actions 日志。
+      - name: Install Godot 4.3 (Windows)
+        shell: pwsh
         run: |
-          wget -q https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
-          unzip -q Godot_v4.3-stable_linux.x86_64.zip
-          sudo mv Godot_v4.3-stable_linux.x86_64 /usr/local/bin/godot
-          sudo chmod +x /usr/local/bin/godot
-          godot --version
+          $ErrorActionPreference = "Stop"
+          $url = "https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_win64.exe.zip"
+          Invoke-WebRequest -Uri $url -OutFile godot.zip
+          Expand-Archive -Path godot.zip -DestinationPath godot_bin -Force
+          if (-not (Test-Path "godot_bin/Godot_v4.3-stable_win64_console.exe")) {
+            Get-ChildItem -Recurse godot_bin | Select-Object -First 50
+            throw "Unexpected Godot zip layout"
+          }
+          & "godot_bin/Godot_v4.3-stable_win64_console.exe" --version
 
       # GUT 为 Godot 编辑器插件，需先于 GUT 测试安装进工程 addons/。
       # 已核实：GUT 9.3.0 的 Release 没有独立 zip 资产（gut_9.3.0.zip 为 404），
       # 且 tag 带 v 前缀（v9.3.0）。故改用 tag 源码归档，其顶层目录为
       # Gut-9.3.0/，插件位于 Gut-9.3.0/addons/gut/（与本地实跑所用版本一致）。
       - name: Install GUT (pin to v9.3.0)
+        shell: pwsh
         run: |
-          GUT_VER=9.3.0
-          curl -fsSL "https://github.com/bitwes/Gut/archive/refs/tags/v${GUT_VER}.zip" -o gut.zip
-          mkdir -p addons gut_tmp
-          unzip -q gut.zip -d gut_tmp
-          SRC="gut_tmp/Gut-${GUT_VER}/addons/gut"
-          if [ ! -f "${SRC}/gut_cmdln.gd" ]; then
-            echo "::error::Unexpected GUT archive layout"; ls -R gut_tmp | head -50; exit 1
-          fi
-          cp -r "${SRC}" addons/gut
-          rm -rf gut_tmp gut.zip
-          test -f addons/gut/gut_cmdln.gd
+          $ErrorActionPreference = "Stop"
+          $GUT_VER = "9.3.0"
+          $url = "https://github.com/bitwes/Gut/archive/refs/tags/v${GUT_VER}.zip"
+          Invoke-WebRequest -Uri $url -OutFile gut.zip
+          Expand-Archive -Path gut.zip -DestinationPath gut_tmp -Force
+          $src = "gut_tmp/Gut-$GUT_VER/addons/gut"
+          if (-not (Test-Path "$src/gut_cmdln.gd")) {
+            Get-ChildItem -Recurse gut_tmp | Select-Object -First 50
+            throw "Unexpected GUT archive layout"
+          }
+          # 目标目录不存在时才不会嵌套成 addons/gut/gut；显式清理更稳。
+          if (Test-Path "addons/gut") { Remove-Item -Recurse -Force "addons/gut" }
+          New-Item -ItemType Directory -Force -Path addons | Out-Null
+          Copy-Item -Path $src -Destination addons/gut -Recurse
+          if (-not (Test-Path "addons/gut/gut_cmdln.gd")) {
+            throw "GUT install failed"
+          }
 
       # Godot 4.3 headless（非编辑器）模式不会扫描并注册 class_name 全局类，
       # 仅从 global_script_class_cache.cfg 读取；缺失时 GUT 会因 GutUtils 等
-      # 全局类无法解析而解析失败。此步在 GUT 安装之后、GUT 测试之前幂等生成缓存。
+      # 全局类无法解析而挂住。此步在 GUT 安装之后、GUT 测试之前幂等生成缓存。
       - name: Generate global script class cache
+        shell: pwsh
         run: |
-          godot --headless --path . -s res://tools/gen_global_class_cache.gd
+          & "godot_bin/Godot_v4.3-stable_win64_console.exe" --headless --path . -s res://tools/gen_global_class_cache.gd
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Run GUT headless
         # -gexit：测试全绿则进程退出码 0，任一失败则非 0（CI 据此判红）。
+        shell: pwsh
         run: |
-          godot --headless --path . -s res://addons/gut/gut_cmdln.gd \
-            -gdir=res://tests/unit/ -gexit
+          & "godot_bin/Godot_v4.3-stable_win64_console.exe" --headless --path . -s res://addons/gut/gut_cmdln.gd -gdir=res://tests/unit/ -gexit
+          exit $LASTEXITCODE
