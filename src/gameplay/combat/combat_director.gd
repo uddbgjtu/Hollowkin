@@ -184,7 +184,7 @@ func _enemy_ai(dt: float, e: CombatEntity, p: CombatEntity) -> void:
     var to_p := p.pos - e.pos
     var dist := to_p.length()
     if dist > 0.0001:
-        var step_len := min(e.spd * dt, dist)
+        var step_len: float = minf(e.spd * dt, dist)
         e.pos += to_p / dist * step_len
     if e.aps <= 0.0:
         return

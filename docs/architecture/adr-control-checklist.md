@@ -1,7 +1,8 @@
 # ADR 控制清单（ADR Control Checklist）
 
 > **作者**：程基岩（Cheng Jiyan）· 工程负责人
-> **引擎**：Godot 4（iOS / Android，触屏单手）
+> **引擎**：Godot 4.3（**Windows Desktop / PC 单平台**；移动端 iOS / Android 已彻底放弃，见 ADR-6）
+> **版本**：v1.1 · 2026-11-06 按 ADR-6 更新平台口径并新增 ADR-6 追踪条目
 > **阶段**：Phase 3 技术搭建
 > **来源**：`feasibility-review.md` 的 ADR×5 + 任务书拍板的 C1 契约；与 `architecture-doc.md` 的 ADR↔架构映射表互锁
 > **用途**：将每条 ADR 转为**可追踪闭环**——状态 / 落地文件 / 验证点 / 负责人 / 风险 / 完成判据。架构评审（PASS/CONCERNS/FAIL）结论见 `architecture-doc.md` §6。
@@ -25,22 +26,22 @@
 | **关联模块** | Save + DungeonGen（见 architecture-doc.md §1.1/§1.5、§4） |
 | **验证点** | ① 层间硬存档点写入 `user://save_run.cfg`（seed+floor+log）；② `NOTIFICATION_APPLICATION_PAUSED` 同步落盘；③ 读档损坏 → 回退庇护所且永久进度不受影响；④ 同 (run_seed, floor_index) 重建布局与事件日志重放一致 |
 | **负责人** | engineering-lead |
-| **风险** | R2：iOS 后台强杀时 `paused` 不一定触发 → 须结合 `NOTIFICATION_WM_CLOSE_REQUEST` + "层间/进庇护所即存"双保险（**真机实测边界**）；战斗随机性若遗漏任一随机源则重建与日志错位（靠 ADR-5 统一出口兜底） |
-| **完成判据** | 1) 仅层间落盘且量极小（数百字节）；2) 损坏回退路径有断言/测试；3) 重建一致性有确定性测试（同种子→同布局）；4) R2 双保险在真机验证 |
+| **风险** | R2（ADR-6 等价改述）：PC 进程被强杀 / 断电时 `paused` 不一定触发 → 须结合 `NOTIFICATION_WM_CLOSE_REQUEST` + "层间/进庇护所即存"双保险（**PC 实机实测边界**）；战斗随机性若遗漏任一随机源则重建与日志错位（靠 ADR-5 统一出口兜底） |
+| **完成判据** | 1) 仅层间落盘且量极小（数百字节）；2) 损坏回退路径有断言/测试；3) 重建一致性有确定性测试（同种子→同布局）；4) R2 双保险在 PC 实机验证 |
 
 ---
 
-## ADR-2 · 触屏输入并发仲裁
+## ADR-2 · 输入事件并发仲裁（ADR-6 重订标题）
 
 | 字段 | 内容 |
 |---|---|
-| **状态** | 进行中（生产模块已落 + 单测已落；待真机 R3 测量 / GUT CI 实跑） |
-| **落地文件（实）** | `src/gameplay/input/input_queue.gd`、`src/gameplay/input/hit_zone.gd`、`src/gameplay/input/joystick_pointer.gd`（由 R3 原型晋升；InputArbiter 集成层节点——把 `InputEventScreenTouch/Drag` 抽 dict→push、浮杆/按钮 touch 仲裁——留 Epic-C 后续桩） |
-| **关联模块** | InputArbiter（见 architecture-doc.md §1.6、§4） |
-| **验证点** | ① 所有 `InputEventScreenTouch/Drag` 入队、不立即改仿真；② 帧末单次结算、按热区归并；③ 技能重复触发去重；④ cd 下限钳 0.5s（战斗 GDD §6.4）；⑤ 浮杆独占单一 `touch_id`，与技能热区互不抢占；⑥ 30/60fps 设备行为一致 |
+| **状态** | 进行中（生产模块已落 + 单测已落；GUT CI 已实跑 7/54；待按 ADR-6 建 PC 帧预算基线） |
+| **落地文件（实）** | `src/gameplay/input/input_queue.gd`、`src/gameplay/input/hit_zone.gd`、`src/gameplay/input/joystick_pointer.gd`；PC 侧 `pc_input_adapter.gd`（键盘 / 鼠标 → 同构字典）属 Wave 3 |
+| **关联模块** | InputArbiter（见 architecture-doc.md §1.6、§4）；平台契约见 ADR-6 |
+| **验证点** | ① 所有输入事件的同构字典 `{"position", "touch_id"}` 入队、不立即改仿真；② 帧末单次结算、按热区归并；③ 技能重复触发去重；④ cd 下限钳 0.5s（战斗 GDD §6.4）；⑤ 键位 / 鼠标各自映射固定热区 id，互不抢占；⑥ 30/60fps 行为一致 |
 | **负责人** | engineering-lead |
-| **风险** | 低。注意 iOS 多指 `index` 与 Godot `touch_id` 映射、Android 指序变化——已统一以 `touch_id` 仲裁规避 |
-| **完成判据** | 1) 输入队列单测覆盖去重/归并（`test_input_queue_dedupe_same_zone`）；2) 摇杆+按钮并发无抢占（浮杆独占 `touch_id` 已由 `test_joystick_8_direction_and_deadzone` 演练）；3) 跨帧率行为一致有对比验证（R3 同帧预算内，**待真机测量**）。去重/归并/0.5s cd 钳/浮杆独占已由 `tests/unit/combat_test.gd` 覆盖 |
+| **风险** | 低。`touch_id` 在 PC 下恒为 0，仅作兼容标识；原「iOS 多指 index / Android 指序变化」风险随移动端彻底放弃而移除。**队列语义不变** |
+| **完成判据** | 1) 输入队列单测覆盖去重 / 归并；2) 键位 + 技能并发无抢占；3) 跨帧率行为一致有对比验证（**PC 基线待建，不自动勾闭环**）。去重 / 归并 / 0.5s cd 钳已由 `tests/unit/test_combat.gd` 覆盖 |
 
 ---
 
@@ -48,13 +49,13 @@
 
 | 字段 | 内容 |
 |---|---|
-| **状态** | 进行中（SimulationClock + CombatDirector 已落 + 单测已落；enemy_ai/spirit_ai/offscreen_culler 留 Epic-C 后续桩；待真机 R3 测量） |
+| **状态** | 进行中（SimulationClock + CombatDirector 已落 + 单测已落；enemy_ai/spirit_ai/offscreen_culler 留 Epic-C 后续桩；R3 待 PC 基线实测（ADR-6 / Wave 4）） |
 | **落地文件（实）** | `src/gameplay/ai/simulation_clock.gd`（由 R3 原型晋升：10Hz / MAX_CATCHUP=3 / 自适应 5Hz）、`src/gameplay/combat/combat_director.gd`（step_simulation 在 tick 内调用）、`src/gameplay/input/input_queue.gd`（tick 内消费）；`enemy_ai.gd`/`spirit_ai.gd`/`offscreen_culler.gd` 留 Epic-C 后续桩 |
 | **关联模块** | SpiritAI（见 architecture-doc.md §1.7、§4） |
 | **验证点** | ① `SimulationClock` 累加器每满 0.1s（10Hz）跑 `tick()`，MAX_CATCHUP=3；② tick 内消费输入队列→`CombatDirector.step_simulation`；③ 移动/动画逐帧 lerp 读 AI 目标（不重算决策）；④ 连续超帧预算降 5Hz、后台暂停；⑤ 屏外实体经 `VisibleOnScreenNotifier2D` 停用 AI/动画（留桩） |
 | **负责人** | engineering-lead |
-| **风险** | 低。10Hz 下技能响应最大 ~100ms，对休闲单手可接受；若手感偏钝，仅玩家主动技能走即时通道（备注方案） |
-| **完成判据** | 1) 10Hz tick 计数/追帧断言（`test_clock_steady_state_10hz` / `test_clock_stall_capped_at_max_catchup`）；2) 自适应降频触发逻辑有单测（`test_clock_adaptive_5hz_after_over_budget`）；3) 同屏 ≤12 敌人渲染 <4ms、粒子 <3ms 在真机达标（R3，**待真机测量**）。① ② 已由 `tests/unit/combat_test.gd` 覆盖 |
+| **风险** | 低。10Hz 下技能响应最大 ~100ms，对低 APM 桌面设计可接受；若手感偏钝，仅玩家主动技能走即时通道（备注方案；ADR-6 仅改述措辞） |
+| **完成判据** | 1) 10Hz tick 计数/追帧断言（`test_clock_steady_state_10hz` / `test_clock_stall_capped_at_max_catchup`）；2) 自适应降频触发逻辑有单测（`test_clock_adaptive_5hz_after_over_budget`）；3) 同屏 ≤12 敌人渲染 <4ms、粒子 <3ms 在 PC 基线达标（R3，**ADR-6 后待 PC 实测**）。① ② 已由 `tests/unit/combat_test.gd` 覆盖 |
 
 ---
 
@@ -86,6 +87,20 @@
 
 ---
 
+## ADR-6 · 平台定位：PC（Windows Desktop）单平台，彻底放弃移动端
+
+| 字段 | 内容 |
+|---|---|
+| **状态** | **已批准（2026-11-06 用户拍板）**；Wave 1 真源层已落地，Wave 2–4 待分批报批 |
+| **落地文件（实）** | `docs/architecture/adr-006-pc-first.md`（唯一新真源）；`CLAUDE.md §1/§5/§8.1`、概念文档、UX 规格、战斗 GDD、架构文档、本清单、a11y 规格、Phase 4 总纲已同步口径 |
+| **关联模块** | 跨切：InputArbiter / 布局 / QA；不改 ADR-1/2/3/4/5 与 C1 |
+| **验证点** | ① 8 份真源文档口径一致、无残留移动端现行规范句；② 「ADR-6 废止声明」横幅齐全；③ R1/R3 仍为 CONCERNS、未自动翻转；④ 零新增测量数字 |
+| **负责人** | 主理人（用户批准）+ engineering-lead（后续波次） |
+| **风险** | 中。5 个 `.gd` 共 6 处硬编码 `720×1280`，改横屏前须抽 `LayoutConfig`；`_adapt` 30fps 偏差在 PC 掉帧时同样触发；移动端 runbook 已归档至 `docs/qa/archive/`、Android 导出预设已替换为 Windows Desktop 骨架（Wave 2b） |
+| **完成判据** | 1) Wave 1 文档一致性校验通过；2) Wave 3 布局 / 导出 / 输入适配落地且 GUT 全绿；3) Wave 4 回归与 PC 帧预算基线建立；4) R1/R3 由实测数据 + 独立审批翻转 |
+
+---
+
 ## C1（契约）· StatBlock 乘算注入
 
 | 字段 | 内容 |
@@ -104,15 +119,16 @@
 
 | ADR | 状态 | 主要阻塞/风险 | 闭环前置 |
 |---|---|---|---|
-| ADR-1 | 进行中 | R2 iOS 后台强杀边界 | save_service.gd + dungeon_generator.gd/room_stitcher.gd/floor_cache.gd/fallback_template.gd 均已落（Epic A2/B）；剩余 DungeonGen↔Save 重建联测 + R2 真机双保险实测 |
-| ADR-2 | 进行中（生产模块+单测已落） | 低 | R3 同帧预算验证（真机） |
-| ADR-3 | 进行中（生产模块+单测已落） | 低 | R3 真机达标（同屏≤12敌人<4ms等） |
+| ADR-1 | 进行中 | R2（PC 进程强杀 / 断电等价场景） | save_service.gd + dungeon_generator.gd/room_stitcher.gd/floor_cache.gd/fallback_template.gd 均已落（Epic A2/B）；剩余 DungeonGen↔Save 重建联测 + R2 PC 实机双保险实测 |
+| ADR-2 | 进行中（生产模块+单测已落） | 低 | ADR-6：R3 改 PC 帧预算基线，待建表与实测 |
+| ADR-3 | 进行中（生产模块+单测已落） | 低 | ADR-6：R3 改 PC 帧预算基线，待建表与实测 |
 | ADR-4 | 已闭环（工具链 verified 2026-11-04；selftest 实跑 PASS） | E1 资产产出 / Godot 应用待办（非架构阻断） | 脚本唯一出口 + CI 校验 + Python selftest 实跑 PASS（upper=9/mid=7/boss=10/sanctuary=9） |
 | ADR-5 | 进行中（GUT 单测已接线 CI） | 待与 ADR-1 联测；GUT 实跑待 Godot 环境 | RNGService+单测已落；全局随机调用拦截（lint 已落地）；`rng_service_test.gd` 等 5 件套经 `.github/workflows/test.yml` 接 Godot 4.3 headless（Epic G 接线，主理人已做静态 API 对账，待实跑） |
 | C1 | 已闭环（Epic D 实现已落） | 低 | 单测覆盖加算/乘区/堆叠（`pouch_vein_test.gd`） |
+| ADR-6 | 已批准 / Wave 1 + 2 + 2b 已落地 | 布局硬编码、`_adapt` 偏差、移动端 runbook 待归档 | Wave 2 下游对齐 ✅ → Wave 2b 归档 ✅ → Wave 3 工程 → Wave 4 回归；R1/R3 不自动翻转 |
 
-> **总评**：6 项决策均"技术可落地、无 FAIL"。ADR-1 因 E-A 拍板由拟采纳升级为可完整实现；**ADR-4 已实现完成（引擎 4.3 签字、Python `--selftest` 实跑通过含 boss/sanctuary R3 严格硬阻断）**，仅待 Godot 环境接 CI headless 实跑；剩余开放项集中在 **R1/R3 真机测量** 与 **R2/ADR-5 的工程纪律（CI 校验/lint）**，不构成架构阻断。
+> **总评**：6 项决策 + 新增 ADR-6 均"技术可落地、无 FAIL"。ADR-1 因 E-A 拍板由拟采纳升级为可完整实现；**ADR-4 已实现完成（引擎 4.3 签字、Python `--selftest` 实跑通过含 boss/sanctuary R3 严格硬阻断）**；ADR-5 的 GUT 已由 Godot 4.3 headless + `windows-latest` CI 实跑（7 scripts / 54 tests）。**ADR-6 已批准但仅 Wave 1 文档层落地**，剩余开放项集中在 **R1/R3 的 PC 帧预算基线（原移动端真机判据失效）**、**Wave 2–4 实施** 与 **R2 的 PC 实机验证**，不构成架构阻断。
 
 ---
 
-*本清单为 ADR 落地追踪真源，与 `architecture-doc.md` 映射表互锁。未修改 `design/` 与 `docs/architecture/` 之外目录，未执行 git commit。*
+*本清单 v1.1（2026-11-06 按 ADR-6 更新平台口径并新增 ADR-6 条目）为 ADR 落地追踪真源，与 `architecture-doc.md` 映射表互锁。未执行 git commit。*

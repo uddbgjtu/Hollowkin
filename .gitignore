@@ -15,3 +15,10 @@ Thumbs.db
 # Godot 会误把它当翻译表导入并生成 .csv.import / *.translation 副产物，均为噪音。
 src/core/asset_pipeline/*.translation
 src/core/asset_pipeline/*.csv.import
+
+# GUT 9.3.0 由 CI 安装到 addons/gut/（本地 headless 实跑副本同样不入库）。
+# 只忽略该子目录而非整个 addons/，以便未来其他正式插件仍可入库。
+addons/gut/
+
+# Windows Desktop 导出产物（Wave 2b / ADR-6）：exe、pck 与 console wrapper 不入库。
+/build/

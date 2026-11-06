@@ -8,6 +8,9 @@ on:
 jobs:
   gd-lint:
     runs-on: windows-latest
+    # 防御：lint 脚本异常挂起时不要占满 Actions 默认的 360 分钟。
+    # 与 test.yml 的 gut job（timeout-minutes: 15）保持同一防护口径。
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

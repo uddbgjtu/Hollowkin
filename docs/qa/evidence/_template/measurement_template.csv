@@ -1,0 +1,11 @@
+device_id,os_version,gpu_backend,build_sha,godot_version,build_type,thermal_state,battery_pct,background_policy,metric,unit,samples,mean,p95,target,verdict,evidence_path,measured_at,operator
+【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,r1_logic_elapsed,ms,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,≤ 1,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】
+【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,r1_render_mean,ms,—,—,—,≤ 16.6,blocked,—,【PC 基线待实测】,【PC 基线待实测】
+【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,r1_render_p95_spike,ms,—,—,—,< 50,blocked,—,【PC 基线待实测】,【PC 基线待实测】
+【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,r1_fallback_switch,bool + ms,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,不阻断流程,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】
+【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,r1_low_tier_density,个 + ms,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,上限下调,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】
+【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,r3_input_arbitration,ms,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,< 0.5 / < 1.0,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】
+【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,r3_ai_tick,ms,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,~1.66 / ~3.3,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】
+【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,r3_entity_render,ms,—,—,—,< 4 / < 8,blocked,—,【PC 基线待实测】,【PC 基线待实测】
+【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,r3_particles,ms,—,—,—,< 3 / < 6,blocked,—,【PC 基线待实测】,【PC 基线待实测】
+【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,r3_total_frame_share,ms,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,< 9.16（55%）,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】

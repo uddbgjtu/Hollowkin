@@ -57,7 +57,7 @@ func consume_into(target) -> void:
         # cd 下限钳 0.5s：距上次命中不足 0.5s 则跳过（跨 tick 去重重触发）。
         # 导航/UI 热区（如底部 Tab）豁免，避免阻塞显式切换意图。
         if not _cooldown_exempt.has(zone_id):
-            var last := _last_fire.get(zone_id, -INF)
+            var last: float = float(_last_fire.get(zone_id, -INF))
             if _sim_time - last < CD_FLOOR:
                 continue
         seen[zone_id] = true

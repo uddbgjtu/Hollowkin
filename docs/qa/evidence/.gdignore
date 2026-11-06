@@ -1,0 +1,4 @@
+# Godot 4.3: skip this whole directory during asset scan.
+# Evidence CSV / logs / screenshots are QA artifacts, NOT game assets.
+# Without this file Godot imports every .csv here as a translation resource
+# and emits *.translation / *.csv.import noise plus "bucket_table_size == 0".

@@ -1,10 +1,12 @@
 # 测试脚手架 / Test Scaffolding
+> ⚠️ **ADR-6 状态声明（2026-11-06 · Wave 2）**：本文件为测试脚手架（现行测试策略）。原「移动端 iOS / Android、触屏单手、竖屏 720×1280、≥48px 触控命中区、低端机真机判据」条款**已由 `docs/architecture/adr-006-pc-first.md` 废止**；现行契约为 **Windows Desktop 单平台（横屏 1280×720、键鼠输入、单局 10–20 分钟）**。相关规范句已按 ADR-6 重订；ADR-1/2/3/4/5、C1、Godot 4.3 冻结、Basic 非触控 a11y 项与所有历史测量数字不变。历史原文保留于 git 变更记录，未静默删除。
 
 > **文档类型**：测试策略 + GUT 接入 + 确定性测试清单（Phase 4 脚手架，Lean）
 > **归属**：engineering-lead 起草，主理人签发
-> **引用**：`docs/architecture/adr-control-checklist.md`（ADR-1/2/3/5）、`tools/ci/lint_no_global_random.py`、`docs/qa/r1r3-device-test-plan.md`
-> **版本**：v1.1 · 随 Epic G 提交（2026-11-05 · 主理人静态 API 对账 + CI 硬化）。
-> **环境注**：本沙箱无 Godot，以下为可落地脚手架与执行说明；GUT 实际跑通待目标机安装 Godot 4.3。
+> **引用**：`docs/architecture/adr-control-checklist.md`（ADR-1/2/3/5）、`tools/ci/lint_no_global_random.py`、`docs/qa/archive/r1r3-device-test-plan.md`（已归档·历史方法学）、`docs/phase4/epic-breakdown.md §12`
+> **版本**：v1.3 · 2026-11-06 按 ADR-6 对齐 PC 口径并补齐 7 scripts / 54 tests 基线；v1.2 已回填 Godot 4.3 实跑与 Windows CI 双绿。
+> **环境**：Godot `4.3.stable.official.77dcf97d8` + GUT `9.3.0`（tag `v9.3.0`）；本机 Windows 与 GitHub Actions `windows-latest` 均已 headless 实跑。
+> **范围决策**：CI 暂时只在 Windows 运行，不做 Linux 侧验证（2026-11-05 主理人决定）；Linux 恢复为后续开放项。
 
 ---
 
@@ -22,68 +24,108 @@
 tests/
   README.md                      # 本文件
   unit/                          # GUT 扫描目录（仅此目录）
-    smoke_test.gd                # 冒烟：验证 GUT  harness 可达
-    rng_service_test.gd          # ADR-5：种子确定性（Epic A1）
-    dungeon_gen_test.gd          # ADR-1/R1：同 seed 同布局（Epic B3）
-    combat_test.gd               # DamageCalc/Clock/Input/Joystick/Death/C1/CombatDirector（Epic C）
-    pouch_vein_test.gd           # C1/ENG-2/DAG/activate/Save 重建/Bestiary（Epic D）
+    test_smoke.gd                # 冒烟：验证 GUT harness 可达
+    test_rng_service.gd          # ADR-5：种子确定性（Epic A1）
+    test_dungeon_gen.gd          # ADR-1/R1：同 seed 同布局（Epic B3）
+    test_combat.gd               # DamageCalc/Clock/Input/Joystick/Death/C1/CombatDirector（Epic C）
+    test_pouch_vein.gd           # C1/ENG-2/DAG/activate/Save 重建/Bestiary（Epic D）
+    test_ui.gd                   # 四主屏 / Tab 路由 / 可访问性 / 技能热区（Epic F 逻辑层）
+    test_frame_budget.gd        # 记账级帧预算断言【非设备帧时间】（G4）
   templates/
     rng_service_test.gd          # 模板（不被 GUT 扫描，供参考填充）
 ```
 
-> `tests/templates/` 不放入 GUT 扫描路径，避免引用尚未创建的类导致解析失败。
+> GUT 9.x 默认只收集 `test_*.gd` 前缀。2026-11-05 实跑已将原 `*_test.gd` 全部重命名；
+> `tests/templates/` 不放入扫描路径，避免引用未落地模块导致解析失败。
 
 ## 2. GUT 安装与运行
 
-1. 在 Godot 4.3 编辑器 → AssetLib 安装 **GUT**（Godot Unit Test）。
-2. 项目设置 → 插件启用 GUT。
-3. GUT 配置：测试目录指向 `res://tests/unit/`，勾选"在运行时扫描"。
-4. 命令行（CI / 本地无头）：
+1. **CI 安装**：`.github/workflows/test.yml` 从 GUT tag 源码归档
+   `https://github.com/bitwes/Gut/archive/refs/tags/v9.3.0.zip` 下载，解压到
+   `$env:RUNNER_TEMP`（**项目外**）后，仅把 `Gut-9.3.0/addons/gut` 复制进 `addons/gut`。
+   GUT 9.3.0 的 Release 无独立 zip 资产（`gut_9.3.0.zip` 为 404），tag 带 `v` 前缀。
+2. **本地安装**：Godot 4.3 + GUT 9.3.0 置于 `addons/gut`（不入库，见 `.gitignore`）。
+3. **生成全局类缓存（headless `-s` 必需，不可省略）**：
    ```
-   godot --headless --path . --quit res://addons/gut/gut_cmdln.gd \
+   godot --headless --path . -s res://tools/gen_global_class_cache.gd
+   ```
+   Godot 4.3 的 headless `-s` 模式**不扫描注册 `class_name` 全局类**，只读取
+   `.godot/global_script_class_cache.cfg`；缺缓存时 GUT 报
+   `Identifier "GutUtils" not declared` 且进程挂住不退出。缓存正确格式为默认
+   section（空 section 名）下的单个 `list` 数组，由上述脚本幂等生成。
+4. **运行测试**：
+   ```
+   godot --headless --path . -s res://addons/gut/gut_cmdln.gd \
      -gdir=res://tests/unit/ -gexit
    ```
-5. 预期：smoke_test 通过即 harness 正常；其余测试随模块落地逐步启用。
+   `-gexit` 使全绿退出码 0、任一失败非 0（CI 据此判红）；Windows 用
+   `Godot_v4.3-stable_win64_console.exe` 保证 stdout/stderr 完整进入日志。
+5. **本地一键**：`bash tools/ci/run_gut_tests.sh`（需 `godot` 4.3 在 PATH 或用
+   `GODOT=/abs/path/to/godot` 指定，且 `addons/gut` 已安装）。该脚本镜像 CI，
+   会先生成全局类缓存再跑 GUT。
+
+> **2026-11-05 远端 CI 实测教训**：GUT 归档的任何副本都**不得**落在项目根 `res://`
+> 扫描范围内。否则缓存生成器会把副本中的 `class_name` 一并注册（45 类 vs 本地 40 类），
+> 加载真正的 `res://addons/gut/gut.gd` 时触发
+> `Class "GutMain" hides a global script class`，GUT 主类加载失败 → `run_tests`
+> 等不到完成信号 → 进程挂起直到超时。修法：项目外解压 + 生成器跳过临时目录并对同名
+> `class_name` 去重（`res://addons/` 优先）。详见 `docs/phase4/epic-breakdown.md §12`。
 
 ## 3. 确定性测试清单（与模块/ADR 映射）
 
 | 测试文件 | 目标模块 | 断言要点 | ADR/原型 |
 |---|---|---|---|
-| `rng_service_test.gd` | RNGService | 同 seed 序列逐字节一致；异 seed 分叉；`floor_rng` 确定性；调用时序无关 | ADR-5 |
-| `dungeon_gen_test.gd` | DungeonGen | 同 (seed,floor,tier) JSON 逐字节一致；异 floor 分叉；非法 floor 切保底 | ADR-1 / R1 |
-| `combat_test.gd` | Combat/Input/AI | DamageCalc 确定性/钳制/Variance/Crit、Clock 10Hz 稳态/追帧钳 3/自适应 5Hz、InputQueue 去重+0.5s 钳、Joystick 8 向+死区、Death 30%、StatBlock C1、CombatDirector 确定性+无敌人 idle | ADR-3 / C1 |
-| `pouch_vein_test.gd` | Pouch/SpiritVein/Save | C1 公式、负 atk/def 钳 0、D1 增量 API、ENG-2 +1 堆叠、满栏拒绝不静默丢、`{slug:count}` 往返、RuneEntry 格式、PartyManager slots、DAG 无环正反例、activate/ember 扣减、`ΣVeinAdd` 聚合、RunSnapshot 注入、Bestiary 解锁+联动、存档重建一致 | C1 / ENG-2 / ADR-1 |
+| `test_smoke.gd` | GUT harness | 冒烟：harness 可达 | — |
+| `test_rng_service.gd` | RNGService | 同 seed 序列逐字节一致；异 seed 分叉；`floor_rng` 确定性；调用时序无关 | ADR-5 |
+| `test_dungeon_gen.gd` | DungeonGen | 同 (seed,floor,tier) JSON 逐字节一致；异 floor 分叉；非法 floor 切保底 | ADR-1 / R1 |
+| `test_combat.gd` | Combat/Input/AI | DamageCalc 确定性/钳制/Variance/Crit、Clock 10Hz 稳态/追帧钳 3/自适应 5Hz、InputQueue 去重+0.5s 钳、Joystick 8 向+死区、Death 30%、StatBlock C1、CombatDirector 确定性+无敌人 idle | ADR-3 / C1 |
+| `test_pouch_vein.gd` | Pouch/SpiritVein/Save | C1 公式、负 atk/def 钳 0、D1 增量 API、ENG-2 +1 堆叠、满栏拒绝不静默丢、`{slug:count}` 往返、RuneEntry 格式、PartyManager slots、DAG 无环正反例、activate/ember 扣减、`ΣVeinAdd` 聚合、RunSnapshot 注入、Bestiary 解锁+联动、存档重建一致 | C1 / ENG-2 / ADR-1 |
+| `test_ui.gd` | UI（Epic F 逻辑层） | Tab 布局与命中区、路由派发、战斗中 Tab 禁用、可访问性钳制与双编码、+1 堆叠角标、灵脉节点状态分类、战斗技能热区 | UX 规格 / 可访问性 Basic |
+| `test_frame_budget.gd` | 记账级帧预算（G4） | 30fps 稳态 / 跨帧率一致性（两例为已知偏差探测）、降频恢复、ADR-2 tick 内队列结算顺序；**非设备帧时间** | ADR-2 / ADR-3 / G4 |
 
-> 设备级帧预算（60/30fps 实测）仍标【需真机实测】，沙箱不臆造；见 `docs/qa/r1r3-device-test-plan.md`。
+> 设备级帧预算仍标【需实测】，**未回填、不臆造**；ADR-6 后判据改由 PC 窗口 / 全屏基线采集（Wave 4），
+> 原移动端 runbook 已归档至 `docs/qa/archive/r1r3-device-test-plan.md`（仅历史方法学参考）。
+> `test_frame_budget.gd` 为【记账级 · 非设备帧时间】断言，不得换算成 ms 预算结论。
 
 ## 4. 与 CI 的衔接
 
-- **lint 线**：`tools/ci/lint_no_global_random.py --root .`（已有 `.github/workflows/lint.yml`）。
-- **test 线**：`.github/workflows/test.yml` 安装 Godot 4.3 → 跑 GUT headless。
+- **lint 线**：`.github/workflows/lint.yml` → `tools/ci/lint_no_global_random.py --root .`（ADR-5 全局随机禁令），job 超时 10 分钟。
+- **test 线**：`.github/workflows/test.yml` → 安装 Godot 4.3 + GUT 9.3.0 → 生成全局类缓存 → 跑 GUT headless，job 超时 15 分钟。
+- **runner / 触发**：两条线均 `windows-latest`；test 线 push `main`/`master` + PR 触发，lint 线 push + PR 触发。
 - 两条线均绿方可合并（见 ADR-5 完成判据）。
 
-## 5. 冒烟测试示例（`tests/unit/smoke_test.gd`）
+## 5. 冒烟测试示例（`tests/unit/test_smoke.gd`）
 
 ```gdscript
 extends GutTest
 
+# Phase 4 脚手架冒烟测试：仅用于验证 GUT harness 在目标机可达。
+# 不依赖任何尚未创建的模块，确保 CI 在模块落地前即可跑通。
 func test_harness_runs():
-    assert_eq(1, 1, "GUT harness reachable")
+	assert_eq(1, 1, "GUT harness reachable")
 ```
 
-## 6. CI 与本地运行（Epic G 接入）
+## 6. 实跑验证记录（2026-11-05）
 
-- **CI**：`.github/workflows/test.yml`（push 到 main / PR 触发）安装 Godot 4.3 + GUT 9.x，以
-  `godot --headless --path . -s res://addons/gut/gut_cmdln.gd -gdir=res://tests/unit/ -gexit`
-  无头实跑全部 GUT 用例；`-gexit` 使全绿退出码 0、任一失败非 0（CI 据此判红）。
-  全局随机 lint 由 `.github/workflows/lint.yml`（ADR-5）单独覆盖。
-- **本地**：`bash tools/ci/run_gut_tests.sh`（需 PATH 含 `godot` 4.3，且已通过编辑器 AssetLib 安装 `addons/gut`）。
+| 环境 | 结果 | 证据 |
+|---|---|---|
+| 本机 Windows（干净 checkout 等价验证） | **6 scripts / 50 tests / 50 passing / 11452 asserts / `GUT_EXIT=0`**；ADR-5 lint 扫描 39 个 `.gd`、0 违规 | 本地 headless 日志；`tools/ci/run_gut_tests.sh` 等价流程 |
+| 本机 Windows（G4 + 采集包复跑） | **7 scripts / 54 tests / 54 passing / 11468 asserts / `GUT_EXIT=0`**；ADR-5 lint 41 个 `.gd`、0 违规 | `test_frame_budget.gd` 4 例 +16 断言；全局类缓存 40 类不变 |
+| GitHub Actions `windows-latest`（sha `0a19159`） | test run `42045291457` **success**、Lint run `42045291552` **success**；缓存步骤 `wrote 40 global classes`；`Run GUT headless` 约 2 秒完成，输出同为 6/50/50/11452 | 远端 run/job 结论与归档日志 |
+| 首轮无超时悬挂 run `42038019907`（sha `9c33a9d`） | 已通过 Actions API 取消：`completed / cancelled` | HTTP 202 + 复查结论 |
 
-> **Epic G 状态（2026-11-05）**：5 个 GUT 测试文件已全部按 GUT 9.x 规范书写，且主理人对其中引用的
-> 17 个生产类的全部方法/属性/签名做了**静态 API 对账（逐一读真实源码）**，100% 吻合，可高置信度预期
-> 在 Godot 环境一次跑通。受本沙箱无 Godot 限制，**实际编译与运行时执行尚未进行**——属环境阻断，非测试缺陷。
-> 待目标机/CI 安装 Godot 4.3 后，上述流水线即会真实执行并反馈绿/红。
+- 残留**非致命**告警：GUT 自带字体未导入（headless 无编辑器导入）引起的 fontdata /
+  ObjectDB leak 提示，本地与 CI 同样存在，不影响测试结果。
+- 远端曾出现的 GUT 挂起已定位并修复（见 §2 教训）；字体错误与渲染驱动均非根因。
+
+## 7. 开放项（不臆造、不勾选未验证项）
+
+1. **G4 PC 基线（ADR-6）**：R1/R3 60/30fps 预算待 PC 窗口 / 全屏实测（Wave 4）；单手可达性热力图与 iOS 后台强杀判据已废止，改键盘可达 / PC 进程强杀双保险。R1 / R3 仍为 CONCERNS。
+2. **Epic E**：E1 真实 AI 原图 → pipeline → manifest 登记；Godot `.import`/Import Preset 固化；`palette_validator` headless CI 与 R5/R6 实跑。
+3. **Epic F**：四主屏 `*.tscn` 场景与像素资产集成（当前 UI 为 GDScript 逻辑层）。
+4. **集成层**：InputArbiter 接入 PC 键鼠事件（Wave 3 适配层）、`enemy_ai.gd` / `spirit_ai.gd` 独立文件、DungeonGen↔Save 重建联测。
+5. **Linux runner**：按主理人决策暂缓恢复。
 
 ---
 
-*本脚手架随 Epic A–G 模块落地填充，Epic G 完成 CI 接入与静态对账（2026-11-05 提交）。*
+*本脚手架随 Epic A–G 模块落地填充；Epic G 已完成 GUT 接入 + 本地与远端 Windows CI 实跑闭环（2026-11-05）。各 Epic 状态与 Phase 4 出口判据见 `docs/phase4/epic-breakdown.md §12`、`docs/phase4/plan.md §4`。*

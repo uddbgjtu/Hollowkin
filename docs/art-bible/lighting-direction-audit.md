@@ -1,8 +1,9 @@
 # 光照方向终审报告 · Lighting Direction Audit（ENG-5）
+> ⚠️ **ADR-6 状态声明（2026-11-06 · Wave 2）**：本文件为ENG-5 光照方向终审报告（历史终审结论）。原「移动端 iOS / Android、触屏单手、竖屏 720×1280、≥48px 触控命中区、低端机真机判据」条款**已由 `docs/architecture/adr-006-pc-first.md` 废止**；现行契约为 **Windows Desktop 单平台（横屏 1280×720、键鼠输入、单局 10–20 分钟）**。下文保留的移动端表述均为当时的评审 / 测量 / 裁定原文，仅作历史记录，不得据此推导现行设计；R1 / R3 仍为 **CONCERNS**，PC 基线待 Wave 4 建立，CONCERNS 不自动翻转。历史原文保留于 git 变更记录，未静默删除。
 
-> **项目**：《深窟兽语 / Hollowkin》（像素风 Roguelike，移动端 iOS / Android，Godot 4.3）
+> **项目**：《深窟兽语 / Hollowkin》（像素风 Roguelike，Windows Desktop / PC 单平台，Godot 4.3；见 ADR-6）
 > **负责人**：林绘澄（美术与视觉表现指导）· 主理人终审
-> **版本**：v1.0（ENG-5 终审）
+> **版本**：v1.1 · 2026-11-06 ADR-6 平台口径对齐（ENG-5 终审结论不变）
 > **关联**：美术圣经 v0.2 §5 / §6.2、`design/gdd/mvp-spirit-bestiary.md` v1.3 §0、`docs/art-bible/pixel-asset-pipeline.md` §1.3 / §5、架构文档 §7 ENG-5
 
 ---

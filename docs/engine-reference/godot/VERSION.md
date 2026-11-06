@@ -1,6 +1,7 @@
 # Godot 引擎版本与导入预设钉定（Engine Reference · Godot）
+> ⚠️ **ADR-6 状态声明（2026-11-06 · Wave 2）**：本文件为Godot 引擎版本与导入预设钉定（现行配置真源）。原「移动端 iOS / Android、触屏单手、竖屏 720×1280、≥48px 触控命中区、低端机真机判据」条款**已由 `docs/architecture/adr-006-pc-first.md` 废止**；现行契约为 **Windows Desktop 单平台（横屏 1280×720、键鼠输入、单局 10–20 分钟）**。相关规范句已按 ADR-6 重订；ADR-1/2/3/4/5、C1、Godot 4.3 冻结、Basic 非触控 a11y 项与所有历史测量数字不变。历史原文保留于 git 变更记录，未静默删除。
 
-> **项目**：《深窟兽语 / Hollowkin》（像素风 Roguelike，移动端 iOS / Android）
+> **项目**：《深窟兽语 / Hollowkin》（像素风 Roguelike，Windows Desktop / PC 单平台；移动端已彻底放弃，见 ADR-6）
 > **用途**：钉定 Godot 引擎版本 + 像素资产导入预设（ADR-4）。本目录为引擎相关配置的权威来源，与根 `CLAUDE.md` §2/§3 互锁。
 > **关联**：`CLAUDE.md` §2（版本钉定）、§3（导入预设）、`docs/art-bible/pixel-asset-pipeline.md` §3（导入覆写项）、`docs/architecture/adr-control-checklist.md`（ADR-4）。
 
@@ -41,7 +42,7 @@ ADR-4 决策：离线产出 PNG-8 → Godot 按**目录导入预设**接收。Go
 1. **逐资产 `.import`**：见同目录 `pixel_texture.import.tpl`（Godot 4 `.import` 格式，关键覆写已高亮）。将正式资产落入 `assets/` 后，Godot 生成 `.import`；本模板即其"目标态"，可在导入面板逐项设定后提交生成的 `.import` 文件。
 2. **可复用 Import Preset（推荐目录批量）**：在 Godot 编辑器选中任一像素资产 → Import 面板按 §2.1 设定 → 点 **"Save as Preset"** → 命名 `HollowkinPixel` → 选中 `assets/sprites/`、`assets/ui/`、`assets/tiles/`、`assets/effects/` 等像素目录 → Import 面板下拉选 `HollowkinPixel` → **"Apply to Folder"**（或批量选中资产 Apply）。该 Preset 随工程保存，**提交工程即版本化**。
 
-> 本沙箱无法运行 Godot，故未生成实际 `.import`/Preset 文件；模板与步骤已就绪，待在 Godot 编辑器内一次性固化并提交。
+> **2026-11-05 环境更新**：Godot 4.3 已在本机 Windows 与 GitHub Actions `windows-latest` 以 headless 方式真实运行（GUT 6 scripts / 50 tests / 50 passing / 11452 asserts 全绿，见 `docs/phase4/epic-breakdown.md §12`），但**仍未在编辑器内固化实际 `.import` / Import Preset 文件**；模板与步骤已就绪，待一次性固化并提交。headless 实跑不等于编辑器导入流程已完成。
 
 ---
 
@@ -52,4 +53,4 @@ ADR-4 决策：离线产出 PNG-8 → Godot 按**目录导入预设**接收。Go
 
 ---
 
-*本文件钉定 Godot 4.3（已签字冻结）与 ADR-4 导入预设，与 `CLAUDE.md` 及 `pixel-asset-pipeline.md` 一致。未 git commit。*
+*本文件钉定 Godot 4.3（已签字冻结）与 ADR-4 导入预设，与 `CLAUDE.md` 及 `pixel-asset-pipeline.md` 一致；已入库，导入预设固化状态见 §2.2。*

@@ -1,7 +1,9 @@
 # 《深窟兽语 / Hollowkin》主架构文档（Architecture）
 
 > **作者**：程基岩（Cheng Jiyan）· 工程负责人 / 引擎架构
-> **引擎**：Godot 4.3（目标平台 iOS / Android，触屏单手；次版本已签字冻结，见 `CLAUDE.md` §2）
+> **引擎**：Godot 4.3（**目标平台 Windows Desktop / PC 单平台**；移动端 iOS / Android 已彻底放弃，见 ADR-6；次版本已签字冻结，见 `CLAUDE.md` §2）
+> **平台契约**：`docs/architecture/adr-006-pc-first.md`（ADR-6 · 2026-11-06 用户批准）
+> **版本**：v1.1 · 2026-11-06 按 ADR-6 更新平台口径；架构模块 / ADR×5 / C1 / 自评审结论保持不变
 > **阶段**：Phase 3 技术搭建（基于 Phase 2 技术可行性评审 `feasibility-review.md` 的 ADR×5 落地）
 > **输入文档**：`feasibility-review.md`（ADR×5）、`concept-doc.md`、`combat-system-gdd.md`、`spirit-pouch-gdd.md`、`spirit-vein-gdd.md`、`mvp-spirit-bestiary.md` v1.2、`art-bible.md` v0.2、`accessibility-requirements.md` v1.0
 > **定位**：本文是 Phase 3 实现的**顶层架构真源**，定义模块边界、依赖、运行时数据流，并把每条 ADR 落到具体模块/文件。所有实现须以本文为纲。
@@ -15,7 +17,7 @@
 3. **StatBlock 单一真源**——`FinalStat = (Base + ΣVeinAdd) × ΠRuneMult`（C1 契约），灵脉加算聚合、符文独立乘区，run 起始算一次基底、符文变动重算乘区，每击 O(1)。
 4. **存档极小 + 层间硬存档**——仅存 `run_seed + floor + 事件日志`；层内中断=放弃本层（E-A 已拍板，见 §6）；永久进度激活即存（灵脉 GDD §5）。
 5. **资产离线脚本唯一出口**——AI→像素化→≤16 色索引→描边→抖动全由脚本完成，Godot 导入预设关 filter/mipmap，防偏色（ADR-4）。
-6. **单手触屏优先**——所有可点元素 ≥48px 命中区（a11y §3.2 权威），形状+颜色双编码（a11y §3.1）。
+6. **PC 键鼠可达优先（ADR-6）**——所有可点元素点击区域 ≥24×24px 且全功能键盘可达 / 键位可重映射（a11y §3.2 已重订）；形状+颜色双编码（a11y §3.1）**不变**。原「单手触屏 / ≥48px 触控命中区」红线已废止。
 
 ---
 
@@ -68,25 +70,25 @@
 - **关键约束**：
   - run 存档体积极小（种子+层号+短日志 ≈ 数百字节）；永久快照 ≈ 数 KB。
   - 读档异常 → 丢弃 run、回庇护所（ADR-1 损坏回退）。
-  - 须结合 `NOTIFICATION_WM_CLOSE_REQUEST` 双保险（R2 知识缺口，iOS 后台强杀不保证触发 paused）。
+  - 须结合 `NOTIFICATION_WM_CLOSE_REQUEST` 双保险（R2 知识缺口：PC 进程被强杀 / 断电时 `paused` 未必触发；ADR-6 已把原 iOS 后台强杀风险改述为 PC 等价场景）。
 - **关联 ADR**：ADR-1（核心落地）、ADR-5（重建依赖）。
 
 ### 1.6 输入仲裁（InputArbiter）`src/gameplay/input/`
-- **职责**：`InputQueue`（RefCounted 单例）收集 `InputEventScreenTouch/Drag`，**帧末结算**；`HitZone` 热区注册表（固定热区独立命中、去重、cd 下限 0.5s）。
-- **关键文件（拟）**：`input_queue.gd`、`hit_zone.gd`、`joystick_pointer.gd`（浮杆独占单一 touch_id）。
+- **职责**：`InputQueue`（RefCounted 单例）收集**所有输入事件的同构字典** `{"position": Vector2, "touch_id": int}`，**帧末结算**；`HitZone` 热区注册表（固定热区独立命中、去重、cd 下限 0.5s）。
+- **关键文件（拟）**：`input_queue.gd`、`hit_zone.gd`、`joystick_pointer.gd`；PC 侧新增 `pc_input_adapter.gd`（键盘 / 鼠标事件 → 同构字典，属 Wave 3）。
 - **关键约束**：
-  - 所有输入入队，不立即改仿真（ADR-2）。
-  - 浮杆独占一个 pointer；技能按钮/冷却环各自 `_gui_input` 命中，互不抢占。
+  - 所有输入入队，不立即改仿真（ADR-2）——**队列语义不变**。
+  - 键盘方向 / 鼠标左键 / 技能键位各自映射到固定热区 id，互不抢占；原「浮杆独占单一 `touch_id`」在 PC 下退化为键位状态，逻辑保留。
   - 每 tick 消费一次队列、按热区归并、技能去重（战斗 GDD §6.4）。
-  - 统一以 `touch_id` 仲裁，规避 iOS/Android 指序变化。
-- **关联 ADR**：ADR-2（核心落地）。
+  - `touch_id` 字段保留为**兼容标识**（PC 恒为 0），不再承担 iOS/Android 指序仲裁职责。
+- **关联 ADR**：ADR-2（核心落地）、ADR-6（平台适配层）。
 
 ### 1.7 灵兽 AI（SpiritAI）`src/gameplay/ai/`
 - **职责**：`SimulationClock`（10Hz 累加器时钟、MAX_CATCHUP=3）驱动 `tick()`——锁敌/寻路/技能释放/协战决策/伤害结算；移动/动画逐帧插值（读 AI 给出的目标/方向）；省电自适应（连续超预算降 5Hz、后台暂停）。
 - **关键文件（拟）**：`simulation_clock.gd`、`spirit_ai.gd`（灵兽协战）、`enemy_ai.gd`（杂兵/精英/Boss）、`offscreen_culler.gd`（VisibleOnScreenNotifier2D 停用屏外 AI）。
 - **关键约束**：
   - tick 内消费输入队列（与 ADR-2 联动），再调 `CombatDirector.step_simulation`。
-  - 10Hz 判定延迟 ~100ms 对休闲单手设计可接受；若手感偏钝，仅玩家主动技能走即时通道（ADR-3 风险备注）。
+  - 10Hz 判定延迟 ~100ms 对低 APM 桌面设计可接受；若手感偏钝，仅玩家主动技能走即时通道（ADR-3 风险备注；ADR-6 仅改述措辞，约束不变）。
   - 对象池化普攻弹幕/特效，禁每击 `instance()`（R3 缓解 3）。
 - **关联 ADR**：ADR-3（核心落地）、ADR-2（队列联动）。
 
@@ -153,7 +155,7 @@
 
 ### 3.2 输入队列 → AI tick（仿真主循环）
 ```
-每帧 _input():  InputEventScreenTouch/Drag → InputQueue.push(e)   # 不立即改仿真(ADR-2)
+每帧 _input():  PC 键鼠事件 → 适配层转同构 dict → InputQueue.push(e)   # 不立即改仿真(ADR-2；touch_id 恒为 0)
    │
 SimulationClock._process(delta):  _accum += delta
    │   while _accum >= 0.1 (10Hz) and n < 3 (MAX_CATCHUP):
@@ -188,11 +190,12 @@ run 起始:
 | ADR | 标题 | 落地模块 | 关键文件（拟） | 完成判据（摘要） |
 |---|---|---|---|---|
 | **ADR-1** | 可恢复存档架构 | Save + DungeonGen + EventLog | `save_service.gd` / `dungeon_generator.gd`（Epic B） | 层间硬存档点写 seed+floor+log；paused 同步落盘；损坏回退庇护所；同 (seed,floor) 重建一致 |
-| **ADR-2** | 触屏输入并发仲裁 | InputArbiter | `input_queue.gd` / `hit_zone.gd` / `joystick_pointer.gd` | 输入入队、帧末结算、去重、cd 下限 0.5s；30/60fps 行为一致 |
+| **ADR-2** | 输入事件并发仲裁 | InputArbiter | `input_queue.gd` / `hit_zone.gd` / `joystick_pointer.gd` | 输入入队、帧末结算、去重、cd 下限 0.5s；30/60fps 行为一致（ADR-6 不改队列语义） |
 | **ADR-3** | AI 定步长 10Hz | SpiritAI | `simulation_clock.gd` / `enemy_ai.gd` / `spirit_ai.gd` | 10Hz tick、MAX_CATCHUP=3、移动插值、自适应降 5Hz |
 | **ADR-4** | 像素资产后处理 | AssetPipeline | `src/core/asset_pipeline/pixel_pipeline.py` / `palette_validator.gd` / `palette_source.json` / `docs/engine-reference/godot/pixel_texture.import.tpl` | PNG-8 索引、导入预设关 filter/mipmap、CI 校验 ≤16 色 |
 | **ADR-5** | RNG 种子化 | RNGService（跨切）+ 全部随机源 | `rng_service.gd` + 各模块 | 单一出口、floor_seed 派生、lint 禁全局随机、重建一致 |
 | **C1（契约）** | StatBlock 乘算 | StatBlock（跨切）+ Pouch + SpiritVein | `stat_block.gd`（完整 D1）/ `rune_entry.gd` / `run_snapshot.gd` / `vein_graph.gd`（无环断言）/ `pouch.gd`（+1 堆叠） | `FinalStat=(Base+ΣVeinAdd)×ΠRuneMult`，每击 O(1) |
+| **ADR-6** | 平台定位：PC 单平台 | 跨切（输入 / 布局 / QA） | `adr-006-pc-first.md` / `CLAUDE.md §1` / UX 规格 / a11y | 移动端彻底放弃；横屏 1280×720 整数缩放；R1/R3 改 PC 基线；不自动翻转 CONCERNS |
 
 ---
 
@@ -206,7 +209,7 @@ run 起始:
 | 4 | 属性注入契约 | 灵脉 GDD §9 V1 / 冲突 C1 | `Base+ΣVeinAdd` 加算、`ΠRuneMult` 独立乘区，run 起始算基底 | ✅ 一致 |
 | 5 | C3 经济 | 任务拍板 | 转化率 30%、任何 run 结束均触发（`death_settlement` 统一路径） | ✅ 已闭环 |
 | 6 | E-A 中断策略 | 任务拍板 | 层内中断=放弃本层，仅层间硬存档点落盘（Save 模块） | ✅ 已闭环 |
-| 7 | 触控 ≥48px | a11y §3.2 / 美术圣经 §4 | InputArbiter 热区、灵脉节点命中区 ≥48px（视觉 44px） | ✅ 一致 |
+| 7 | 键鼠可操作目标（ADR-6 重订） | a11y §3.2 / ADR-6 | InputArbiter 热区点击区域 ≥24×24px + 键盘可达；原触控 ≥48px 已废止 | ✅ 一致（Wave 3 落地后复核） |
 | 8 | ADR-4 导入预设 | ADR-4 / CLAUDE.md | Lossless(0)/Uncompressed(1)+filter=false+gen_mipmaps=false | ✅ 一致 |
 | 9 | 形状+颜色双编码 | a11y §3.1 / bestiary §3 | 灵兽靠三角特征（耳/角/尾）识别，不依赖配色 | ✅ 一致 |
 
@@ -220,16 +223,18 @@ run 起始:
 | A-1 | 模块边界清晰、依赖无环 | **PASS** | §2 DAG 依赖图 | — |
 | A-2 | RNG 单一出口纪律可执行 | **PASS（条件）** | RNGService + CI lint 禁全局随机（CLAUDE.md） | 依赖 lint 实际落地，否则易被绕过 |
 | A-3 | StatBlock 契约 C1 落地 | **PASS** | §3.3 注入链 + §5 一致性 2/4 | — |
-| A-4 | 输入→AI→战斗 解耦 | **PASS** | ADR-2/3 + §3.2 | 10Hz 判定延迟 ~100ms 手感待真机实测 |
-| A-5 | 存档 ADR-1 完整落地 | **PASS** | E-A 已拍板，仅层间落盘 | R2：iOS 后台强杀时 `paused` 未必触发（知识缺口） |
-| R1 | 地窟生成低端机帧预算 | **CONCERNS** | `prototype-r1r3-report.md` 算法级基准 + 步进让帧设计 | 需真实低端机测 `TileMapLayer.set_cell` 渲染尖峰 |
-| R3 | 触屏+AI 同帧预算 | **CONCERNS** | `prototype-r1r3-report.md` 预算对照表 + 10Hz 自适应 | 需真实低端机测输入/AI/渲染/粒子分项 |
+| A-4 | 输入→AI→战斗 解耦 | **PASS** | ADR-2/3 + §3.2 | 10Hz 判定延迟 ~100ms 手感待 PC 实机验证 |
+| A-5 | 存档 ADR-1 完整落地 | **PASS** | E-A 已拍板，仅层间落盘 | R2：PC 进程被强杀 / 断电时 `paused` 未必触发（ADR-6 改述） |
+| R1 | 地窟生成帧预算 | **CONCERNS** | `prototype-r1r3-report.md` 算法级基准 + 步进让帧设计 | ADR-6：目标设备改为 PC 基线，尚未建表与实测；`TileMapLayer.set_cell` 渲染尖峰未测 |
+| R3 | 输入 + AI 同帧预算 | **CONCERNS** | `prototype-r1r3-report.md` 预算对照表 + 10Hz 自适应 | ADR-6：目标设备改为 PC 基线，尚未建表与实测；输入/AI/渲染/粒子分项未测 |
 | ADR-4 | 像素资产防偏色 | **CONCERNS** | 预设+PaletteValidator | PNG-8 在部分工具链被重新量化（须脚本唯一出口） |
-| 总判定 | — | **PASS（带 3 项 CONCERNS）** | 架构可行、ADR 体系完备 | R1/R3 须真机原型闭环；R2/ADR-4 须实测/纪律 |
+| 总判定 | — | **PASS（带 3 项 CONCERNS）** | 架构可行、ADR 体系完备 | R1/R3 须 PC 基线实测闭环；R2/ADR-4 须实测/纪律 |
+
+> **ADR-6 状态注（2026-11-06）**：目标平台改为 Windows Desktop 单平台、移动端彻底放弃后，R1/R3 的「低端 iOS/Android 真机」判据失去适用前提，须改由 PC 窗口 / 全屏基线测量（见 `adr-006-pc-first.md §3`）。**本表 CONCERNS 状态不因平台变更自动翻转**；翻转仍须实测数据 + 独立审批。移动端 runbook 已于 Wave 2b 归档至 `docs/qa/archive/r1r3-device-test-plan.md`，证据模板已重定位为 PC 基线；R1 / R3 **仍为 CONCERNS**。
 
 ### 6.2 残留风险说明
-- **R1 / R3（高优先）**：本沙箱无 Godot、无低端机，无法实测渲染/AI 运行时帧时间。已交付"原型代码 + 测量方法学 + 预算对照表 + 算法级基准"，**真机测量为开放项**，不编造数据（见报告 §1/§4）。
-- **R2（中）**：Godot `NOTIFICATION_APPLICATION_PAUSED` 在 iOS 后台被系统强杀时不一定触发，须结合 `NOTIFICATION_WM_CLOSE_REQUEST` 与"层间/进庇护所即存"双保险——须在原型/真机实测边界。
+- **R1 / R3（高优先）**：本环境可跑 Godot 4.3 headless，但**无渲染 / 设备帧时间采集链**，无法实测渲染 / AI 运行时帧时间。已交付"原型代码 + 测量方法学 + 预算对照表 + 算法级基准"，**PC 基线测量为开放项**，不编造数据（见报告 §1/§4、ADR-6 §4）。
+- **R2（中）**：Godot `NOTIFICATION_APPLICATION_PAUSED` 在 PC 进程被强杀 / 断电时不一定触发，须结合 `NOTIFICATION_WM_CLOSE_REQUEST` 与"层间/进庇护所即存"双保险——须在 PC 实机验证边界（ADR-6 等价改述，机制不变）。
 - **ADR-4（中）**：PNG-8 工具链若二次量化会破坏 16 色；必须以离线脚本为唯一出口、CI `PaletteValidator` 阻断偏色资产（CLAUDE.md 禁止人工绕过）。
 - **A-2（低·条件）**：RNG 纪律依赖 CI lint 落地（grep/正则禁 `randf()/randi()` 全局调用），否则新增随机源易绕开种子。
 
@@ -246,10 +251,10 @@ run 起始:
 |---|---|---|---|---|
 | **ENG-1** | Godot 4.x 次版本钉定 | 工程 | 全工程兼容基线 | 建议最新稳定版（如 4.3/4.4），CLAUDE.md 已标注"**待用户签字确认**" |
 | **ENG-2** | 重复灵兽蛋 "+1 计数" vs "独立格" | 设计侧（**已裁定 +1 计数**） | 序列化/UI 结构 | 已裁定采纳 +1 计数（见 `design/gdd/decisions/eng2-duplicate-egg-counting.md`），降栏位压力（灵囊 GDD §6.4） |
-| **ENG-3** | R1/R3 真机测量排期 | 工程（**计划已出**） | 关闭 2 项 CONCERNS | 真机测量计划已出（见 `docs/qa/r1r3-device-test-plan.md`），待目标最低档 iOS/Android 机型 + Godot 编辑器实测闭环 |
+| **ENG-3** | R1/R3 帧预算测量排期 | 工程（**计划已出，待按 ADR-6 重定位**） | 关闭 2 项 CONCERNS | 原移动端真机计划已归档（见 `docs/qa/archive/r1r3-device-test-plan.md`）；ADR-6 后判据改由 PC 窗口 / 全屏基线表实测（Wave 4），CONCERNS 不自动翻转 |
 | **ENG-4** | CI lint 禁全局随机 | 工程（**lint 已落地**） | 加固 A-2 | lint 已落地并实跑通过（见 `tools/ci/lint_no_global_random.py`），待接入 CI 运行 |
 | **ENG-5** | 光照方向终审 | 设计（**终审已通过**） | 资产管线一致性 | 终审 PASS（见 `docs/art-bible/lighting-direction-audit.md`），附录 B #3 已闭合 |
 
 ---
 
-*本文为 Phase 3 主架构真源，覆盖 8 业务模块 + 2 跨切服务，把 ADR×5 与 C1 契约落到具体模块/文件，并完成跨文档一致性自检与架构自评审。未修改 `design/` 与 `docs/architecture/` 之外目录，未执行 git commit。*
+*本文 v1.1（2026-11-06 按 ADR-6 更新平台口径，模块 / ADR×5 / C1 / 自评审结论不变）为 Phase 3 主架构真源，覆盖 8 业务模块 + 2 跨切服务。未执行 git commit。*
