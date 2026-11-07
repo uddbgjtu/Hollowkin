@@ -94,14 +94,15 @@
 ### 5.2 Wave 3b / 4 / `_adapt` 落地记录（2026-11-07）
 
 - **Wave 3b 技术层**：新增 `src/gameplay/render/` 四个脚本——`floor_grid.gd`（布局→格坐标、L 形走廊、屏外剔除、相机锚点）、`floor_tilemap.gd`（运行时 TileSet + `set_cell`）、`entity_layer.gd`（`MultiMeshInstance2D`，≤12 实例）、`battle_particles.gd`（浮尘参数 + 低档降密度）；`map_screen.tscn` / `battle_screen.tscn` 接入，`main.gd` 按 `(run_seed, floor_index)` 确定性重建。所有纹理显式标记 `DEBUG_PLACEHOLDER`：**不写 manifest、不生成 PNG、不冒充 E1 资产**；新脚本均无 `class_name`，全局类缓存仍 40 类。
-- **Wave 4**：官方 1.07GB `tpz` 用 HTTP Range 只取 4 个 x86_64 模板 + `version.txt`（约 59MB）装到 Godot 模板目录；两个预设设 `application/modify_resources=false` 规避 rcedit、`exclude_filter="addons/gut/*"` 排除开发依赖。Game / Probe 双预设 `--export-debug` 均 `EXIT=0`；导出的 exe 真实启动 → `WAVE3_SELFTEST_OK`；Probe exe → `rows=10 err=0`。**headless smoke 数字未回填任何基线表、未参与 verdict**；窗口 / 全屏 60/30fps 帧预算仍待带显示器 PC 实测（口径见 `docs/qa/evidence/_template/README.md §7`）。
+- **Wave 4**：官方 1.07GB `tpz` 用 HTTP Range 只取 4 个 x86_64 模板 + `version.txt`（约 59MB）装到 Godot 模板目录；两个预设设 `application/modify_resources=false` 规避 rcedit、`exclude_filter="addons/gut/*"` 排除开发依赖。Game / Probe 双预设 `--export-debug` 均 `EXIT=0`；导出的 exe 真实启动 → `WAVE3_SELFTEST_OK`；Probe exe → `rows=10 err=0`。**headless smoke 数字未回填任何基线表、未参与 verdict**；窗口 / 全屏 60/30fps 帧预算仍待带显示器 PC 实测（口径见 `docs/qa/evidence/_template/README.md §7`）。**（v1.3 状态注：本机显示器能力已核实，四轮正式采集已于 2026-11-07 在纯 SHA `6745421` 上完成并归档，见 §5.2 末条与 §6；此处为 Wave 4 当时快照。）**
 - **`_adapt` 修复**：超预算判定与帧间隔 `delta` 解耦，只认实测单帧耗时 `frame_cost_s`；`advance(delta, cost)` 支持注入，`_process` 取 `Performance.TIME_PROCESS` 作 CPU 侧保守近似，另提供 `report_frame_cost()` 供真实 profiler；无插桩数据时**保守不降频**。实跑对照：30fps 600 帧 **104→200 tick**、`is_slow()=false`；31 帧实测 20ms 超预算仍正常降频（`streak=31`）。`test_frame_budget.gd` 两个「偏差探测」用例已还原为正确断言。
 - **PC 基线采集插桩 v1.2（用户批准「先补采集插桩」）**：只读核实本机窗口能力（console 会话、1920×1080 单屏、Vulkan 1.3.205 Forward+ / NVIDIA MX450；v1.1「本机无显示器」判定更正）后补齐三处缺口——① `tools/qa/r1r3_probe.gd` 输出逐样本长表，使证据 README §5 第 3 条的 mean / p95 可复算；② `src/qa/probe_runner.gd` 按 `--round-id` / `--window-mode` / `--fps-cap` / `--frame-samples` / `--warmup-frames` 分轮，非 headless 下用 `RenderingServer.viewport_get_measured_render_time_gpu/cpu` 逐帧采集，headless 自动降级并如实记录不可用（不填 0、不臆造样本）；③ 新增 `tools/qa/verify_probe_evidence.py` 自动复算校验。窗口实跑 `FRAME_CAPTURE|samples=60`、GPU 样本全非零、`frame_wall_ms≈16.6667`（60fps 档），headless 自检 `rows=10 / raw_rows=470`，两者均 `RESULT: PASS`。**帧时间样本 `load_kind=DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE`，只写逐样本长表、不产生 19 列汇总行、不参与 verdict**；试跑标 `round_id=instrument_smoke` / `build_sha=SMOKE_NOT_A_BASELINE`，明确不是基线数据。证据模板 README 升 v1.2，并修 `r3_total_frame_share` 行的 blocked 漂移。
-- **仍未闭环**：ADR-4 E1 真实像素原图（AI 原图 → `pixel_pipeline.py` → PNG-8 → manifest）未产出，5 项渲染 / 粒子指标由「场景未落地」改标 `BLOCKED-BY-ASSET`；`r3_total_frame_share` 仍不得判 pass；**R1 / R3 仍 CONCERNS**。
+- **PC 基线四轮正式采集 v1.3（用户批准「② → ③ → ①」）**：先提交采集插桩取得纯 SHA `6745421`（导出前后工作树均干净、`--export-release`、release 四轮一致；唯一构建期差异为 `run/main_scene` 临时切换并 `finally` 恢复），再按窗口 / 全屏 × 60 / 30fps 重跑四轮：60 档 `frame_wall_ms` 16.6667 / 16.6657、30 档 33.3333 / 33.3352，GPU 样本 120/120 全非零，四轮 `rows=10 / raw_rows=830` 且复算 `RESULT: PASS`。按 §4 归档到 `docs/qa/evidence/pc_win_01/<sha>/`；`measurement_template.csv` 只回填主档 `windowed_60_release` 的 5 行 CPU 侧可测值，四轮不混算；§5 六条机器可核验项通过，**人工签字仍待主理人**。帧时间样本仍标 `DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE`，不进 19 列 verdict。**5 项渲染 / 粒子仍 `BLOCKED-BY-ASSET`、数值栏空白；R1 / R3 仍 CONCERNS，不因采集完成、数据回填或提交 / CI 全绿自动翻转**。
+- **仍未闭环**：ADR-4 E1 真实像素原图（AI 原图 → `pixel_pipeline.py` → PNG-8 → manifest）未产出，5 项渲染 / 粒子指标由「场景未落地」改标 `BLOCKED-BY-ASSET`；`r3_total_frame_share` 仍不得判 pass；正式 GPU 帧预算结论仍缺 E1 正式负载实测；**R1 / R3 仍 CONCERNS**。
 
 ## 6. 质量门
 
-**CONCERNS（工程链路已打通，性能判据仍未闭环）**：Wave 3b 渲染层技术接入、Wave 4 Windows exe 实导出与启动、`_adapt` 30fps 误降频修复均已完成并 headless 实跑（GUT **9/72/72/11582**、`WAVE3_SELFTEST_OK`、导出 `EXIT=0`）。仍未闭环：① ADR-4 E1 真实像素资产未产出，5 项渲染 / 粒子指标为 `BLOCKED-BY-ASSET`；② 窗口 / 全屏 60/30fps 帧预算未实测（本环境无显示器），headless smoke 不充当基线；③ 战斗屏技能热区待注入 `CombatDirector`。**R1 / R3 仍为 CONCERNS**，`architecture-doc.md §6` 状态列不翻转；任何 CONCERNS → PASS 属独立审批动作。全程未向仓库写入任何设备性能测量数字。**采集插桩 v1.2 只让链路可执行 / 可复算，不产出正式基线数据、不翻转 CONCERNS**；19 列证据模板数值栏仍全部为空。
+**CONCERNS（工程链路已打通，性能判据仍未闭环）**：Wave 3b 渲染层技术接入、Wave 4 Windows exe 实导出与启动、`_adapt` 30fps 误降频修复均已完成并实跑（GUT **9/72/72/11582**、`WAVE3_SELFTEST_OK`、导出 `EXIT=0`）。v1.3 已在纯 SHA `6745421` 上完成窗口 / 全屏 × 60 / 30fps 四轮采集并归档，5 项 CPU 侧可测分项数据可用且可复算。仍未闭环：① ADR-4 E1 真实像素资产未产出，5 项渲染 / 粒子 / 合计占帧比仍 `BLOCKED-BY-ASSET`、数值栏空白，正式 GPU 帧预算结论仍缺正式负载实测；② 帧时间负载为 `DEBUG_PLACEHOLDER`，只作链路证据、不进 19 列 verdict；③ 战斗屏技能热区待注入 `CombatDirector`；④ §5 核验的人工签字与 `operator` 复核仍待主理人。**R1 / R3 仍为 CONCERNS**，`architecture-doc.md §6` 状态列不翻转；任何 CONCERNS → PASS 属独立审批动作。**v1.2 之前全程未向仓库写入任何设备性能测量数字**；v1.3 起只回填 5 项 PC 实跑且可由逐样本长表复算的 CPU 侧数值，5 行 blocked 数值栏保持为空，采集完成与数据回填均不翻转 CONCERNS。
 
 ## 7. 审批记录
 
@@ -117,7 +118,9 @@
 | 2026-11-07 | 用户批准 commit + push（`f445740`，Wave 3 固化） | 已完成，远端 CI 双绿 |
 | 2026-11-07 | 用户指定顺序「Wave 3b → Wave 4 → 修 `_adapt`」 | 三项均已实跑落地（见 §5.2）；该行记录的是提交前状态 |
 | 2026-11-07 | 用户批准本批 commit + push（`a5c603a`，Wave 3b / 4 + `_adapt` 固化） | 已完成，远端 CI 双绿：`test 42333345508` / `Lint 42333345489`；归档日志证实真跑 GUT 9/72/72/11582、40 全局类、49 个 `.gd` lint 0 违规 |
+| 2026-11-07 | 用户批准「先补采集插桩」+「先在本机跑完四轮正式采集」 | 插桩 v1.2 已提交 `6745421`（未 push）；预采集批次为 HEAD + 9 个未提交改动，按 §5 第 2 条不可签字，保留作审计链 |
+| 2026-11-07 | 用户批准「② → ③ → ① 顺序推进」 | 纯 SHA `6745421` 四轮采集完成 → 人工字段补齐 + §5 机器核验 → 按 §4 归档入仓并回填 5 行可测值；R1/R3 仍 CONCERNS；**归档批次未 commit、未 push，待报批** |
 
 ---
 
-*本 ADR 为平台定位的唯一新真源；与其冲突的 Phase 1–4 历史条款以本文件为准。Wave 3 已随 `f445740` commit + push；Wave 3b / Wave 4 / `_adapt` 修复已随 `a5c603a` commit + push，远端 CI 双绿。**R1 / R3 仍为 CONCERNS，不因提交 / push / CI 全绿自动翻转。***
+*本 ADR 为平台定位的唯一新真源；与其冲突的 Phase 1–4 历史条款以本文件为准。Wave 3 已随 `f445740` commit + push；Wave 3b / Wave 4 / `_adapt` 修复已随 `a5c603a` commit + push，远端 CI 双绿；采集插桩 `6745421` 已本地 commit、未 push；v1.3 四轮证据与模板回填仍在本地工作树、未 commit / push。**R1 / R3 仍为 CONCERNS，不因提交 / push / CI 全绿自动翻转，也不因四轮采集完成或数据回填自动翻转。***

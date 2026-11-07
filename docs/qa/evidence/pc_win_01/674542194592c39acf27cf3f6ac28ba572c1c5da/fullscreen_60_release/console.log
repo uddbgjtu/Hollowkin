@@ -1,0 +1,25 @@
+Godot Engine v4.3.stable.official.77dcf97d8 - https://godotengine.org
+Vulkan 1.3.205 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce MX450
+
+METRIC_NOTE|ROUND|id=fullscreen_60_release mode=fullscreen fps_cap=60 display=Windows vsync=1 build_sha=674542194592c39acf27cf3f6ac28ba572c1c5da raw=user://hollowkin_probe_metrics_raw_fullscreen_60_release.csv
+METRIC_NOTE|r1_fallback_switch: fallback_flag_true=10/10
+METRIC_NOTE|r1_low_tier_density: HIGH rooms=298 enemies=528 ; LOW rooms=208 enemies=283 (over 30 runs each)
+METRIC_NOTE|r1_render_mean: blocked (BLOCKED-BY-ASSET: TileMapLayer.set_cell 已接入，但纹理为 DEBUG_PLACEHOLDER，须 E1 原图 + PC 窗口实测)
+METRIC_NOTE|r1_render_p95_spike: blocked (BLOCKED-BY-ASSET: 瓦片渲染态已就位，但 debug 占位纹理不代表正式负载)
+METRIC_NOTE|r3_entity_render: blocked (BLOCKED-BY-ASSET: MultiMesh + 屏外剔除已就位，但实体贴图为 DEBUG_PLACEHOLDER)
+METRIC_NOTE|r3_particles: blocked (BLOCKED-BY-ASSET: CPUParticles2D 已启用，但特效贴图为无纹理默认方块)
+METRIC_NOTE|r3_total_frame_share: blocked (分项缺失，不得拼接部分和判 pass)
+METRIC_NOTE|render_structure (counts_only_not_ms): total_cells=449 visible_cells=80 visible_entities=5 view=[P: (0, 17), S: (40, 16)] asset=DEBUG_PLACEHOLDER
+METRIC_NOTE|FRAME_CAPTURE|round=fullscreen_60_release mode=fullscreen fps_cap=60 samples=120 load=DEBUG_PLACEHOLDER NOT_A_BASELINE
+METRIC|device_id,os_version,gpu_backend,build_sha,godot_version,build_type,thermal_state,battery_pct,background_policy,metric,unit,samples,mean,p95,target,verdict,evidence_path,measured_at,operator
+METRIC|Windows,10.0.26100,forward_plus,674542194592c39acf27cf3f6ac28ba572c1c5da,4.3.stable,release,MANUAL_REQUIRED,MANUAL_REQUIRED,MANUAL_REQUIRED,r1_logic_elapsed,ms,100,0.0680,0.0970,≤ 1,pass,user://hollowkin_probe_metrics_fullscreen_60_release.csv,2026-11-07T04:31:51Z,MANUAL_REQUIRED
+METRIC|Windows,10.0.26100,forward_plus,674542194592c39acf27cf3f6ac28ba572c1c5da,4.3.stable,release,MANUAL_REQUIRED,MANUAL_REQUIRED,MANUAL_REQUIRED,r1_fallback_switch,bool + ms,10,0.0032,0.0050,不阻断流程,pass,user://hollowkin_probe_metrics_fullscreen_60_release.csv,2026-11-07T04:31:51Z,MANUAL_REQUIRED
+METRIC|Windows,10.0.26100,forward_plus,674542194592c39acf27cf3f6ac28ba572c1c5da,4.3.stable,release,MANUAL_REQUIRED,MANUAL_REQUIRED,MANUAL_REQUIRED,r1_low_tier_density,ms,60,0.0338,0.0480,上限下调,pass,user://hollowkin_probe_metrics_fullscreen_60_release.csv,2026-11-07T04:31:51Z,MANUAL_REQUIRED
+METRIC|Windows,10.0.26100,forward_plus,674542194592c39acf27cf3f6ac28ba572c1c5da,4.3.stable,release,MANUAL_REQUIRED,MANUAL_REQUIRED,MANUAL_REQUIRED,r3_input_arbitration,ms,100,0.0015,0.0020,< 0.5 / < 1.0,pass,user://hollowkin_probe_metrics_fullscreen_60_release.csv,2026-11-07T04:31:51Z,MANUAL_REQUIRED
+METRIC|Windows,10.0.26100,forward_plus,674542194592c39acf27cf3f6ac28ba572c1c5da,4.3.stable,release,MANUAL_REQUIRED,MANUAL_REQUIRED,MANUAL_REQUIRED,r3_ai_tick,ms,200,0.0154,0.0260,~1.66 / ~3.3,pass,user://hollowkin_probe_metrics_fullscreen_60_release.csv,2026-11-07T04:31:51Z,MANUAL_REQUIRED
+METRIC|Windows,10.0.26100,forward_plus,674542194592c39acf27cf3f6ac28ba572c1c5da,4.3.stable,release,MANUAL_REQUIRED,MANUAL_REQUIRED,MANUAL_REQUIRED,r1_render_mean,ms,,,,≤ 16.6,blocked,—,2026-11-07T04:31:51Z,MANUAL_REQUIRED
+METRIC|Windows,10.0.26100,forward_plus,674542194592c39acf27cf3f6ac28ba572c1c5da,4.3.stable,release,MANUAL_REQUIRED,MANUAL_REQUIRED,MANUAL_REQUIRED,r1_render_p95_spike,ms,,,,< 50,blocked,—,2026-11-07T04:31:51Z,MANUAL_REQUIRED
+METRIC|Windows,10.0.26100,forward_plus,674542194592c39acf27cf3f6ac28ba572c1c5da,4.3.stable,release,MANUAL_REQUIRED,MANUAL_REQUIRED,MANUAL_REQUIRED,r3_entity_render,ms,,,,< 4 / < 8,blocked,—,2026-11-07T04:31:51Z,MANUAL_REQUIRED
+METRIC|Windows,10.0.26100,forward_plus,674542194592c39acf27cf3f6ac28ba572c1c5da,4.3.stable,release,MANUAL_REQUIRED,MANUAL_REQUIRED,MANUAL_REQUIRED,r3_particles,ms,,,,< 3 / < 6,blocked,—,2026-11-07T04:31:51Z,MANUAL_REQUIRED
+METRIC|Windows,10.0.26100,forward_plus,674542194592c39acf27cf3f6ac28ba572c1c5da,4.3.stable,release,MANUAL_REQUIRED,MANUAL_REQUIRED,MANUAL_REQUIRED,r3_total_frame_share,ms,,,,< 9.16（55%）,blocked,—,2026-11-07T04:31:51Z,MANUAL_REQUIRED
+PROBE_SUMMARY|rows=10 csv=user://hollowkin_probe_metrics_fullscreen_60_release.csv err=0 | raw_rows=830 raw=user://hollowkin_probe_metrics_raw_fullscreen_60_release.csv raw_err=0 | round=fullscreen_60_release mode=fullscreen fps_cap=60 frame=samples=120 | verdict=auto pre-judgement; final per PC baseline README section 5

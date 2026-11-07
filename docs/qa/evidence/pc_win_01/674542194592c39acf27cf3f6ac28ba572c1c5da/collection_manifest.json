@@ -1,0 +1,174 @@
+[
+  {
+    "round_id": "windowed_60_release",
+    "window_mode": "windowed",
+    "fps_cap": 60,
+    "run_exit": 0,
+    "elapsed_s": 10.9,
+    "build_sha": "674542194592c39acf27cf3f6ac28ba572c1c5da",
+    "build_type": "release",
+    "frame_samples": 120,
+    "warmup_frames": 300,
+    "expected_frame_wall_ms": 16.6667,
+    "frame_stats": {
+      "frame_gpu_ms": {
+        "n": 120,
+        "mean": 0.0616,
+        "min": 0.059,
+        "max": 0.067,
+        "nonzero": 120
+      },
+      "frame_cpu_ms": {
+        "n": 120,
+        "mean": 0.0557,
+        "min": 0.037,
+        "max": 0.109,
+        "nonzero": 120
+      },
+      "frame_wall_ms": {
+        "n": 120,
+        "mean": 16.6667,
+        "min": 16.6667,
+        "max": 16.6667,
+        "nonzero": 120
+      }
+    },
+    "fps_cap_effective": true,
+    "gpu_samples_all_nonzero": true,
+    "summary_ok": true,
+    "recompute_pass": true,
+    "console_head": "",
+    "round_note": "METRIC_NOTE|ROUND|id=windowed_60_release mode=windowed fps_cap=60 display=Windows vsync=1 build_sha=674542194592c39acf27cf3f6ac28ba572c1c5da raw=user://hollowkin_probe_metrics_raw_windowed_60_release.csv",
+    "frame_capture": "METRIC_NOTE|FRAME_CAPTURE|round=windowed_60_release mode=windowed fps_cap=60 samples=120 load=DEBUG_PLACEHOLDER NOT_A_BASELINE",
+    "summary": "PROBE_SUMMARY|rows=10 csv=user://hollowkin_probe_metrics_windowed_60_release.csv err=0 | raw_rows=830 raw=user://hollowkin_probe_metrics_raw_windowed_60_release.csv raw_err=0 | round=windowed_60_release mode=windowed fps_cap=60 frame=samples=120 | verdict=auto pre-judgement; final per PC baseline README section 5"
+  },
+  {
+    "round_id": "fullscreen_60_release",
+    "window_mode": "fullscreen",
+    "fps_cap": 60,
+    "run_exit": 0,
+    "elapsed_s": 8.5,
+    "build_sha": "674542194592c39acf27cf3f6ac28ba572c1c5da",
+    "build_type": "release",
+    "frame_samples": 120,
+    "warmup_frames": 300,
+    "expected_frame_wall_ms": 16.6667,
+    "frame_stats": {
+      "frame_gpu_ms": {
+        "n": 120,
+        "mean": 0.0269,
+        "min": 0.022,
+        "max": 0.068,
+        "nonzero": 120
+      },
+      "frame_cpu_ms": {
+        "n": 120,
+        "mean": 0.0384,
+        "min": 0.035,
+        "max": 0.063,
+        "nonzero": 120
+      },
+      "frame_wall_ms": {
+        "n": 120,
+        "mean": 16.6657,
+        "min": 16.5763,
+        "max": 16.6667,
+        "nonzero": 120
+      }
+    },
+    "fps_cap_effective": true,
+    "gpu_samples_all_nonzero": true,
+    "summary_ok": true,
+    "recompute_pass": true,
+    "console_head": "",
+    "round_note": "METRIC_NOTE|ROUND|id=fullscreen_60_release mode=fullscreen fps_cap=60 display=Windows vsync=1 build_sha=674542194592c39acf27cf3f6ac28ba572c1c5da raw=user://hollowkin_probe_metrics_raw_fullscreen_60_release.csv",
+    "frame_capture": "METRIC_NOTE|FRAME_CAPTURE|round=fullscreen_60_release mode=fullscreen fps_cap=60 samples=120 load=DEBUG_PLACEHOLDER NOT_A_BASELINE",
+    "summary": "PROBE_SUMMARY|rows=10 csv=user://hollowkin_probe_metrics_fullscreen_60_release.csv err=0 | raw_rows=830 raw=user://hollowkin_probe_metrics_raw_fullscreen_60_release.csv raw_err=0 | round=fullscreen_60_release mode=fullscreen fps_cap=60 frame=samples=120 | verdict=auto pre-judgement; final per PC baseline README section 5"
+  },
+  {
+    "round_id": "windowed_30_release",
+    "window_mode": "windowed",
+    "fps_cap": 30,
+    "run_exit": 0,
+    "elapsed_s": 15.5,
+    "build_sha": "674542194592c39acf27cf3f6ac28ba572c1c5da",
+    "build_type": "release",
+    "frame_samples": 120,
+    "warmup_frames": 300,
+    "expected_frame_wall_ms": 33.3333,
+    "frame_stats": {
+      "frame_gpu_ms": {
+        "n": 120,
+        "mean": 0.0645,
+        "min": 0.063,
+        "max": 0.069,
+        "nonzero": 120
+      },
+      "frame_cpu_ms": {
+        "n": 120,
+        "mean": 0.0387,
+        "min": 0.034,
+        "max": 0.064,
+        "nonzero": 120
+      },
+      "frame_wall_ms": {
+        "n": 120,
+        "mean": 33.3333,
+        "min": 33.3333,
+        "max": 33.3333,
+        "nonzero": 120
+      }
+    },
+    "fps_cap_effective": true,
+    "gpu_samples_all_nonzero": true,
+    "summary_ok": true,
+    "recompute_pass": true,
+    "console_head": "",
+    "round_note": "METRIC_NOTE|ROUND|id=windowed_30_release mode=windowed fps_cap=30 display=Windows vsync=1 build_sha=674542194592c39acf27cf3f6ac28ba572c1c5da raw=user://hollowkin_probe_metrics_raw_windowed_30_release.csv",
+    "frame_capture": "METRIC_NOTE|FRAME_CAPTURE|round=windowed_30_release mode=windowed fps_cap=30 samples=120 load=DEBUG_PLACEHOLDER NOT_A_BASELINE",
+    "summary": "PROBE_SUMMARY|rows=10 csv=user://hollowkin_probe_metrics_windowed_30_release.csv err=0 | raw_rows=830 raw=user://hollowkin_probe_metrics_raw_windowed_30_release.csv raw_err=0 | round=windowed_30_release mode=windowed fps_cap=30 frame=samples=120 | verdict=auto pre-judgement; final per PC baseline README section 5"
+  },
+  {
+    "round_id": "fullscreen_30_release",
+    "window_mode": "fullscreen",
+    "fps_cap": 30,
+    "run_exit": 0,
+    "elapsed_s": 15.5,
+    "build_sha": "674542194592c39acf27cf3f6ac28ba572c1c5da",
+    "build_type": "release",
+    "frame_samples": 120,
+    "warmup_frames": 300,
+    "expected_frame_wall_ms": 33.3333,
+    "frame_stats": {
+      "frame_gpu_ms": {
+        "n": 120,
+        "mean": 0.0843,
+        "min": 0.081,
+        "max": 0.101,
+        "nonzero": 120
+      },
+      "frame_cpu_ms": {
+        "n": 120,
+        "mean": 0.0657,
+        "min": 0.036,
+        "max": 0.109,
+        "nonzero": 120
+      },
+      "frame_wall_ms": {
+        "n": 120,
+        "mean": 33.3352,
+        "min": 33.3333,
+        "max": 33.5607,
+        "nonzero": 120
+      }
+    },
+    "fps_cap_effective": true,
+    "gpu_samples_all_nonzero": true,
+    "summary_ok": true,
+    "recompute_pass": true,
+    "console_head": "",
+    "round_note": "METRIC_NOTE|ROUND|id=fullscreen_30_release mode=fullscreen fps_cap=30 display=Windows vsync=1 build_sha=674542194592c39acf27cf3f6ac28ba572c1c5da raw=user://hollowkin_probe_metrics_raw_fullscreen_30_release.csv",
+    "frame_capture": "METRIC_NOTE|FRAME_CAPTURE|round=fullscreen_30_release mode=fullscreen fps_cap=30 samples=120 load=DEBUG_PLACEHOLDER NOT_A_BASELINE",
+    "summary": "PROBE_SUMMARY|rows=10 csv=user://hollowkin_probe_metrics_fullscreen_30_release.csv err=0 | raw_rows=830 raw=user://hollowkin_probe_metrics_raw_fullscreen_30_release.csv raw_err=0 | round=fullscreen_30_release mode=fullscreen fps_cap=30 frame=samples=120 | verdict=auto pre-judgement; final per PC baseline README section 5"
+  }
+]

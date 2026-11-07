@@ -1,0 +1,4 @@
+# 采集原始控制台日志（Windows 输出含 CR / CRLF 混排）。
+# 证据文件须逐字节保留：禁用 EOL 归一化，并关闭 whitespace 检查，
+# 避免 `git diff --check` 把行尾 CR 误判为 trailing whitespace。
+docs/qa/evidence/**/*.log -text -whitespace

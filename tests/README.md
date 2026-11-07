@@ -122,6 +122,7 @@ func test_harness_runs():
 | 本机 Windows（Wave 4 导出） | Game / Probe 双预设 `--export-debug` 均 `EXIT=0`；导出的 exe 启动 `RUN_EXIT=0` / `WAVE3_SELFTEST_OK`；Probe exe `rows=10 err=0` | HTTP Range 只取 59MB Windows 模板；`application/modify_resources=false` 规避 rcedit；`exclude_filter=addons/gut/*` 使 `.pck` 3.7MB→约 0.18–0.19MB（多次实测 185088–192928 bytes，随打包内容浮动） |
 | 本机 Windows（`_adapt` 修复后） | **9 scripts / 72 tests / 72 passing / 11582 asserts / `GUT_EXIT=0`**；30fps 600 帧 **104→200 tick**、`is_slow()=false` | `test_frame_budget.gd` 偏差探测还原为正确断言 + `test_combat.gd` 新增帧间隔长不降频用例 |
 | 本机 Windows（PC 基线插桩 v1.2） | 非 headless 窗口模式实跑 `FRAME_CAPTURE\|samples=60`，GPU 样本全部非零、`frame_wall_ms≈16.6667`（60fps 档）；headless 自检 `rows=10 err=0 / raw_rows=470`；`verify_probe_evidence.py` → `RESULT: PASS` | `RenderingServer.viewport_get_measured_render_time_gpu` 反射核实可用；逐样本长表 470 / 650 行可复算 mean / p95；帧时间标 `DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE`，不进 19 列 verdict；试跑 `round_id=instrument_smoke`、`build_sha=SMOKE_NOT_A_BASELINE`，明确非正式基线 |
+| 本机 Windows（PC 基线四轮正式采集 v1.3） | 纯 SHA `6745421` / release；窗口 / 全屏 × 60 / 30fps 四轮 `run_exit=0`；`frame_wall_ms` 16.6667 / 16.6657 / 33.3333 / 33.3352；GPU 样本 120/120 全非零；每轮 `rows=10 / raw_rows=830`；四份 `verify_archived.log` 均 `RESULT: PASS` | 按 §4 归档到 `docs/qa/evidence/pc_win_01/<sha>/`；`measurement_template.csv` 只回填主档 `windowed_60_release` 的 5 行 CPU 侧可测值，四轮不混算；5 项渲染 / 粒子仍 `BLOCKED-BY-ASSET`、数值栏空白；帧时间不作判据；R1 / R3 仍 CONCERNS |
 
 - 残留**非致命**告警：GUT 自带字体未导入（headless 无编辑器导入）引起的 fontdata /
   ObjectDB leak 提示，本地与 CI 同样存在，不影响测试结果。
@@ -129,7 +130,7 @@ func test_harness_runs():
 
 ## 7. 开放项（不臆造、不勾选未验证项）
 
-1. **G4 PC 基线（ADR-6）**：Wave 4 已打通导出 / 启动 / 采集链路；v1.2 补齐逐样本原始证据、GPU / CPU / 墙钟帧时间插桩与窗口 / 全屏 × 60 / 30fps 分轮编排，并核实**本机非 headless 窗口可用**（Vulkan Forward+ / NVIDIA MX450，1920×1080；v1.1「本机无显示器」判定已更正）。仍待：① 按 `docs/qa/evidence/_template/README.md §7` 跑完四轮正式采集并补齐 `MANUAL_REQUIRED` 字段；② ADR-4 E1 真实像素资产到位后重测 5 项渲染 / 粒子指标。单手可达性热力图与 iOS 后台强杀判据已废止，改键盘可达 / PC 进程强杀双保险。**R1 / R3 仍为 CONCERNS**，插桩跑通不自动翻转。
+1. **G4 PC 基线（ADR-6）**：Wave 4 打通导出 / 启动 / 采集链路，v1.2 补齐逐样本原始证据与帧时间插桩；**v1.3 已在纯 SHA `6745421` 上跑完窗口 / 全屏 × 60 / 30fps 四轮正式采集**，人工字段按客观读数补齐、§5 六条机器可核验项通过、证据按 §4 归档入仓、`measurement_template.csv` 回填主档 5 行 CPU 侧可测值（详见 `docs/qa/evidence/_template/README.md §7.2`）。仍待：① 主理人核验签字与 `operator` 复核；② ADR-4 E1 真实像素资产到位后重测 5 项渲染 / 粒子指标并产出正式 GPU 帧预算结论；③ 电池逐轮首尾电量与温控监控等受限项补采。单手可达性热力图与 iOS 后台强杀判据已废止，改键盘可达 / PC 进程强杀双保险。**R1 / R3 仍为 CONCERNS**，采集完成或数据回填均不自动翻转。
 2. **Epic E**：E1 真实 AI 原图 → pipeline → manifest 登记；Godot `.import`/Import Preset 固化；`palette_validator` headless CI 与 R5/R6 实跑。
 3. **Epic F / Wave 3b 资产层**：`TileMapLayer` / `MultiMesh` + 屏外剔除 / `CPUParticles2D` 技术层已落地并实跑；但纹理均为 `DEBUG_PLACEHOLDER`，**ADR-4 E1 真实像素原图仍未产出**（需 AI 原图 → pipeline → manifest）。5 项渲染 / 粒子 / 合计占帧比的阻塞理由由「场景未落地」改为 `BLOCKED-BY-ASSET`，数值栏保持为空。
 4. **集成层**：InputArbiter 接入 PC 键鼠事件（Wave 3 适配层）、`enemy_ai.gd` / `spirit_ai.gd` 独立文件、DungeonGen↔Save 重建联测。

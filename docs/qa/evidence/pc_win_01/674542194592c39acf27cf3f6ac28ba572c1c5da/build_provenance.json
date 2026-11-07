@@ -1,0 +1,19 @@
+{
+  "build_sha": "674542194592c39acf27cf3f6ac28ba572c1c5da",
+  "build_sha_short": "6745421",
+  "tree_clean": true,
+  "uncommitted_files": [],
+  "build_type": "release",
+  "export_preset": "Windows Desktop Probe",
+  "godot_version": "4.3.stable.official.77dcf97d8",
+  "probe_scene": "res://src/qa/probe_runner.tscn",
+  "build_time_override": {
+    "setting": "run/main_scene",
+    "from": "res://src/main.tscn",
+    "to": "res://src/qa/probe_runner.tscn",
+    "reason": "Godot export presets do not override main_scene; README section 7 requires this temporary switch",
+    "restored_in_finally": true,
+    "note": "Deterministic and identical for all four rounds; no source file differs from HEAD."
+  },
+  "note": "Pure git SHA build: every tracked file equals HEAD. The only build-time difference is the documented, reversible main_scene switch above."
+}

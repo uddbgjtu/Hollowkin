@@ -1,0 +1,7 @@
+汇总行          : 10（可测 5 / blocked 5）
+逐样本行        : 830
+轮次            : fullscreen_60_release
+复算比对        : 5 组
+帧时间证据指标  : frame_cpu_ms, frame_gpu_ms, frame_wall_ms
+WARN thermal_state 仍为 MANUAL_REQUIRED，须人工补齐
+RESULT: PASS（mean / p95 可由逐样本复算，blocked 数值栏为空）

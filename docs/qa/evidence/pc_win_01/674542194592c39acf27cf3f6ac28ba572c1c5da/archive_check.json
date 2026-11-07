@@ -1,0 +1,37 @@
+{
+  "section5_rule5_pass": true,
+  "rounds": [
+    {
+      "round_id": "windowed_60_release",
+      "evidence_path": "docs/qa/evidence/pc_win_01/674542194592c39acf27cf3f6ac28ba572c1c5da/windowed_60_release/metrics.csv",
+      "file_exists": true,
+      "round_matches": true,
+      "single_path_per_round": true,
+      "pass": true
+    },
+    {
+      "round_id": "fullscreen_60_release",
+      "evidence_path": "docs/qa/evidence/pc_win_01/674542194592c39acf27cf3f6ac28ba572c1c5da/fullscreen_60_release/metrics.csv",
+      "file_exists": true,
+      "round_matches": true,
+      "single_path_per_round": true,
+      "pass": true
+    },
+    {
+      "round_id": "windowed_30_release",
+      "evidence_path": "docs/qa/evidence/pc_win_01/674542194592c39acf27cf3f6ac28ba572c1c5da/windowed_30_release/metrics.csv",
+      "file_exists": true,
+      "round_matches": true,
+      "single_path_per_round": true,
+      "pass": true
+    },
+    {
+      "round_id": "fullscreen_30_release",
+      "evidence_path": "docs/qa/evidence/pc_win_01/674542194592c39acf27cf3f6ac28ba572c1c5da/fullscreen_30_release/metrics.csv",
+      "file_exists": true,
+      "round_matches": true,
+      "single_path_per_round": true,
+      "pass": true
+    }
+  ]
+}

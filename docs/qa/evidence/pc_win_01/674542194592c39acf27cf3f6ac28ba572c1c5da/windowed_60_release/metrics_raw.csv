@@ -1,0 +1,831 @@
+round_id,metric,sample_index,value_ms,unit,load_kind,note
+windowed_60_release,r1_logic_elapsed,0,0.107000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,1,0.080000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,2,0.078000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,3,0.065000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,4,0.070000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,5,0.068000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,6,0.065000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,7,0.082000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,8,0.059000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,9,0.063000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,10,0.067000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,11,0.068000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,12,0.086000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,13,0.070000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,14,0.078000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,15,0.072000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,16,0.061000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,17,0.081000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,18,0.066000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,19,0.075000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,20,0.064000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,21,0.076000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,22,0.111000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,23,0.115000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,24,0.088000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,25,0.102000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,26,0.083000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,27,0.084000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,28,0.098000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,29,0.108000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,30,0.092000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,31,0.085000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,32,0.075000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,33,0.075000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,34,0.099000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,35,0.091000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,36,0.078000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,37,0.089000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,38,0.083000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,39,0.086000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,40,0.085000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,41,0.102000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,42,0.084000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,43,0.067000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,44,0.079000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,45,0.067000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,46,0.098000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,47,0.057000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,48,0.077000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,49,0.079000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,50,0.071000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,51,0.086000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,52,0.077000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,53,0.068000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,54,0.088000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,55,0.084000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,56,0.099000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,57,0.059000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,58,0.089000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,59,0.108000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,60,0.088000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,61,0.098000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,62,0.082000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,63,0.075000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,64,0.089000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,65,0.160000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,66,0.188000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,67,0.184000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,68,0.135000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,69,0.122000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,70,0.140000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,71,0.118000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,72,0.084000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,73,0.079000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,74,0.083000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,75,0.069000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,76,0.082000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,77,0.083000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,78,0.057000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,79,0.062000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,80,0.047000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,81,0.066000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,82,0.051000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,83,0.066000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,84,0.079000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,85,0.050000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,86,0.070000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,87,0.080000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,88,0.086000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,89,0.053000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,90,0.063000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,91,0.063000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,92,0.076000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,93,0.051000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,94,0.036000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,95,0.046000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,96,0.052000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,97,0.070000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,98,0.064000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_logic_elapsed,99,0.074000,ms,CPU_MODULE,19 列汇总行 r1_logic_elapsed
+windowed_60_release,r1_fallback_switch,0,0.004000,bool + ms,CPU_MODULE,19 列汇总行 r1_fallback_switch
+windowed_60_release,r1_fallback_switch,1,0.004000,bool + ms,CPU_MODULE,19 列汇总行 r1_fallback_switch
+windowed_60_release,r1_fallback_switch,2,0.003000,bool + ms,CPU_MODULE,19 列汇总行 r1_fallback_switch
+windowed_60_release,r1_fallback_switch,3,0.004000,bool + ms,CPU_MODULE,19 列汇总行 r1_fallback_switch
+windowed_60_release,r1_fallback_switch,4,0.003000,bool + ms,CPU_MODULE,19 列汇总行 r1_fallback_switch
+windowed_60_release,r1_fallback_switch,5,0.003000,bool + ms,CPU_MODULE,19 列汇总行 r1_fallback_switch
+windowed_60_release,r1_fallback_switch,6,0.003000,bool + ms,CPU_MODULE,19 列汇总行 r1_fallback_switch
+windowed_60_release,r1_fallback_switch,7,0.003000,bool + ms,CPU_MODULE,19 列汇总行 r1_fallback_switch
+windowed_60_release,r1_fallback_switch,8,0.003000,bool + ms,CPU_MODULE,19 列汇总行 r1_fallback_switch
+windowed_60_release,r1_fallback_switch,9,0.003000,bool + ms,CPU_MODULE,19 列汇总行 r1_fallback_switch
+windowed_60_release,r1_low_tier_density,0,0.036000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,1,0.077000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,2,0.039000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,3,0.032000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,4,0.037000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,5,0.034000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,6,0.034000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,7,0.044000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,8,0.030000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,9,0.035000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,10,0.036000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,11,0.035000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,12,0.048000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,13,0.036000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,14,0.042000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,15,0.037000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,16,0.032000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,17,0.044000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,18,0.036000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,19,0.034000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,20,0.030000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,21,0.037000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,22,0.054000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,23,0.062000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,24,0.042000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,25,0.050000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,26,0.038000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,27,0.040000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,28,0.047000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,29,0.052000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,30,0.022000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,31,0.024000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,32,0.024000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,33,0.028000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,34,0.028000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,35,0.026000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,36,0.026000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,37,0.028000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,38,0.028000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,39,0.029000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,40,0.031000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,41,0.033000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,42,0.031000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,43,0.026000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,44,0.027000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,45,0.030000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,46,0.031000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,47,0.031000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,48,0.029000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,49,0.032000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,50,0.027000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,51,0.032000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,52,0.033000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,53,0.026000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,54,0.024000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,55,0.036000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,56,0.031000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,57,0.027000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,58,0.025000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r1_low_tier_density,59,0.037000,ms,CPU_MODULE,19 列汇总行 r1_low_tier_density
+windowed_60_release,r3_input_arbitration,0,0.012000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,1,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,2,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,3,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,4,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,5,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,6,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,7,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,8,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,9,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,10,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,11,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,12,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,13,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,14,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,15,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,16,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,17,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,18,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,19,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,20,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,21,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,22,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,23,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,24,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,25,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,26,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,27,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,28,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,29,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,30,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,31,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,32,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,33,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,34,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,35,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,36,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,37,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,38,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,39,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,40,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,41,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,42,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,43,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,44,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,45,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,46,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,47,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,48,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,49,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,50,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,51,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,52,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,53,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,54,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,55,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,56,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,57,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,58,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,59,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,60,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,61,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,62,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,63,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,64,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,65,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,66,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,67,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,68,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,69,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,70,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,71,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,72,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,73,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,74,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,75,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,76,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,77,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,78,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,79,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,80,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,81,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,82,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,83,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,84,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,85,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,86,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,87,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,88,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,89,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,90,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,91,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,92,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,93,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,94,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,95,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,96,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,97,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,98,0.001000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_input_arbitration,99,0.002000,ms,CPU_MODULE,19 列汇总行 r3_input_arbitration
+windowed_60_release,r3_ai_tick,0,0.022000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,1,0.013000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,2,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,3,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,4,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,5,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,6,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,7,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,8,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,9,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,10,0.019000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,11,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,12,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,13,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,14,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,15,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,16,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,17,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,18,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,19,0.014000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,20,0.013000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,21,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,22,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,23,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,24,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,25,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,26,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,27,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,28,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,29,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,30,0.013000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,31,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,32,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,33,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,34,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,35,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,36,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,37,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,38,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,39,0.015000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,40,0.013000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,41,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,42,0.013000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,43,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,44,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,45,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,46,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,47,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,48,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,49,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,50,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,51,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,52,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,53,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,54,0.013000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,55,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,56,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,57,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,58,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,59,0.015000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,60,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,61,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,62,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,63,0.013000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,64,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,65,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,66,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,67,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,68,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,69,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,70,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,71,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,72,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,73,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,74,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,75,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,76,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,77,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,78,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,79,0.016000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,80,0.014000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,81,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,82,0.013000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,83,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,84,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,85,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,86,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,87,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,88,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,89,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,90,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,91,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,92,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,93,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,94,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,95,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,96,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,97,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,98,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,99,0.016000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,100,0.015000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,101,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,102,0.013000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,103,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,104,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,105,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,106,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,107,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,108,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,109,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,110,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,111,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,112,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,113,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,114,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,115,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,116,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,117,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,118,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,119,0.015000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,120,0.017000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,121,0.013000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,122,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,123,0.013000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,124,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,125,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,126,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,127,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,128,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,129,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,130,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,131,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,132,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,133,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,134,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,135,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,136,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,137,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,138,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,139,0.013000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,140,0.016000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,141,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,142,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,143,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,144,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,145,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,146,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,147,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,148,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,149,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,150,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,151,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,152,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,153,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,154,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,155,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,156,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,157,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,158,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,159,0.014000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,160,0.021000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,161,0.019000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,162,0.031000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,163,0.013000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,164,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,165,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,166,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,167,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,168,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,169,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,170,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,171,0.018000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,172,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,173,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,174,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,175,0.013000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,176,0.017000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,177,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,178,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,179,0.015000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,180,0.019000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,181,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,182,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,183,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,184,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,185,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,186,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,187,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,188,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,189,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,190,0.012000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,191,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,192,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,193,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,194,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,195,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,196,0.010000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,197,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,198,0.011000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,r3_ai_tick,199,0.014000,ms,CPU_MODULE,19 列汇总行 r3_ai_tick
+windowed_60_release,frame_gpu_ms,0,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,1,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,2,0.059000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,3,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,4,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,5,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,6,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,7,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,8,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,9,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,10,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,11,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,12,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,13,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,14,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,15,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,16,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,17,0.060000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,18,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,19,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,20,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,21,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,22,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,23,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,24,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,25,0.060000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,26,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,27,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,28,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,29,0.059000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,30,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,31,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,32,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,33,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,34,0.060000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,35,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,36,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,37,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,38,0.059000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,39,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,40,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,41,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,42,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,43,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,44,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,45,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,46,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,47,0.060000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,48,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,49,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,50,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,51,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,52,0.060000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,53,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,54,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,55,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,56,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,57,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,58,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,59,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,60,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,61,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,62,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,63,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,64,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,65,0.060000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,66,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,67,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,68,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,69,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,70,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,71,0.059000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,72,0.065000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,73,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,74,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,75,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,76,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,77,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,78,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,79,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,80,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,81,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,82,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,83,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,84,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,85,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,86,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,87,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,88,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,89,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,90,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,91,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,92,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,93,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,94,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,95,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,96,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,97,0.067000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,98,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,99,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,100,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,101,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,102,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,103,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,104,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,105,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,106,0.060000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,107,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,108,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,109,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,110,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,111,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,112,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,113,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,114,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,115,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,116,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,117,0.060000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,118,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_gpu_ms,119,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,0,0.048000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,1,0.040000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,2,0.044000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,3,0.052000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,4,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,5,0.039000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,6,0.064000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,7,0.039000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,8,0.051000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,9,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,10,0.075000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,11,0.060000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,12,0.043000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,13,0.043000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,14,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,15,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,16,0.040000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,17,0.059000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,18,0.060000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,19,0.047000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,20,0.042000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,21,0.053000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,22,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,23,0.047000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,24,0.056000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,25,0.077000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,26,0.043000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,27,0.044000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,28,0.092000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,29,0.041000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,30,0.058000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,31,0.040000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,32,0.045000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,33,0.045000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,34,0.070000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,35,0.039000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,36,0.056000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,37,0.056000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,38,0.039000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,39,0.058000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,40,0.039000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,41,0.046000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,42,0.046000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,43,0.039000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,44,0.068000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,45,0.037000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,46,0.046000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,47,0.041000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,48,0.041000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,49,0.042000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,50,0.046000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,51,0.042000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,52,0.088000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,53,0.047000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,54,0.041000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,55,0.057000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,56,0.054000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,57,0.055000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,58,0.067000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,59,0.054000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,60,0.050000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,61,0.042000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,62,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,63,0.046000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,64,0.064000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,65,0.043000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,66,0.054000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,67,0.045000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,68,0.046000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,69,0.043000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,70,0.048000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,71,0.042000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,72,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,73,0.054000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,74,0.055000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,75,0.105000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,76,0.052000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,77,0.044000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,78,0.040000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,79,0.063000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,80,0.046000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,81,0.050000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,82,0.077000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,83,0.047000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,84,0.049000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,85,0.054000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,86,0.056000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,87,0.044000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,88,0.071000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,89,0.043000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,90,0.073000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,91,0.081000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,92,0.046000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,93,0.052000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,94,0.067000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,95,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,96,0.064000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,97,0.081000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,98,0.074000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,99,0.052000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,100,0.061000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,101,0.045000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,102,0.067000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,103,0.065000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,104,0.057000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,105,0.069000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,106,0.055000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,107,0.078000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,108,0.064000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,109,0.066000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,110,0.071000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,111,0.075000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,112,0.050000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,113,0.048000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,114,0.073000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,115,0.048000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,116,0.093000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,117,0.076000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,118,0.062000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_cpu_ms,119,0.109000,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,0,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,1,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,2,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,3,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,4,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,5,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,6,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,7,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,8,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,9,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,10,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,11,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,12,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,13,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,14,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,15,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,16,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,17,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,18,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,19,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,20,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,21,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,22,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,23,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,24,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,25,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,26,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,27,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,28,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,29,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,30,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,31,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,32,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,33,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,34,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,35,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,36,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,37,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,38,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,39,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,40,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,41,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,42,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,43,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,44,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,45,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,46,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,47,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,48,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,49,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,50,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,51,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,52,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,53,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,54,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,55,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,56,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,57,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,58,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,59,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,60,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,61,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,62,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,63,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,64,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,65,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,66,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,67,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,68,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,69,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,70,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,71,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,72,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,73,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,74,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,75,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,76,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,77,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,78,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,79,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,80,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,81,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,82,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,83,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,84,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,85,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,86,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,87,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,88,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,89,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,90,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,91,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,92,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,93,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,94,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,95,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,96,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,97,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,98,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,99,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,100,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,101,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,102,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,103,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,104,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,105,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,106,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,107,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,108,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,109,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,110,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,111,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,112,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,113,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,114,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,115,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,116,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,117,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,118,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
+windowed_60_release,frame_wall_ms,119,16.666667,ms,DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE,round=windowed_60_release mode=windowed fps_cap=60 warmup_dropped=300 | DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict
