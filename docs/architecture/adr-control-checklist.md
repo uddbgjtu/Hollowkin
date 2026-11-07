@@ -63,7 +63,7 @@
 
 | 字段 | 内容 |
 |---|---|
-| **状态** | **已闭环（工具链 verified · 2026-11-04 主理人实跑 `pixel_pipeline.py --selftest` → PASS；引擎签字 Godot 4.3）**；2026-11-07 E1 真实资产已产出（14 张，AI 原图→pipeline→manifest，R1–R6 全绿、`.import` 已固化落盘待提交）。剩余：运行时渲染层仍用 `DEBUG_PLACEHOLDER`、未接入正式资产（属独立批准的渲染集成改动）；R1/R3 仍 CONCERNS |
+| **状态** | **已闭环（工具链 verified · 2026-11-04 主理人实跑 `pixel_pipeline.py --selftest` → PASS；引擎签字 Godot 4.3）**；2026-11-07 E1 真实资产已产出（14 张，AI 原图→pipeline→manifest，R1–R6 全绿、`.import` 已固化并已提交 `f1c79c2`、远端 CI 双绿）。剩余：运行时渲染层仍用 `DEBUG_PLACEHOLDER`、未接入正式资产（属独立批准的渲染集成改动）；b 核验审批包已备（`r1r3-verification-approval.md`）；R1/R3 仍 CONCERNS，翻转待 a 实测 + 核验签字 + 独立审批 |
 | **落地文件（实）** | `src/core/asset_pipeline/pixel_pipeline.py`（全链路·Pillow）、`src/core/asset_pipeline/palette_source.json`（调色板单一来源）、`src/core/asset_pipeline/palette_validator.gd`（R1–R6）、`src/core/asset_pipeline/asset_manifest.csv`（14 行资产登记 + 14 列表头）、`docs/engine-reference/godot/pixel_texture.import.tpl`（ADR-4 导入预设）、`docs/engine-reference/godot/VERSION.md`（引擎 4.3 签字版） |
 | **关联模块** | AssetPipeline（见 architecture-doc.md §1.8、§4） |
 | **验证点** | ① 离线脚本输出 PNG-8 索引色 + 登记 manifest（seed/提示词/色数/校验）；② 目录 `.import` 覆写 `compress/mode=0或1`、`filter=false`、`gen_mipmaps=false`、`detect_3d/compress_to=0`；③ `PaletteValidator` 断言每资产 ≤16 色且取自母库，否则阻断导入；④ CI headless 已实跑（14 资产 0 失败 0 警告，R1–R6 全绿）；**⑤ Python `--selftest` 已实跑通过（upper=9 色 / mid=7 色，R1–R4 绿），与 bestiary §4（9/16、7/16）吻合** |
@@ -91,7 +91,7 @@
 
 | 字段 | 内容 |
 |---|---|
-| **状态** | **已批准（2026-11-06 用户拍板）**；Wave 1–4 + `_adapt` 修复 + 采集插桩均已落地；v1.3 四轮 PC 基线采集在纯 SHA `6745421` 上完成并按 §4 归档，5 行 CPU 侧可测值已回填，证据批次已随 `6c3f0e3` 提交推送、远端 CI 双绿；R1/R3 仍 CONCERNS，核验签字待主理人 |
+| **状态** | **已批准（2026-11-06 用户拍板）**；Wave 1–4 + `_adapt` 修复 + 采集插桩均已落地；v1.3 四轮 PC 基线采集在纯 SHA `6745421` 上完成并按 §4 归档，5 行 CPU 侧可测值已回填，证据批次已随 `6c3f0e3` 提交推送、远端 CI 双绿；E1 真实资产已提交 `f1c79c2`（CI 双绿）；R1/R3 仍 CONCERNS，b 核验审批包已备（`r1r3-verification-approval.md`），翻转仍待 a 渲染集成实测 + 核验签字 + 独立审批 |
 | **落地文件（实）** | `docs/architecture/adr-006-pc-first.md`（唯一新真源）；`CLAUDE.md §1/§5/§8.1`、概念文档、UX 规格、战斗 GDD、架构文档、本清单、a11y 规格、Phase 4 总纲已同步口径 |
 | **关联模块** | 跨切：InputArbiter / 布局 / QA；不改 ADR-1/2/3/4/5 与 C1 |
 | **验证点** | ① 8 份真源文档口径一致、无残留移动端现行规范句；② 「ADR-6 废止声明」横幅齐全；③ R1/R3 仍为 CONCERNS、未自动翻转；④ v1.2 之前零新增测量数字，v1.3 起 5 项 CPU 侧数值均来自 PC 实跑且可由逐样本长表复算，5 项渲染 / 粒子仍 `blocked`、数值栏空白 |
@@ -122,12 +122,12 @@
 | ADR-1 | 进行中 | R2（PC 进程强杀 / 断电等价场景） | save_service.gd + dungeon_generator.gd/room_stitcher.gd/floor_cache.gd/fallback_template.gd 均已落（Epic A2/B）；剩余 DungeonGen↔Save 重建联测 + R2 PC 实机双保险实测 |
 | ADR-2 | 进行中（生产模块+单测已落） | 低 | ADR-6：R3 改 PC 帧预算基线，待建表与实测 |
 | ADR-3 | 进行中（生产模块+单测已落） | 低 | ADR-6：R3 改 PC 帧预算基线，待建表与实测 |
-| ADR-4 | 已闭环（工具链 verified 2026-11-04；selftest 实跑 PASS） | E1 资产产出 / Godot 应用待办（非架构阻断） | 脚本唯一出口 + CI 校验 + Python selftest 实跑 PASS（upper=9/mid=7/boss=10/sanctuary=9） |
+| ADR-4 | 已闭环（工具链 verified 2026-11-04；selftest 实跑 PASS） | E1 已产出（`f1c79c2`，CI 双绿）/ b 核验审批包已备；R1/R3 实测待 a 渲染集成（非架构阻断） | 脚本唯一出口 + CI 校验 + Python selftest 实跑 PASS（upper=9/mid=7/boss=10/sanctuary=9） |
 | ADR-5 | 进行中（GUT 单测已接线 CI） | 待与 ADR-1 联测；GUT 实跑待 Godot 环境 | RNGService+单测已落；全局随机调用拦截（lint 已落地）；`rng_service_test.gd` 等 5 件套经 `.github/workflows/test.yml` 接 Godot 4.3 headless（Epic G 接线，主理人已做静态 API 对账，待实跑） |
 | C1 | 已闭环（Epic D 实现已落） | 低 | 单测覆盖加算/乘区/堆叠（`pouch_vein_test.gd`） |
-| ADR-6 | 已批准 / Wave 1–4 + `_adapt` 修复已落地并固化 | E1 真实像素资产、PC 窗口 60/30fps 帧预算实测 | 文档层 ✅ → 布局/键鼠/四主屏 ✅（`f445740`）→ 渲染层技术接入 ✅ / Windows exe 实导出与启动 ✅ / `_adapt` 修复 ✅（均随 `a5c603a` 提交，远端 CI 双绿）；R1/R3 不自动翻转 |
+| ADR-6 | 已批准 / Wave 1–4 + `_adapt` 修复已落地并固化 | PC 窗口 60/30fps 帧预算实测（待 a 渲染集成 + 主理人 PC）；b 核验审批包已备 | 文档层 ✅ → 布局/键鼠/四主屏 ✅（`f445740`）→ 渲染层技术接入 ✅ / Windows exe 实导出与启动 ✅ / `_adapt` 修复 ✅（均随 `a5c603a` 提交，远端 CI 双绿）；E1 已提交 `f1c79c2`；R1/R3 不自动翻转（须 G1 实测 + G2 核验 + G3 审批） |
 
-> **总评**：6 项决策 + 新增 ADR-6 均"技术可落地、无 FAIL"。ADR-1 因 E-A 拍板由拟采纳升级为可完整实现；**ADR-4 已实现完成（引擎 4.3 签字、Python `--selftest` 实跑通过含 boss/sanctuary R3 严格硬阻断）**；ADR-5 的 GUT 已由 Godot 4.3 headless + `windows-latest` CI 实跑，当前本地基线 **9 scripts / 72 tests**。**ADR-6 的 Wave 1–4 与 `_adapt` 修复均已落地并固化**（Wave 3 `f445740`、Wave 3b/4 + `_adapt` `a5c603a`，两次远端 CI 双绿）；剩余开放项集中在 **ADR-4 E1 真实像素资产**、**R1/R3 的 PC 窗口 60/30fps 帧预算实测** 与 **R2 的 PC 实机验证**，不构成架构阻断。
+> **总评**：6 项决策 + 新增 ADR-6 均"技术可落地、无 FAIL"。ADR-1 因 E-A 拍板由拟采纳升级为可完整实现；**ADR-4 已实现完成（引擎 4.3 签字、Python `--selftest` 实跑通过含 boss/sanctuary R3 严格硬阻断）**；ADR-5 的 GUT 已由 Godot 4.3 headless + `windows-latest` CI 实跑，当前本地基线 **9 scripts / 72 tests**。**ADR-6 的 Wave 1–4 与 `_adapt` 修复均已落地并固化**（Wave 3 `f445740`、Wave 3b/4 + `_adapt` `a5c603a`，两次远端 CI 双绿）；剩余开放项集中在 **ADR-4 E1 已产出（`f1c79c2`）+ b 核验审批包已备**、**R1/R3 的 PC 窗口 60/30fps 帧预算实测（待 a 渲染集成）** 与 **R2 的 PC 实机验证**，不构成架构阻断。
 
 ---
 

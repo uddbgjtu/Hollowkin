@@ -230,7 +230,7 @@ run 起始:
 | ADR-4 | 像素资产防偏色 | **CONCERNS** | 预设+PaletteValidator | PNG-8 在部分工具链被重新量化（须脚本唯一出口） |
 | 总判定 | — | **PASS（带 3 项 CONCERNS）** | 架构可行、ADR 体系完备 | R1/R3 须 PC 基线实测闭环；R2/ADR-4 须实测/纪律 |
 
-> **ADR-6 状态注（2026-11-06，2026-11-07 补充）**：目标平台改为 Windows Desktop 单平台、移动端彻底放弃后，R1/R3 的「低端 iOS/Android 真机」判据失去适用前提，须改由 PC 窗口 / 全屏基线测量（见 `adr-006-pc-first.md §3`）。**本表 CONCERNS 状态不因平台变更自动翻转**；翻转仍须实测数据 + 独立审批。移动端 runbook 已于 Wave 2b 归档至 `docs/qa/archive/r1r3-device-test-plan.md`，证据模板已重定位为 PC 基线。Wave 3b 渲染层技术接入、Wave 4 Windows exe 实导出 / 启动、`_adapt` 30fps 误降频修复均已完成（headless 实跑），但 E1 真实像素资产与窗口 60/30fps 帧预算实测仍缺；headless smoke 数据不充当基线。R1 / R3 **仍为 CONCERNS**。
+> **ADR-6 状态注（2026-11-06，2026-11-07 补充）**：目标平台改为 Windows Desktop 单平台、移动端彻底放弃后，R1/R3 的「低端 iOS/Android 真机」判据失去适用前提，须改由 PC 窗口 / 全屏基线测量（见 `adr-006-pc-first.md §3`）。**本表 CONCERNS 状态不因平台变更自动翻转**；翻转仍须实测数据 + 独立审批。移动端 runbook 已于 Wave 2b 归档至 `docs/qa/archive/r1r3-device-test-plan.md`，证据模板已重定位为 PC 基线。Wave 3b 渲染层技术接入、Wave 4 Windows exe 实导出 / 启动、`_adapt` 30fps 误降频修复均已完成（headless 实跑），但 E1 真实像素资产与窗口 60/30fps 帧预算实测仍缺；headless smoke 数据不充当基线。R1 / R3 **仍为 CONCERNS**。2026-11-07 E1 真实资产已提交 `f1c79c2`（CI 双绿），b 核验审批包已备（`r1r3-verification-approval.md`）：R1/R3 翻转须 G1（a 渲染集成实测）+ G2（核验签字）+ G3（独立审批）三件套齐备，治理动作不替代实测数据。
 
 ### 6.2 残留风险说明
 - **R1 / R3（高优先）**：本环境可跑 Godot 4.3 headless，但**无渲染 / 设备帧时间采集链**，无法实测渲染 / AI 运行时帧时间。已交付"原型代码 + 测量方法学 + 预算对照表 + 算法级基准"，**PC 基线测量为开放项**，不编造数据（见报告 §1/§4、ADR-6 §4）。
