@@ -114,8 +114,9 @@
 | 2026-11-06 | 用户批准 commit + push（`b6e12ed`） | 已完成 |
 | 2026-11-06 | 用户批准 Wave 3 | 已批准并落地（部分，见 §5.1） |
 | 2026-11-07 | 用户批准 commit + push（`f445740`，Wave 3 固化） | 已完成，远端 CI 双绿 |
-| 2026-11-07 | 用户指定顺序「Wave 3b → Wave 4 → 修 `_adapt`」 | 三项均已实跑落地（见 §5.2）；未 commit / push |
+| 2026-11-07 | 用户指定顺序「Wave 3b → Wave 4 → 修 `_adapt`」 | 三项均已实跑落地（见 §5.2）；该行记录的是提交前状态 |
+| 2026-11-07 | 用户批准本批 commit + push（`a5c603a`，Wave 3b / 4 + `_adapt` 固化） | 已完成，远端 CI 双绿：`test 42333345508` / `Lint 42333345489`；归档日志证实真跑 GUT 9/72/72/11582、40 全局类、49 个 `.gd` lint 0 违规 |
 
 ---
 
-*本 ADR 为平台定位的唯一新真源；与其冲突的 Phase 1–4 历史条款以本文件为准。Wave 3 已随 `f445740` commit + push；Wave 3b / Wave 4 / `_adapt` 修复为本批未提交改动。*
+*本 ADR 为平台定位的唯一新真源；与其冲突的 Phase 1–4 历史条款以本文件为准。Wave 3 已随 `f445740` commit + push；Wave 3b / Wave 4 / `_adapt` 修复已随 `a5c603a` commit + push，远端 CI 双绿。**R1 / R3 仍为 CONCERNS，不因提交 / push / CI 全绿自动翻转。***

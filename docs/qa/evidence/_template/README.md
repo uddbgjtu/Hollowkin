@@ -118,4 +118,4 @@ docs/qa/evidence/<device_id>/<build_sha>/metrics_raw.csv
 
 ---
 
-*Wave 4 v1.1（2026-11-07）：导出链路已实跑、PC 基线采集口径已固化、`_adapt` 偏差已修复；零新增测量数字、未翻转任何 CONCERNS、本批未执行 git commit。*
+*Wave 4 v1.1（2026-11-07）：导出链路已实跑、PC 基线采集口径已固化、`_adapt` 偏差已修复；零新增测量数字、未翻转任何 CONCERNS。该版本随 Wave 3b/4 + `_adapt` 批次提交并推送（`a5c603a`，远端 CI 双绿）；**证据模板的数值栏仍全部为空，提交与 CI 全绿不构成 PC 基线实测数据**。*

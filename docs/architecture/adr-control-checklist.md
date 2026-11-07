@@ -125,9 +125,9 @@
 | ADR-4 | 已闭环（工具链 verified 2026-11-04；selftest 实跑 PASS） | E1 资产产出 / Godot 应用待办（非架构阻断） | 脚本唯一出口 + CI 校验 + Python selftest 实跑 PASS（upper=9/mid=7/boss=10/sanctuary=9） |
 | ADR-5 | 进行中（GUT 单测已接线 CI） | 待与 ADR-1 联测；GUT 实跑待 Godot 环境 | RNGService+单测已落；全局随机调用拦截（lint 已落地）；`rng_service_test.gd` 等 5 件套经 `.github/workflows/test.yml` 接 Godot 4.3 headless（Epic G 接线，主理人已做静态 API 对账，待实跑） |
 | C1 | 已闭环（Epic D 实现已落） | 低 | 单测覆盖加算/乘区/堆叠（`pouch_vein_test.gd`） |
-| ADR-6 | 已批准 / Wave 1–4 + `_adapt` 修复已落地 | E1 真实像素资产、PC 窗口 60/30fps 帧预算实测 | 文档层 ✅ → 布局/键鼠/四主屏 ✅（`f445740`）→ 渲染层技术接入 ✅ → Windows exe 实导出/启动 ✅ → `_adapt` 修复 ✅；R1/R3 不自动翻转 |
+| ADR-6 | 已批准 / Wave 1–4 + `_adapt` 修复已落地并固化 | E1 真实像素资产、PC 窗口 60/30fps 帧预算实测 | 文档层 ✅ → 布局/键鼠/四主屏 ✅（`f445740`）→ 渲染层技术接入 ✅ / Windows exe 实导出与启动 ✅ / `_adapt` 修复 ✅（均随 `a5c603a` 提交，远端 CI 双绿）；R1/R3 不自动翻转 |
 
-> **总评**：6 项决策 + 新增 ADR-6 均"技术可落地、无 FAIL"。ADR-1 因 E-A 拍板由拟采纳升级为可完整实现；**ADR-4 已实现完成（引擎 4.3 签字、Python `--selftest` 实跑通过含 boss/sanctuary R3 严格硬阻断）**；ADR-5 的 GUT 已由 Godot 4.3 headless + `windows-latest` CI 实跑，当前本地基线 **9 scripts / 72 tests**。**ADR-6 的 Wave 1–4 与 `_adapt` 修复均已落地**（Wave 3 已提交 `f445740`）；剩余开放项集中在 **ADR-4 E1 真实像素资产**、**R1/R3 的 PC 窗口 60/30fps 帧预算实测** 与 **R2 的 PC 实机验证**，不构成架构阻断。
+> **总评**：6 项决策 + 新增 ADR-6 均"技术可落地、无 FAIL"。ADR-1 因 E-A 拍板由拟采纳升级为可完整实现；**ADR-4 已实现完成（引擎 4.3 签字、Python `--selftest` 实跑通过含 boss/sanctuary R3 严格硬阻断）**；ADR-5 的 GUT 已由 Godot 4.3 headless + `windows-latest` CI 实跑，当前本地基线 **9 scripts / 72 tests**。**ADR-6 的 Wave 1–4 与 `_adapt` 修复均已落地并固化**（Wave 3 `f445740`、Wave 3b/4 + `_adapt` `a5c603a`，两次远端 CI 双绿）；剩余开放项集中在 **ADR-4 E1 真实像素资产**、**R1/R3 的 PC 窗口 60/30fps 帧预算实测** 与 **R2 的 PC 实机验证**，不构成架构阻断。
 
 ---
 
