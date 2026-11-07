@@ -29,14 +29,19 @@
 #   （仅验证脚本可执行；产出的数字不是 PC 基线正式数据。）
 #
 # 纪律：零预置测量值；不使用全局随机（ADR-5）；不声明 class_name（不改全局类缓存）。
-#       渲染 / 粒子 / 合计占帧比一律标 blocked，见 r1r3_probe.gd::add_blocked。
+#       渲染 / 粒子 / 合计占帧比：headless（无 GPU 帧采集链）一律标 blocked；
+#       真实 GPU PC（_frame_available）下三项聚合可派生指标发射为 measured，见 _collect_render_metrics。
 #       帧时间只写逐样本长表并标 E1_PNG8_FRAME_NOT_A_BASELINE（a 阶段后负载为 E1），
 #       绝不进 19 列 verdict —— 无头无 GPU 帧采集链，不构成正式判据，须 PC 实测（G1）。
 #
 # a 阶段更新（渲染集成已实施）：TileMapLayer / MultiMesh + 屏外剔除 / CPUParticles2D
 #   现已接 ADR-4 E1 真实像素原图（asset_source=E1_PNG8，已提交 f1c79c2），资产阻塞
-#   解除；但 headless 无 GPU 帧时间采集链，5 项仍为 blocked，理由由 BLOCKED-BY-ASSET
-#   改为 BLOCKED-BY-HARDWARE（须带 GPU 的 PC 窗口实测 G1）。数值栏留空、R1/R3 不翻转。
+#   解除；但 headless 无 GPU 帧时间采集链，5 项仍 blocked（BLOCKED-BY-HARDWARE）。
+#   真实 GPU PC（_frame_available）下：r1_render_mean / r1_render_p95_spike /
+#   r3_total_frame_share 三项由聚合帧 GPU 时间（frame_gpu_ms）派生为 measured；
+#   r3_entity_render / r3_particles 为子系统级 GPU 时间，须「层显隐 Δ 隔离」法方可测，
+#   当前未仪表化，仍 blocked（BLOCKED-BY-METHOD）。headless 行为不变，CI 不受影响；
+#   R1/R3 不因采集完成或 CI 全绿自动翻转，仍须 G1（实测）+ G2 + G3 三件套。
 # =====================================================================
 
 extends Control
@@ -280,7 +285,7 @@ func _finish() -> void:
     _collect_r1_density(probe)
     _collect_r3_input(probe)
     _collect_r3_ai_tick(probe)
-    _mark_blocked(probe)
+    _collect_render_metrics(probe)
     _note_render_structure(probe)
     _record_frame_times(probe)
 
@@ -479,24 +484,49 @@ func _collect_r3_ai_tick(probe) -> void:
 
 
 # ---------------------------------------------------------------------
-# 前置依赖未满足项：只标 blocked，绝不代填数值
-# （归档 runbook §7 方法学 + PC 基线 README §2）
+# 渲染 / 粒子 / 合计占帧比指标发射：
+#   - headless（无窗口 / 无 GPU 帧采集链）：五项全 blocked（BLOCKED-BY-HARDWARE）。
+#   - 真实 GPU PC（_frame_available 且已采到帧）：聚合帧 GPU 时间（frame_gpu_ms）
+#     可派生三项渲染预算指标，发射为 measured（r1_render_mean / r1_render_p95_spike
+#     / r3_total_frame_share）；数值一律来自真实帧采集，绝不代填。
+#   - 子系统级（实体 / 粒子）GPU 时间须「层显隐 Δ 隔离」法方可测，当前未仪表化，
+#     保持 blocked（BLOCKED-BY-METHOD）；R3 须此二项实测后方可闭合。
+# （归档 runbook §7 方法学 + PC 基线 README §2 / pc_win_02/README.md §4）
 # ---------------------------------------------------------------------
-func _mark_blocked(probe) -> void:
-    # a 阶段后渲染层已接 E1 PNG-8（asset_source=E1_PNG8），资产阻塞解除；
-    # 剩余阻塞=本无头（headless）环境无 GPU 帧时间采集链，须带 GPU 的 PC 窗口实测（G1）。
+func _collect_render_metrics(probe) -> void:
     var assets_integrated: bool = (FloorTilemapMod.ASSET_SOURCE == "E1_PNG8")
-    var asset_reason: String
-    if assets_integrated:
-        asset_reason = "BLOCKED-BY-HARDWARE: E1 原图已接入（提交 f1c79c2），资产阻塞解除；剩余阻塞=无头无 GPU 帧采集链，须 PC 窗口实测（G1）"
-    else:
-        asset_reason = "BLOCKED-BY-ASSET: 渲染层纹理仍为 DEBUG_PLACEHOLDER，须 E1 原图 + PC 窗口实测"
-    probe.add_blocked("r1_render_mean", "ms", "≤ 16.6", asset_reason)
-    probe.add_blocked("r1_render_p95_spike", "ms", "< 50", asset_reason)
-    probe.add_blocked("r3_entity_render", "ms", "< 4 / < 8", asset_reason)
-    probe.add_blocked("r3_particles", "ms", "< 3 / < 6", asset_reason)
-    probe.add_blocked("r3_total_frame_share", "ms", "< 9.16（55%）",
-        "分项缺失，不得拼接部分和判 pass")
+
+    if not _frame_available or _frame_gpu.is_empty():
+        # headless 或采不到帧：仍 blocked；资产已集成则理由为 HARDWARE，否则 ASSET。
+        var hw_reason: String
+        if assets_integrated:
+            hw_reason = "BLOCKED-BY-HARDWARE: E1 原图已接入（f1c79c2），资产阻塞解除；剩余阻塞=无头无 GPU 帧采集链，须 PC 窗口实测（G1）"
+        else:
+            hw_reason = "BLOCKED-BY-ASSET: 渲染层纹理仍为 DEBUG_PLACEHOLDER，须 E1 原图 + PC 窗口实测"
+        probe.add_blocked("r1_render_mean", "ms", "≤ 16.6", hw_reason)
+        probe.add_blocked("r1_render_p95_spike", "ms", "< 50", hw_reason)
+        probe.add_blocked("r3_entity_render", "ms", "< 4 / < 8", hw_reason)
+        probe.add_blocked("r3_particles", "ms", "< 3 / < 6", hw_reason)
+        probe.add_blocked("r3_total_frame_share", "ms", "< 9.16（55%）",
+            "分项缺失，不得拼接部分和判 pass")
+        return
+
+    # 真实 GPU PC：聚合帧 GPU 时间（frame_gpu_ms）即可派生三项渲染预算指标。
+    # r1_render_mean 看整帧渲染预算（≤16.6ms＝60fps 帧时）；r3_total_frame_share
+    # 看占比预算（<9.16ms＝55%）；r1_render_p95_spike 看 p95 尖峰（<50ms）。
+    # 三者同源于 frame_gpu_ms 均值 / p95，阈值不同，属指标定义冗余，照既定口径发射。
+    probe.add_measured("r1_render_mean", "ms", _frame_gpu, "≤ 16.6", 16.6)
+    probe.add_measured("r1_render_p95_spike", "ms", _frame_gpu, "< 50", 50.0)
+    probe.add_measured("r3_total_frame_share", "ms", _frame_gpu, "< 9.16（55%）", 9.16)
+
+    # 子系统级（实体 / 粒子）GPU 时间：Godot 不暴露按 mesh / 粒子的单独计时，
+    # 须「层显隐 Δ 隔离」法（仅渲染实体层 / 仅渲染粒子层测帧 GPU 时间差）方可测；
+    # 当前未仪表化，保持 blocked（BLOCKED-BY-METHOD）。R3 须此二项实测后方可闭合。
+    var method_reason := ("BLOCKED-BY-METHOD: r3_entity_render / r3_particles 为子系统级 GPU 时间，"
+        + "须按『实体层 / 粒子层显隐隔离』在真实 GPU PC 上做 Δ 测量；当前未仪表化。"
+        + "R3 须此二项实测后方可闭合（仅聚合帧 GPU 时间不足以判 R3）。")
+    probe.add_blocked("r3_entity_render", "ms", "< 4 / < 8", method_reason)
+    probe.add_blocked("r3_particles", "ms", "< 3 / < 6", method_reason)
 
 
 # 结构计数（格数 / 实例数）只作证据日志，**不是性能耗时**，不进 CSV 数值列。

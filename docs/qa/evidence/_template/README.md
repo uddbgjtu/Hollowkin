@@ -50,11 +50,11 @@
 | `r1_low_tier_density` | 可测 | HIGH / LOW 两档各 30 次，比较房间数与敌人上限 |
 | `r3_input_arbitration` | 可测 | `HitZone.resolve()` + `InputQueue.consume_into()` |
 | `r3_ai_tick` | 可测 | `CombatDirector.step_simulation(0.1)` |
-| `r1_render_mean` / `r1_render_p95_spike` | **blocked** | `BLOCKED-BY-ASSET`：Wave 3b 已接入 `TileMapLayer` + 屏外剔除，但纹理是 `DEBUG_PLACEHOLDER`，须 ADR-4 E1 原图 + PC 窗口实测 |
-| `r3_entity_render` / `r3_particles` | **blocked** | `BLOCKED-BY-ASSET`：`MultiMesh` + 剔除 / `CPUParticles2D` 已就位，但实体与特效贴图仍是 debug 占位 |
-| `r3_total_frame_share` | **blocked** | 分项缺失时**只能给部分和，不得判 `pass`** |
+| `r1_render_mean` / `r1_render_p95_spike` | **measured（真实 GPU PC）/ blocked（headless）** | a 阶段已接 E1 真实 PNG-8（`asset_source=E1_PNG8`，提交 9a2270d）；真实 GPU PC 下由聚合帧 GPU 时间（`frame_gpu_ms`）派生为 `measured`（target ≤16.6 / <50），headless 仍 `blocked`（BLOCKED-BY-HARDWARE） |
+| `r3_total_frame_share` | **measured（真实 GPU PC）/ blocked（headless）** | 同上，由 `frame_gpu_ms` 均值派生（target <9.16＝55%） |
+| `r3_entity_render` / `r3_particles` | **blocked** | `BLOCKED-BY-METHOD`：`MultiMesh` + 剔除 / `CPUParticles2D` 已接 E1，但实体与特效为子系统级 GPU 时间，须「层显隐 Δ 隔离」法方可测，当前未仪表化；**R3 须此二项实测后方可闭合** |
 
-因 5 项渲染 / 粒子 / 合计占帧比仍缺正式资产与正式负载实测，**当前即使 CPU 侧分项数据齐备也无法把 R1 / R3 翻成 PASS**。
+a 阶段（提交 9a2270d）已接 E1 真实 PNG-8 并产生真实负载；真实 GPU PC 下 `r1_render_mean` / `r1_render_p95_spike` / `r3_total_frame_share` 三项可由聚合帧 GPU 时间派生为 `measured`，**R1 渲染预算可闭合**；`r3_entity_render` / `r3_particles` 仍 `blocked`（`BLOCKED-BY-METHOD`，须子系统 Δ 隔离法），**R3 须此二项实测后方可闭合**。headless（无 GPU 帧采集链）下五项仍 `blocked`，CI 不受影响。
 
 ## 3. 样本量下限与统计口径（沿用归档方法学）
 

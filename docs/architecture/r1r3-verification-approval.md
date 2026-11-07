@@ -34,7 +34,7 @@
 
 | # | 缺口 | 阻塞于 | 责任方 |
 |---|---|---|---|
-| **G1** | 窗口 / 全屏模式帧时间**实测数据**（R1/R3 正式实测） | (a) 渲染集成已实施（E1 已接入渲染层、产生真实负载）；G1 剩余阻塞仅为「带 GPU 的 PC 执行测量链」——资产阻塞已解除，不再为 `BLOCKED-BY-ASSET` | (a) 工程 + 主理人 PC 实测 |
+| **G1** | 窗口 / 全屏模式帧时间**实测数据**（R1/R3 正式实测） | (a) 渲染集成已实施（E1 已接入渲染层、产生真实负载）；真实 GPU PC 下 `r1_render_mean` / `r1_render_p95_spike` / `r3_total_frame_share` 三项由聚合帧 GPU 时间派生为 `measured`，资产阻塞已解除；`r3_entity_render` / `r3_particles` 仍 `BLOCKED-BY-METHOD`（须子系统 Δ 隔离法，见 `pc_win_02/README.md` §4），**R3 暂不可闭合** | (a) 工程 + 主理人 PC 实测 |
 | **G2** | 核验签字 | 人工动作，本包 §3 留栏 | 主理人（用户） |
 | **G3** | 独立审批 | 人工动作，本包 §4 留栏 | 第二审批人 |
 
@@ -54,6 +54,8 @@
 | `r3_entity_render` | < 4 / < 8（60/30fps 双档） | — | — | 同上 | — | ⬜ | 同上 |
 | `r3_particles` | < 3 / < 6（60/30fps 双档） | — | — | 同上 | — | ⬜ | 同上 |
 | `r3_total_frame_share` | < 9.16（55%） | — | — | 同上 | — | ⬜ | 同上 |
+
+> **可闭合性（本批次探针改动后）**：真实 GPU PC 实测时，5 项渲染指标中 `r1_render_mean` / `r1_render_p95_spike` / `r3_total_frame_share` 三项由聚合帧 GPU 时间（`frame_gpu_ms`）派生为 `measured`，可闭合 **R1** 渲染预算；`r3_entity_render` / `r3_particles` 为子系统级 GPU 时间，须「层显隐 Δ 隔离」测量法（当前未仪表化，标 `BLOCKED-BY-METHOD`），**R3 须此二项实测后方可闭合**。`headless`（无 GPU 帧采集链）下五项仍 `blocked`，工程改动不影响 CI。
 
 **回填步骤与闭合判据（全满足方闭合 G1）**
 1. **采集**：主理人带 GPU 的 PC 用 Godot 4.3 导出构建运行 `tools/qa/r1r3_probe.gd` + `src/qa/probe_runner.gd`，导出 19 列 `summary.csv` 与 7 列 `metrics_raw.csv`。
@@ -103,7 +105,8 @@
 - **维持 R1/R3 = CONCERNS**，直至 G1 + G2 + G3 全闭合。
 - 本包为 **b 阶段产出**（治理包已备，已提交 7018e01）；a 阶段渲染集成已完成并本地提交 `9a2270d`（已接 E1 真实 PNG-8，解 `BLOCKED-BY-ASSET`）。
 - **本地准备已完成（本批次）**：§2.1 G1 实测回填模板（5 项指标 + 阈值 + 闭合判据，占位待填）、§3 G2 核验签字栏（E1–E6 逐项清单 + 状态标记）、§4 G3 独立审批栏（状态标记 + 三件套前置）均已备为「待回填 / 待签 / 待批」就绪；**未填任何实测数字、未伪造签字**。
-- **仍待**：① a 阶段 `9a2270d` 推送至远端并等 CI 双绿（本沙箱出口代理拦截 github.com，须在他处推送）；② 主理人带 GPU 的 PC 实测回填 G1（§2.1）；③ G2 核验签字、G3 独立审批。三者齐备方可翻转。
+- **G1 落地补强（本批次，工程侧）**：探针 `probe_runner.gd::_collect_render_metrics` 已补——真实 GPU PC（`_frame_available`）下 `r1_render_mean` / `r1_render_p95_spike` / `r3_total_frame_share` 三项由聚合帧 GPU 时间（`frame_gpu_ms`）派生为 `measured`，`headless` 下五项仍 `blocked`（行为不变，CI 不受影响）；证据落区 `docs/qa/evidence/pc_win_02/` 与 a 阶段后复测 runbook 已备；`verify_probe_evidence.py` 经合成数据自检（合规→`RESULT: PASS`、篡改 mean→`RESULT: FAIL`）。**R3 子系统缺口**（`r3_entity_render` / `r3_particles` 须「层显隐 Δ 隔离」测量法，当前未仪表化，标 `BLOCKED-BY-METHOD`）已显式暴露——R3 须此二项实测后方可闭合，仅聚合帧 GPU 时间不足以判 R3。
+- **仍待**：① a 阶段 `9a2270d` 推送至远端并等 CI 双绿（本沙箱出口代理拦截 github.com，须在他处推送）；② 主理人带 GPU 的 PC 实测回填 G1（§2.1，按 `pc_win_02/README.md` 流程）；③ 若需闭合 R3，须先补 `r3_entity_render` / `r3_particles` 的 Δ 隔离测量法；④ G2 核验签字、G3 独立审批。三件套（G1+G2+G3）齐备方可翻转；R3 还需子系统实测闭合。
 
 ---
 
@@ -111,8 +114,8 @@
 
 - **b（本包，已完成）**：证据台账 + 缺口台账 + 签字/审批栏已齐（已提交 7018e01）；G2/G3 签字栏已本地准备为待签/待批（见 §3/§4）。注意 G2/G3 不能替代 G1。
 - **a（渲染集成，已完成）**：已替换 `DEBUG_PLACEHOLDER` 为 ADR-4 E1 真实 PNG-8（asset_source=E1_PNG8，新增 asset_registry.gd 由 manifest 驱动），解 `BLOCKED-BY-ASSET`；剩余阻塞为 `BLOCKED-BY-HARDWARE`（无头无 GPU 帧采集链）。已本地提交 `9a2270d`，待他处推送 + CI 双绿。
-- **本批次（G1/G2/G3 本地准备，已完成）**：§2.1 G1 回填模板、§3 G2 逐项核验清单、§4 G3 状态标记已备；下一步填实测数字与落笔签字即可，无需再改结构。
-- **翻转路径**：他处推送 `9a2270d` → CI 双绿 → PC 实测回填 G1（§2.1）→ G2 签字 → G3 审批 → R1/R3 由 CONCERNS 升 PASS。
+- **本批次（G1 落地补强 + G2/G3 本地准备，已完成）**：探针 `_collect_render_metrics` 工程改动、`pc_win_02/` 证据落区与复测 runbook、§2.1 G1 回填模板、§3 G2 逐项核验清单、§4 G3 状态标记均已备；R3 子系统缺口已显式暴露。下一步填实测数字与落笔签字即可，无需再改结构（除非要闭合 R3 而补 Δ 隔离测量法）。
+- **翻转路径**：他处推送 `9a2270d` → CI 双绿 → PC 实测回填 G1（按 `pc_win_02/README.md`，§2.1）→ G2 签字 → G3 审批 → **R1 可由 CONCERNS 升 PASS**（渲染预算三项已实测）；**R3 另须 `r3_entity_render` / `r3_particles` 的 Δ 隔离实测闭合后方可升 PASS**。
 
 ---
 
