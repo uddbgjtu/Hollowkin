@@ -84,7 +84,7 @@ tests/
 | `test_pouch_vein.gd` | Pouch/SpiritVein/Save | C1 公式、负 atk/def 钳 0、D1 增量 API、ENG-2 +1 堆叠、满栏拒绝不静默丢、`{slug:count}` 往返、RuneEntry 格式、PartyManager slots、DAG 无环正反例、activate/ember 扣减、`ΣVeinAdd` 聚合、RunSnapshot 注入、Bestiary 解锁+联动、存档重建一致 | C1 / ENG-2 / ADR-1 |
 | `test_ui.gd` | UI（Epic F 逻辑层） | Tab 布局与命中区、路由派发、战斗中 Tab 禁用、可访问性钳制与双编码、+1 堆叠角标、灵脉节点状态分类、战斗技能热区 | UX 规格 / 可访问性 Basic |
 | `test_frame_budget.gd` | 记账级帧预算（G4） | `_adapt` 修复后 30fps 稳态≈200 tick / 跨帧率一致 / 不降频；实测超预算才降频、恢复；无插桩数据保守策略；`report_frame_cost` 注入链路；ADR-2 tick 内队列结算顺序；**非设备帧时间** | ADR-2 / ADR-3 / G4 |
-| `test_render_layer.gd` | 渲染层（Wave 3b） | 格映射确定性、L 形走廊、屏外剔除、相机锚点、同屏实体 ≤12、`TileMapLayer.set_cell` 真实写入、`MultiMesh` 实例数、粒子低档降密度、`DEBUG_PLACEHOLDER` 资产纪律标记；**非性能耗时** | ADR-4 / R1 / R3 |
+| `test_render_layer.gd` | 渲染层（Wave 3b） | 格映射确定性、L 形走廊、屏外剔除、相机锚点、同屏实体 ≤12、`TileMapLayer.set_cell` 真实写入、`MultiMesh` 实例数、粒子低档降密度、`E1_PNG8` / `LOGIC_LAYER` 资产纪律标记；**非性能耗时** | ADR-4 / R1 / R3 |
 | `test_pc_platform.gd` | PC 平台契约（Wave 3） | 1280×720 布局真源与整数倍缩放、所有 UI 热区落在横屏内、Tab 条带包容、鼠标/拖拽/键盘输出同构 `{"position","touch_id":0}`、右键/抬起/echo/未绑定键不臆造事件、适配层不破坏 ADR-2 帧末结算 | ADR-6 / ADR-2 |
 
 > 设备级帧预算仍标【需实测】，**未回填、不臆造**；ADR-6 后判据改由 PC 窗口 / 全屏基线采集（Wave 4），
@@ -130,9 +130,9 @@ func test_harness_runs():
 
 ## 7. 开放项（不臆造、不勾选未验证项）
 
-1. **G4 PC 基线（ADR-6）**：Wave 4 打通导出 / 启动 / 采集链路，v1.2 补齐逐样本原始证据与帧时间插桩；**v1.3 已在纯 SHA `6745421` 上跑完窗口 / 全屏 × 60 / 30fps 四轮正式采集**，人工字段按客观读数补齐、§5 六条机器可核验项通过、证据按 §4 归档入仓、`measurement_template.csv` 回填主档 5 行 CPU 侧可测值（详见 `docs/qa/evidence/_template/README.md §7.2`）。仍待：① 主理人核验签字与 `operator` 复核；② ADR-4 E1 真实像素资产到位后重测 5 项渲染 / 粒子指标并产出正式 GPU 帧预算结论；③ 电池逐轮首尾电量与温控监控等受限项补采。单手可达性热力图与 iOS 后台强杀判据已废止，改键盘可达 / PC 进程强杀双保险。**R1 / R3 仍为 CONCERNS**，采集完成或数据回填均不自动翻转。
+1. **G4 PC 基线（ADR-6）**：Wave 4 打通导出 / 启动 / 采集链路，v1.2 补齐逐样本原始证据与帧时间插桩；**v1.3 已在纯 SHA `6745421` 上跑完窗口 / 全屏 × 60 / 30fps 四轮正式采集**，人工字段按客观读数补齐、§5 六条机器可核验项通过、证据按 §4 归档入仓、`measurement_template.csv` 回填主档 5 行 CPU 侧可测值（详见 `docs/qa/evidence/_template/README.md §7.2`）。仍待：① 主理人核验签字与 `operator` 复核；② E1 真实像素资产已在 a 阶段接入渲染层（asset_source=E1_PNG8），待带 GPU 的 PC 窗口/全屏重测 5 项渲染 / 粒子指标并产出正式 GPU 帧预算结论；③ 电池逐轮首尾电量与温控监控等受限项补采。单手可达性热力图与 iOS 后台强杀判据已废止，改键盘可达 / PC 进程强杀双保险。**R1 / R3 仍为 CONCERNS**，采集完成或数据回填均不自动翻转。
 2. **Epic E**：E1 真实 AI 原图 → pipeline → manifest 登记；Godot `.import`/Import Preset 固化；`palette_validator` headless CI 与 R5/R6 实跑。
-3. **Epic F / Wave 3b 资产层**：`TileMapLayer` / `MultiMesh` + 屏外剔除 / `CPUParticles2D` 技术层已落地并实跑；但纹理均为 `DEBUG_PLACEHOLDER`，**ADR-4 E1 真实像素原图仍未产出**（需 AI 原图 → pipeline → manifest）。5 项渲染 / 粒子 / 合计占帧比的阻塞理由由「场景未落地」改为 `BLOCKED-BY-ASSET`，数值栏保持为空。
+3. **Epic F / Wave 3b 资产层**：`TileMapLayer` / `MultiMesh` + 屏外剔除 / `CPUParticles2D` 技术层已落地并实跑；a 阶段已将纹理由 `DEBUG_PLACEHOLDER` 替换为 ADR-4 E1 真实像素原图（asset_source=E1_PNG8，新增 asset_registry.gd 由 manifest 驱动），**ADR-4 E1 真实像素原图已产出并接入**（AI 原图 → pipeline → manifest，提交 f1c79c2）。5 项渲染 / 粒子 / 合计占帧比的阻塞理由由 `BLOCKED-BY-ASSET` 改为 `BLOCKED-BY-HARDWARE`（无头无 GPU 帧采集链，须 PC 实测 G1），数值栏保持为空。
 4. **集成层**：InputArbiter 接入 PC 键鼠事件（Wave 3 适配层）、`enemy_ai.gd` / `spirit_ai.gd` 独立文件、DungeonGen↔Save 重建联测。
 5. **Linux runner**：按主理人决策暂缓恢复。
 

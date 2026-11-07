@@ -15,7 +15,7 @@ mouse_filter = 2
 script = ExtResource("1_view")
 screen_id = "map"
 title = "地图 · 当前层"
-hint = "TileMapLayer 格映射 + MultiMesh 批绘制 + 屏外剔除已接入；纹理为 DEBUG_PLACEHOLDER，待 ADR-4 E1 原图"
+hint = "TileMapLayer 格映射 + MultiMesh 批绘制 + 屏外剔除已接入；纹理已接 ADR-4 E1 真实像素原图（asset_source=E1_PNG8，f1c79c2）"
 
 [node name="TitleLabel" type="Label" parent="."]
 layout_mode = 0

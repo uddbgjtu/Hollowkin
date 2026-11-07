@@ -6,9 +6,9 @@
 #     低档降密度（R3 缓解④）；
 #   - battle_screen.tscn 原节点 amount=24 / lifetime=1.2。
 #
-# 【资产纪律】使用 CPUParticles2D 的**无纹理默认方块**（DEBUG_PLACEHOLDER）：
-#   特效贴图属于 ADR-4 E1 资产，尚未产出；本文件不生成、不登记、不冒充 PNG 资产。
-#   以它为负载测出的耗时不能充当正式 GPU 帧预算基线。
+# 【资产纪律 · a 阶段已接 E1】CPUParticles2D 点精灵纹理改由 asset_registry.gd 提供
+#   真实 E1 像素原图（暂复用 upper_floor 瓦片作点精灵，专属特效贴图待美术圣经终稿），
+#   ASSET_SOURCE = E1_PNG8。已登记 manifest 并提交 f1c79c2；正式 GPU 帧预算基线仍待 (a)+ PC 实测（G1）。
 #
 # 刻意不加 class_name（保持全局类缓存 40 类）；调用方 const preload。
 # ADR-5：无全局随机（粒子随机由引擎内部处理，非本脚本调用全局 RNG）。
@@ -16,7 +16,9 @@
 
 extends CPUParticles2D
 
-const ASSET_SOURCE := "DEBUG_PLACEHOLDER"
+const AssetRegistry := preload("res://src/core/asset_pipeline/asset_registry.gd")
+
+const ASSET_SOURCE := "E1_PNG8"
 const BASE_AMOUNT := 24
 const LOW_AMOUNT := 12
 const C_DUST := Color(0.45, 0.80, 0.72, 0.70)
@@ -26,6 +28,8 @@ var low_tier: bool = false
 
 func _ready() -> void:
     configure(false)
+    # a 阶段：点精灵接真实 E1 纹理（复用瓦片，专属特效贴图待后续）。
+    texture = AssetRegistry.texture("upper_floor")
 
 
 # 低档把粒子数减半（R3 缓解④：连续超预算时由主循环调用 configure(true)）。

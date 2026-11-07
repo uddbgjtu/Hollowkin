@@ -22,7 +22,7 @@ SUMMARY_COLUMNS = [
 ]
 RAW_COLUMNS = ["round_id", "metric", "sample_index", "value_ms", "unit", "load_kind", "note"]
 
-FRAME_LOAD = "DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE"
+FRAME_LOAD = "E1_PNG8_FRAME_NOT_A_BASELINE"
 BLOCKED_NUMERIC = ("", "—")
 # 汇总保留 4 位小数、逐样本保留 6 位，两次舍入合计的合法偏差 < 1 个 4 位小数单位。
 # 值恰落在 x.xxxx50 边界时差异正好是 0.00005，用 0.0001 才不会把舍入误判为臆造；

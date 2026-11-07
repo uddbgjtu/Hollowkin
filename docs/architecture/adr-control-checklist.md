@@ -55,7 +55,7 @@
 | **验证点** | ① `SimulationClock` 累加器每满 0.1s（10Hz）跑 `tick()`，MAX_CATCHUP=3；② tick 内消费输入队列→`CombatDirector.step_simulation`；③ 移动/动画逐帧 lerp 读 AI 目标（不重算决策）；④ 连续超帧预算降 5Hz、后台暂停；⑤ 屏外实体经 `VisibleOnScreenNotifier2D` 停用 AI/动画（留桩） |
 | **负责人** | engineering-lead |
 | **风险** | 低。10Hz 下技能响应最大 ~100ms，对低 APM 桌面设计可接受；若手感偏钝，仅玩家主动技能走即时通道（备注方案；ADR-6 仅改述措辞） |
-| **完成判据** | 1) 10Hz tick 计数/追帧断言；2) 自适应降频只在**实测单帧耗时**超预算时触发（`test_clock_adaptive_5hz_after_over_budget` / `test_adaptive_5hz_recovers_when_frames_return_to_budget`）；3) 同屏 ≤12 敌人渲染 <4ms、粒子 <3ms 在 PC 窗口基线达标（R3，**仍待实测**）。① ② 已由 `test_combat.gd` / `test_frame_budget.gd` 覆盖（含 30fps 不误降频回归）；③ 因 E1 资产缺失仍 `BLOCKED-BY-ASSET` |
+| **完成判据** | 1) 10Hz tick 计数/追帧断言；2) 自适应降频只在**实测单帧耗时**超预算时触发（`test_clock_adaptive_5hz_after_over_budget` / `test_adaptive_5hz_recovers_when_frames_return_to_budget`）；3) 同屏 ≤12 敌人渲染 <4ms、粒子 <3ms 在 PC 窗口基线达标（R3，**仍待实测**）。① ② 已由 `test_combat.gd` / `test_frame_budget.gd` 覆盖（含 30fps 不误降频回归）；③ a 阶段已接 E1（asset_source=E1_PNG8），剩余为 `BLOCKED-BY-HARDWARE`（无头无 GPU 帧采集链，须 PC 窗口实测 G1） |
 
 ---
 
@@ -63,7 +63,7 @@
 
 | 字段 | 内容 |
 |---|---|
-| **状态** | **已闭环（工具链 verified · 2026-11-04 主理人实跑 `pixel_pipeline.py --selftest` → PASS；引擎签字 Godot 4.3）**；2026-11-07 E1 真实资产已产出（14 张，AI 原图→pipeline→manifest，R1–R6 全绿、`.import` 已固化并已提交 `f1c79c2`、远端 CI 双绿）。剩余：运行时渲染层仍用 `DEBUG_PLACEHOLDER`、未接入正式资产（属独立批准的渲染集成改动）；b 核验审批包已备（`r1r3-verification-approval.md`）；R1/R3 仍 CONCERNS，翻转待 a 实测 + 核验签字 + 独立审批 |
+| **状态** | **已闭环（工具链 verified · 2026-11-04 主理人实跑 `pixel_pipeline.py --selftest` → PASS；引擎签字 Godot 4.3）**；2026-11-07 E1 真实资产已产出（14 张，AI 原图→pipeline→manifest，R1–R6 全绿、`.import` 已固化并已提交 `f1c79c2`、远端 CI 双绿）。剩余：运行时渲染层已在 a 阶段接 E1（asset_source=E1_PNG8，新增 asset_registry.gd 由 manifest 驱动）；b 核验审批包已备（`r1r3-verification-approval.md`）；R1/R3 仍 CONCERNS，翻转待 G1（PC 实测）+ G2（核验签字）+ G3（独立审批） |
 | **落地文件（实）** | `src/core/asset_pipeline/pixel_pipeline.py`（全链路·Pillow）、`src/core/asset_pipeline/palette_source.json`（调色板单一来源）、`src/core/asset_pipeline/palette_validator.gd`（R1–R6）、`src/core/asset_pipeline/asset_manifest.csv`（14 行资产登记 + 14 列表头）、`docs/engine-reference/godot/pixel_texture.import.tpl`（ADR-4 导入预设）、`docs/engine-reference/godot/VERSION.md`（引擎 4.3 签字版） |
 | **关联模块** | AssetPipeline（见 architecture-doc.md §1.8、§4） |
 | **验证点** | ① 离线脚本输出 PNG-8 索引色 + 登记 manifest（seed/提示词/色数/校验）；② 目录 `.import` 覆写 `compress/mode=0或1`、`filter=false`、`gen_mipmaps=false`、`detect_3d/compress_to=0`；③ `PaletteValidator` 断言每资产 ≤16 色且取自母库，否则阻断导入；④ CI headless 已实跑（14 资产 0 失败 0 警告，R1–R6 全绿）；**⑤ Python `--selftest` 已实跑通过（upper=9 色 / mid=7 色，R1–R4 绿），与 bestiary §4（9/16、7/16）吻合** |
@@ -91,12 +91,12 @@
 
 | 字段 | 内容 |
 |---|---|
-| **状态** | **已批准（2026-11-06 用户拍板）**；Wave 1–4 + `_adapt` 修复 + 采集插桩均已落地；v1.3 四轮 PC 基线采集在纯 SHA `6745421` 上完成并按 §4 归档，5 行 CPU 侧可测值已回填，证据批次已随 `6c3f0e3` 提交推送、远端 CI 双绿；E1 真实资产已提交 `f1c79c2`（CI 双绿）；R1/R3 仍 CONCERNS，b 核验审批包已备（`r1r3-verification-approval.md`），翻转仍待 a 渲染集成实测 + 核验签字 + 独立审批 |
+| **状态** | **已批准（2026-11-06 用户拍板）**；Wave 1–4 + `_adapt` 修复 + 采集插桩均已落地；v1.3 四轮 PC 基线采集在纯 SHA `6745421` 上完成并按 §4 归档，5 行 CPU 侧可测值已回填，证据批次已随 `6c3f0e3` 提交推送、远端 CI 双绿；E1 真实资产已提交 `f1c79c2`（CI 双绿）；**a 渲染集成已完成**（E1 已接入渲染层，asset_source=E1_PNG8）；R1/R3 仍 CONCERNS，b 核验审批包已备（`r1r3-verification-approval.md`），翻转仍待 G1（PC 实测）+ G2（核验签字）+ G3（独立审批） |
 | **落地文件（实）** | `docs/architecture/adr-006-pc-first.md`（唯一新真源）；`CLAUDE.md §1/§5/§8.1`、概念文档、UX 规格、战斗 GDD、架构文档、本清单、a11y 规格、Phase 4 总纲已同步口径 |
 | **关联模块** | 跨切：InputArbiter / 布局 / QA；不改 ADR-1/2/3/4/5 与 C1 |
 | **验证点** | ① 8 份真源文档口径一致、无残留移动端现行规范句；② 「ADR-6 废止声明」横幅齐全；③ R1/R3 仍为 CONCERNS、未自动翻转；④ v1.2 之前零新增测量数字，v1.3 起 5 项 CPU 侧数值均来自 PC 实跑且可由逐样本长表复算，5 项渲染 / 粒子仍 `blocked`、数值栏空白 |
 | **负责人** | 主理人（用户批准）+ engineering-lead（后续波次） |
-| **风险** | 中。5 个 `.gd` 共 6 处硬编码 `720×1280` 已由 `LayoutConfig` 收敛；`_adapt` 30fps 偏差已于 2026-11-07 修复；移动端 runbook 已归档至 `docs/qa/archive/`、Android 导出预设已替换为 Windows Desktop 骨架（Wave 2b）。**v1.3 新增**：帧时间负载仍为 `DEBUG_PLACEHOLDER`，E1 正式资产未产出，不得据四轮采集推断 GPU 帧预算达标 |
+| **风险** | 中。5 个 `.gd` 共 6 处硬编码 `720×1280` 已由 `LayoutConfig` 收敛；`_adapt` 30fps 偏差已于 2026-11-07 修复；移动端 runbook 已归档至 `docs/qa/archive/`、Android 导出预设已替换为 Windows Desktop 骨架（Wave 2b）。**a 阶段新增**：帧时间负载已接 E1（asset_source=E1_PNG8，提交 f1c79c2），但本沙箱 headless 无 GPU 帧采集链，G1 仍须带 GPU 的 PC 窗口/全屏实测；不得据四轮采集推断 GPU 帧预算达标 |
 | **完成判据** | 1) Wave 1 文档一致性校验通过；2) Wave 3 布局 / 导出 / 输入适配落地且 GUT 全绿；3) Wave 4 回归与 PC 采集链路已实跑，v1.3 四轮采集完成并归档，但**正式 GPU 帧预算基线仍待 E1 正式资产与正式负载实测**；4) R1/R3 由正式实测数据 + 核验签字 + 独立审批翻转（**仍未满足**） |
 
 ---

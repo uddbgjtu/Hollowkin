@@ -4,10 +4,10 @@
 #       enemy_spawns 逻辑网格，映射成 TileMapLayer 可写的格坐标，并按视口
 #       做屏外剔除（R3 缓解②）。本文件不含渲染节点、不持有纹理、不调用随机。
 #
-# 【资产纪律 · 先读】本层只处理「格坐标」，不产出任何美术资产。视图层
-#   floor_tilemap.gd 运行时用的是 DEBUG_PLACEHOLDER 纯色纹理，不是 ADR-4 的
-#   E1 真实像素原图；不写 asset_manifest.csv、不生成 PNG 资产、不冒充正式
-#   TileSet。E1 原图到位后只需替换视图层纹理，格映射逻辑无需改动。
+# 【资产纪律 · a 阶段】本层只处理「格坐标」，不产出任何美术资产，也不持有纹理，
+#   故 ASSET_SOURCE 标记为 LOGIC_LAYER（区别于视图层的 E1_PNG8 / 旧占位 DEBUG_PLACEHOLDER）。
+#   视图层 floor_tilemap.gd / entity_layer.gd / battle_particles.gd 现已接 E1 真实像素原图
+#   （asset_manifest.csv + asset_registry.gd）；本层格映射与剔除逻辑无需改动。
 #
 # 刻意不加 class_name：保持 .godot/global_script_class_cache.cfg 仍为 40 类，
 # 调用方一律 const preload。ADR-5：无全局随机。
@@ -19,7 +19,7 @@ const GRID_W := 64
 const GRID_H := 64
 const TILE_PX := 16.0                 # 美术圣经 §5：瓦片 16×16 整数倍拼接
 const MAX_VISIBLE_ENTITIES := 12      # R3：同屏敌人 ≤12
-const ASSET_SOURCE := "DEBUG_PLACEHOLDER"   # 显式标记：非 E1 资产
+const ASSET_SOURCE := "LOGIC_LAYER"   # 显式标记：纯逻辑层，不持纹理
 
 const KIND_FLOOR := 0
 const KIND_WALL := 1

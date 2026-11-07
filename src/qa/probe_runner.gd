@@ -30,13 +30,13 @@
 #
 # 纪律：零预置测量值；不使用全局随机（ADR-5）；不声明 class_name（不改全局类缓存）。
 #       渲染 / 粒子 / 合计占帧比一律标 blocked，见 r1r3_probe.gd::add_blocked。
-#       帧时间只写逐样本长表并标 DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE，
-#       绝不进 19 列 verdict —— E1 正式资产未产出，不构成正式判据。
+#       帧时间只写逐样本长表并标 E1_PNG8_FRAME_NOT_A_BASELINE（a 阶段后负载为 E1），
+#       绝不进 19 列 verdict —— 无头无 GPU 帧采集链，不构成正式判据，须 PC 实测（G1）。
 #
-# Wave 3b 更新：TileMapLayer / MultiMesh + 屏外剔除 / CPUParticles2D 已真实接入，
-#   但纹理均为 DEBUG_PLACEHOLDER（非 ADR-4 E1 像素原图），以其为负载测出的耗时
-#   不能充当正式 GPU 帧预算基线。故 5 项 blocked 理由由「场景未落地」改为
-#   BLOCKED-BY-ASSET，仍保持 blocked、数值栏留空、R1/R3 CONCERNS 不翻转。
+# a 阶段更新（渲染集成已实施）：TileMapLayer / MultiMesh + 屏外剔除 / CPUParticles2D
+#   现已接 ADR-4 E1 真实像素原图（asset_source=E1_PNG8，已提交 f1c79c2），资产阻塞
+#   解除；但 headless 无 GPU 帧时间采集链，5 项仍为 blocked，理由由 BLOCKED-BY-ASSET
+#   改为 BLOCKED-BY-HARDWARE（须带 GPU 的 PC 窗口实测 G1）。数值栏留空、R1/R3 不翻转。
 # =====================================================================
 
 extends Control
@@ -47,6 +47,7 @@ const HitZoneMod := preload("res://src/gameplay/input/hit_zone.gd")
 const InputQueueMod := preload("res://src/gameplay/input/input_queue.gd")
 const CombatDirectorMod := preload("res://src/gameplay/combat/combat_director.gd")
 const FloorGridMod := preload("res://src/gameplay/render/floor_grid.gd")
+const FloorTilemapMod := preload("res://src/gameplay/render/floor_tilemap.gd")
 
 # ---------------------------------------------------------------------
 # 采集前必须人工填写（导出 Windows exe 之前）
@@ -70,7 +71,7 @@ const USER_RAW_CSV := "user://hollowkin_probe_metrics_raw.csv"
 
 const FRAME_SAMPLES_DEFAULT := 120
 const WARMUP_FRAMES_DEFAULT := 30
-const FRAME_NOTE := "DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict"
+const FRAME_NOTE := "E1_PNG8 负载；已接 ADR-4 真实资产（f1c79c2），但无头无 GPU 帧采集链，不进 19 列 verdict，须 PC 窗口实测（G1）"
 
 var _status: Label
 var _button: Button
@@ -321,7 +322,7 @@ func _record_frame_times(probe) -> void:
     probe.record_frame_samples("frame_gpu_ms", _frame_gpu, note)
     probe.record_frame_samples("frame_cpu_ms", _frame_cpu, note)
     probe.record_frame_samples("frame_wall_ms", _frame_wall, note)
-    probe.note("FRAME_CAPTURE|round=%s mode=%s fps_cap=%d samples=%d load=DEBUG_PLACEHOLDER NOT_A_BASELINE" % [
+    probe.note("FRAME_CAPTURE|round=%s mode=%s fps_cap=%d samples=%d load=E1_PNG8 NOT_A_BASELINE" % [
         _round_id, _window_mode, _fps_cap, _frame_gpu.size()
     ])
 
@@ -482,14 +483,18 @@ func _collect_r3_ai_tick(probe) -> void:
 # （归档 runbook §7 方法学 + PC 基线 README §2）
 # ---------------------------------------------------------------------
 func _mark_blocked(probe) -> void:
-    probe.add_blocked("r1_render_mean", "ms", "≤ 16.6",
-        "BLOCKED-BY-ASSET: TileMapLayer.set_cell 已接入，但纹理为 DEBUG_PLACEHOLDER，须 E1 原图 + PC 窗口实测")
-    probe.add_blocked("r1_render_p95_spike", "ms", "< 50",
-        "BLOCKED-BY-ASSET: 瓦片渲染态已就位，但 debug 占位纹理不代表正式负载")
-    probe.add_blocked("r3_entity_render", "ms", "< 4 / < 8",
-        "BLOCKED-BY-ASSET: MultiMesh + 屏外剔除已就位，但实体贴图为 DEBUG_PLACEHOLDER")
-    probe.add_blocked("r3_particles", "ms", "< 3 / < 6",
-        "BLOCKED-BY-ASSET: CPUParticles2D 已启用，但特效贴图为无纹理默认方块")
+    # a 阶段后渲染层已接 E1 PNG-8（asset_source=E1_PNG8），资产阻塞解除；
+    # 剩余阻塞=本无头（headless）环境无 GPU 帧时间采集链，须带 GPU 的 PC 窗口实测（G1）。
+    var assets_integrated: bool = (FloorTilemapMod.ASSET_SOURCE == "E1_PNG8")
+    var asset_reason: String
+    if assets_integrated:
+        asset_reason = "BLOCKED-BY-HARDWARE: E1 原图已接入（提交 f1c79c2），资产阻塞解除；剩余阻塞=无头无 GPU 帧采集链，须 PC 窗口实测（G1）"
+    else:
+        asset_reason = "BLOCKED-BY-ASSET: 渲染层纹理仍为 DEBUG_PLACEHOLDER，须 E1 原图 + PC 窗口实测"
+    probe.add_blocked("r1_render_mean", "ms", "≤ 16.6", asset_reason)
+    probe.add_blocked("r1_render_p95_spike", "ms", "< 50", asset_reason)
+    probe.add_blocked("r3_entity_render", "ms", "< 4 / < 8", asset_reason)
+    probe.add_blocked("r3_particles", "ms", "< 3 / < 6", asset_reason)
     probe.add_blocked("r3_total_frame_share", "ms", "< 9.16（55%）",
         "分项缺失，不得拼接部分和判 pass")
 
@@ -503,7 +508,8 @@ func _note_render_structure(probe) -> void:
     var all_tiles: Dictionary = FloorGridMod.build_tiles(layout)
     var visible: Dictionary = FloorGridMod.cull_tiles(all_tiles, view)
     var ents: Array = FloorGridMod.visible_entities(layout, view)
-    probe.note("render_structure (counts_only_not_ms): total_cells=%d visible_cells=%d visible_entities=%d view=%s asset=%s" % [
-        all_tiles.size(), visible.size(), ents.size(), str(view), FloorGridMod.ASSET_SOURCE
+    probe.note("render_structure (counts_only_not_ms): total_cells=%d visible_cells=%d visible_entities=%d view=%s logic_asset=%s render_asset=%s" % [
+        all_tiles.size(), visible.size(), ents.size(), str(view),
+        FloorGridMod.ASSET_SOURCE, FloorTilemapMod.ASSET_SOURCE
     ])
     dg.free()

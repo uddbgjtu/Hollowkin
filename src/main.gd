@@ -261,9 +261,9 @@ func _run_selftest() -> void:
         if used <= 0:
             ok = false
             notes.append("tilemap_empty")
-        if str(tm.asset_source()) != "DEBUG_PLACEHOLDER":
+        if str(tm.asset_source()) == "DEBUG_PLACEHOLDER":
             ok = false
-            notes.append("asset_source_not_marked")
+            notes.append("asset_still_placeholder")
     var el = mv2.get_node_or_null("EntityLayer")
     if el == null:
         ok = false

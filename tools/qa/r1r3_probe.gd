@@ -6,9 +6,10 @@
 #
 # 纪律（对齐 runbook §9 诚实性约束）：
 #   - 本文件不含任何预置测量值；所有数值由 PC 运行时真实产生。
-#   - 渲染 / 粒子 / 合计占帧比只标 blocked，绝不代填数字。Wave 3b 后技术层
-#     （TileMapLayer / MultiMesh + 剔除 / CPUParticles2D）已就位，但纹理仍是
-#     DEBUG_PLACEHOLDER，故阻塞理由为 BLOCKED-BY-ASSET（E1 原图未产出）。
+#   - 渲染 / 粒子 / 合计占帧比只标 blocked，绝不代填数字。a 阶段后技术层
+#     （TileMapLayer / MultiMesh + 剔除 / CPUParticles2D）已接 E1 真实像素原图
+#     （asset_source=E1_PNG8），故阻塞理由由 BLOCKED-BY-ASSET 改为 BLOCKED-BY-HARDWARE
+#     （无头无 GPU 帧采集链，须 PC 窗口实测 G1）。
 #   - 不使用全局随机（ADR-5）；采集种子固定，随机由生产模块经 RNGService 派生。
 #   - 不声明 class_name，避免污染 .godot/global_script_class_cache.cfg（保持 40 类）。
 #
@@ -22,7 +23,7 @@
 #   - 窗口 / 全屏 × 60 / 30fps 分轮：round_id 写入逐样本长表；每轮汇总与原始
 #     证据按 round_id 分文件归档，禁止跨轮混算。
 #   - 帧时间（GPU / CPU / 墙钟）只写逐样本长表并标 load_kind，不进 19 列
-#     verdict：当前负载是 DEBUG_PLACEHOLDER，E1 正式资产未产出，不构成正式判据。
+#     verdict：a 阶段后负载为 E1_PNG8，但无头无 GPU 帧采集链，不构成正式判据。
 # =====================================================================
 
 extends RefCounted
@@ -41,7 +42,7 @@ const RAW_COLUMNS := [
 ]
 
 const LOAD_CPU_MODULE := "CPU_MODULE"
-const LOAD_FRAME_DEBUG := "DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE"
+const LOAD_FRAME_DEBUG := "E1_PNG8_FRAME_NOT_A_BASELINE"
 
 var _meta: Dictionary = {}
 var _rows: Array = []

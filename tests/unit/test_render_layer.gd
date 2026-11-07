@@ -3,17 +3,19 @@ extends GutTest
 # Wave 3b 渲染层回归（headless Godot 4.3 + GUT 9.3.0 真跑）。
 # 覆盖：逻辑网格 → 瓦片格映射的确定性、L 形走廊、屏外剔除、相机锚点、
 #       同屏实体 ≤12 上限、TileMapLayer 真实 set_cell、MultiMesh 实例数、
-#       粒子低档降密度，以及【DEBUG_PLACEHOLDER 资产纪律标记】。
+#       粒子低档降密度，以及【E1_PNG8 / LOGIC_LAYER 资产纪律标记】。
 #
 # 【性质声明】本文件是结构 / 记账级断言，**不含任何性能测量数字**，
 #   不把 cell 数或实例数换算成 ms，也不得据此关闭 architecture-doc.md §6 的 R1/R3。
-#   debug 占位纹理不是 ADR-4 E1 资产；正式渲染基线仍待 E1 原图 + Wave 4 窗口实测。
+#   E1 真实像素原图已由 asset_registry.gd 接入（视图层 ASSET_SOURCE=E1_PNG8、
+#   逻辑层 LOGIC_LAYER）；正式 GPU 帧预算基线仍待带 GPU 的 PC 窗口实测（G1）。
 # ADR-5：本文件不含任何全局随机调用。
 
 const FloorGrid := preload("res://src/gameplay/render/floor_grid.gd")
 const FloorTilemap := preload("res://src/gameplay/render/floor_tilemap.gd")
 const EntityLayer := preload("res://src/gameplay/render/entity_layer.gd")
 const BattleParticles := preload("res://src/gameplay/render/battle_particles.gd")
+const AssetRegistry := preload("res://src/core/asset_pipeline/asset_registry.gd")
 
 
 func _sample_layout() -> Dictionary:
@@ -92,11 +94,23 @@ func test_visible_entities_capped_at_12_and_inside_view() -> void:
     assert_eq(none.size(), 0, "视口外应全部剔除")
 
 
-func test_asset_discipline_marks_debug_placeholder() -> void:
-    assert_eq(FloorGrid.ASSET_SOURCE, "DEBUG_PLACEHOLDER", "逻辑层显式标记非 E1 资产")
-    assert_eq(FloorTilemap.ASSET_SOURCE, "DEBUG_PLACEHOLDER", "瓦片视图显式标记")
-    assert_eq(EntityLayer.ASSET_SOURCE, "DEBUG_PLACEHOLDER", "实体视图显式标记")
-    assert_eq(BattleParticles.ASSET_SOURCE, "DEBUG_PLACEHOLDER", "粒子层显式标记")
+func test_asset_discipline_marks_e1_or_logic_layer() -> void:
+    assert_eq(FloorGrid.ASSET_SOURCE, "LOGIC_LAYER", "逻辑层显式标记非纹理层")
+    assert_eq(FloorTilemap.ASSET_SOURCE, "E1_PNG8", "瓦片视图已接 E1 资产")
+    assert_eq(EntityLayer.ASSET_SOURCE, "E1_PNG8", "实体视图已接 E1 资产")
+    assert_eq(BattleParticles.ASSET_SOURCE, "E1_PNG8", "粒子层已接 E1 资产")
+
+
+func test_e1_assets_resolve_without_warnings() -> void:
+    # a 阶段：registry 能解析渲染层实际使用的 4 个 slug，且 headless 下无缺件告警。
+    assert_true(AssetRegistry.has("upper_floor"), "manifest 含 upper_floor")
+    assert_true(AssetRegistry.has("upper_wall"), "manifest 含 upper_wall")
+    assert_true(AssetRegistry.has("mid_floor"), "manifest 含 mid_floor")
+    assert_true(AssetRegistry.has("tamer"), "manifest 含 tamer")
+    var tex := AssetRegistry.texture("upper_floor")
+    assert_not_null(tex, "upper_floor 纹理可加载（E1 PNG-8）")
+    assert_eq(AssetRegistry.source(), "E1_PNG8", "registry 纪律标记")
+    assert_eq(AssetRegistry.warnings(), [], "无缺件告警")
 
 
 func test_tilemap_writes_only_visible_cells() -> void:
@@ -108,7 +122,7 @@ func test_tilemap_writes_only_visible_cells() -> void:
     assert_eq(tm.get_used_cells().size(), 12, "TileMapLayer 真实 set_cell 12 格")
     assert_eq(tm.last_total_cells, 17, "剔除前总格数 17")
     assert_eq(tm.last_visible_cells, 12, "剔除后 12 格")
-    assert_eq(tm.asset_source(), "DEBUG_PLACEHOLDER", "不冒充 E1 TileSet")
+    assert_eq(tm.asset_source(), "E1_PNG8", "已接 E1 TileSet")
     var ts: TileSet = tm.tile_set
     assert_eq(ts.tile_size, Vector2i(16, 16), "美术圣经 16x16 瓦片")
     assert_eq(ts.get_source_count(), 1, "单一 atlas source")
@@ -123,7 +137,7 @@ func test_multimesh_instance_count_matches_visible_entities() -> void:
     assert_eq(n, 12, "可见实体 12")
     assert_eq(el.last_visible, 12, "记录可见数")
     assert_eq(el.multimesh.visible_instance_count, 12, "MultiMesh 只提交 12 个实例")
-    assert_eq(el.asset_source(), "DEBUG_PLACEHOLDER", "不冒充 E1 敌人贴图")
+    assert_eq(el.asset_source(), "E1_PNG8", "已接 E1 角色贴图")
     el.free()
 
 
@@ -134,5 +148,5 @@ func test_particles_low_tier_halves_density() -> void:
     assert_true(p.emitting, "Wave 3b 起粒子层真实启用")
     p.configure(true)
     assert_eq(p.amount, BattleParticles.LOW_AMOUNT, "低档降密度到 12")
-    assert_eq(p.asset_source(), "DEBUG_PLACEHOLDER", "不冒充 E1 特效贴图")
+    assert_eq(p.asset_source(), "E1_PNG8", "已接 E1 特效贴图")
     p.free()

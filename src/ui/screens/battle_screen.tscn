@@ -14,7 +14,7 @@ mouse_filter = 2
 script = ExtResource("1_view")
 screen_id = "battle"
 title = "战斗 · 技能 / 防御 / 跳过"
-hint = "Esc 返回总览；Q / W 对应灵击 / 缚灵（需已注入 CombatDirector）；浮尘粒子为 DEBUG_PLACEHOLDER"
+hint = "Esc 返回总览；Q / W 对应灵击 / 缚灵（需已注入 CombatDirector）；浮尘粒子已接 ADR-4 E1 真实像素原图（asset_source=E1_PNG8，f1c79c2）"
 
 [node name="TitleLabel" type="Label" parent="."]
 layout_mode = 0

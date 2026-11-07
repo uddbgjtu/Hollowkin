@@ -3,8 +3,9 @@
 # 职责：按 FloorGrid.visible_entities() 的可见集，用 MultiMesh 一次 draw call
 #       批绘制同屏敌人；实例数硬上限 12（R3 缓解②）。
 #
-# 【资产纪律】16×16 纯色 debug 占位纹理（DEBUG_PLACEHOLDER），不是 E1 敌人贴图；
-#   未跑 pixel_pipeline.py、未登记 manifest、未生成 PNG 文件，不得充当正式渲染基线。
+# 【资产纪律 · a 阶段已接 E1】实体 MultiMesh 纹理改由 asset_registry.gd 提供真实
+#   E1 角色像素原图（暂统一用 tamer 作代表；逐实体差异化贴图待后续），ASSET_SOURCE = E1_PNG8。
+#   已登记 manifest、已生成 PNG-8 并提交 f1c79c2；正式 GPU 帧预算基线仍待 (a)+ PC 实测（G1）。
 #
 # 刻意不加 class_name（保持全局类缓存 40 类）；调用方 const preload。
 # ADR-5：无全局随机。
@@ -13,19 +14,18 @@
 extends MultiMeshInstance2D
 
 const FloorGrid := preload("res://src/gameplay/render/floor_grid.gd")
+const AssetRegistry := preload("res://src/core/asset_pipeline/asset_registry.gd")
 
-const ASSET_SOURCE := "DEBUG_PLACEHOLDER"
+const ASSET_SOURCE := "E1_PNG8"
 const MAX_VISIBLE := 12
 const SPRITE_PX := 16.0
-const C_ENTITY := Color(0.78, 0.36, 0.52, 1.0)
 
 var last_visible: int = 0
 
 
 func _init() -> void:
-    var img: Image = Image.create_empty(16, 16, false, Image.FORMAT_RGBA8)
-    img.fill(C_ENTITY)
-    var tex: ImageTexture = ImageTexture.create_from_image(img)
+    # a 阶段：实体纹理接真实 E1 角色像素原图（tamer 作代表，差异化待后续）。
+    var tex: Texture2D = AssetRegistry.texture("tamer")
 
     var quad := QuadMesh.new()
     quad.size = Vector2(SPRITE_PX, SPRITE_PX)
