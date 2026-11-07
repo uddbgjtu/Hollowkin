@@ -1,0 +1,150 @@
+{
+  "_meta": {
+    "batch": "E1-full-14",
+    "authority": "docs/art-bible/art-bible.md §6.1 (style lock / negative lock) + design/gdd/mvp-spirit-bestiary.md §0.1/§2/§4 + docs/art-bible/asset-production-spec.md §1",
+    "note": "STYLE and negative lock are constants; only subject/content varies. Asset 01 is the exact prompt used for the gold-standard tamer image.",
+    "imagegen_seed": "UNSET (tool does not expose a seed parameter; see E1_batch_notes.md)"
+  },
+  "assets": [
+    {
+      "id": "01",
+      "entity_slug": "tamer",
+      "category": "char",
+      "variant": "idle",
+      "size": 24,
+      "scene": "upper",
+      "prompt_sha256": "7a928d52a3b6f2e060de853cfbb6bc7cf476b6f60897076a1dc8f57ed158628b",
+      "prompt": "Original pixel art game sprite designed for a 24x24 pixel grid, one single isolated character centered on a fully transparent background, front-facing idle pose. STYLE LOCK: clean 1-2px dark outline in #1A1C2C, flat cel shading with hard-edged color blocks, 2x2 ordered dithering for shading transitions, strictly limited 16-color palette with PICO-8-like restraint, crisp hard pixel edges, no anti-aliasing, no smooth gradients, retro handheld aesthetic, geometric-cute original design language using rounded-rectangle body and triangular accents, light source from upper-left and shadow to lower-right. SUBJECT: a young lantern-child tamer protagonist, human, NO animal ears, NO horns, NO tail, small trapezoid cloak, round-top cap, a small spirit-pouch pendant at the waist, large simple 2-3 pixel eyes. Palette: warm orange #FF8C42 tunic, cream #F4E4C1 inner lining, clay brown #A56A43 pouch, dusk blue #2B2F4A cloak shadows, dark #1A1C2C outline, cream white highlights. AVOID ENTIRELY: blur, gradient smoothing, jpeg artifacts, anti-aliasing, photorealism, 3D render, Pokemon, Nintendo, World of Warcraft icons, any copyrighted character, text, logos, watermark, ground, cast shadow, frame, background scenery, extra characters, multiple views, spritesheet."
+    },
+    {
+      "id": "02",
+      "entity_slug": "mossback",
+      "category": "char",
+      "variant": "idle",
+      "size": 24,
+      "scene": "upper",
+      "prompt_sha256": "3eb355d917316249a200f46b4b5b91d9fb1151c54bf712903904f07631a755ab",
+      "prompt": "Original pixel art game sprite designed for a 24x24 pixel grid, one single isolated creature centered on a fully transparent background, front-facing idle pose. STYLE LOCK: clean 1-2px dark outline in #1A1C2C, flat cel shading with hard-edged color blocks, 2x2 ordered dithering for shading transitions, strictly limited 16-color palette with PICO-8-like restraint, crisp hard pixel edges, no anti-aliasing, no smooth gradients, retro handheld aesthetic, geometric-cute original design language using rounded-rectangle body and triangular accents, light source from upper-left and shadow to lower-right. SUBJECT: a small round mossy guardian creature, rounded-rectangle body covered with mossy stone plates, TWO triangular ears pointing outward and upward, NO horns, a short round stub tail, chunky legs, friendly simple eyes. Palette: mist teal #7BC9B0 body, leaf green #5FD35A moss, honey #FFD23F light spots, clay brown #A56A43 stone patches, cream #F4E4C1 highlights, dark #1A1C2C outline. AVOID ENTIRELY: blur, gradient smoothing, jpeg artifacts, anti-aliasing, photorealism, 3D render, Pokemon, Nintendo, World of Warcraft icons, any copyrighted character, text, logos, watermark, ground, cast shadow, frame, background scenery, extra characters, multiple views, spritesheet."
+    },
+    {
+      "id": "03",
+      "entity_slug": "emberhorn",
+      "category": "char",
+      "variant": "idle",
+      "size": 24,
+      "scene": "mid",
+      "prompt_sha256": "6c4fe00d69e62a6b6884137fa72651e79911b93a77f9b1a83a9e516207c7f4a5",
+      "prompt": "Original pixel art game sprite designed for a 24x24 pixel grid, one single isolated creature centered on a fully transparent background, front-facing idle pose. STYLE LOCK: clean 1-2px dark outline in #1A1C2C, flat cel shading with hard-edged color blocks, 2x2 ordered dithering for shading transitions, strictly limited 16-color palette with PICO-8-like restraint, crisp hard pixel edges, no anti-aliasing, no smooth gradients, retro handheld aesthetic, geometric-cute original design language using rounded-rectangle body and triangular accents, light source from upper-left and shadow to lower-right. SUBJECT: a small fiery creature with rounded-rectangle body, ONE short sharp horn pointing forward from the center of the forehead, ONE triangular tail pointing to the right, tiny rounded ears, NO other horns, simple eyes. Palette: amber #D98E32 body, lava orange #FF6A2C flame crest, honey #FFD23F highlights, dusk purple #7A5E9E shadows, cream #F4E4C1 glints, dark #1A1C2C outline. AVOID ENTIRELY: blur, gradient smoothing, jpeg artifacts, anti-aliasing, photorealism, 3D render, Pokemon, Nintendo, World of Warcraft icons, any copyrighted character, text, logos, watermark, ground, cast shadow, frame, background scenery, extra characters, multiple views, spritesheet."
+    },
+    {
+      "id": "04",
+      "entity_slug": "frostling",
+      "category": "char",
+      "variant": "idle",
+      "size": 24,
+      "scene": "mid",
+      "prompt_sha256": "1f671d30503f55d603ca32b68b7e74a149c9aadbb84198af9c3cd92a90cdcf7b",
+      "prompt": "Original pixel art game sprite designed for a 24x24 pixel grid, one single isolated creature centered on a fully transparent background, front-facing idle pose. STYLE LOCK: clean 1-2px dark outline in #1A1C2C, flat cel shading with hard-edged color blocks, 2x2 ordered dithering for shading transitions, strictly limited 16-color palette with PICO-8-like restraint, crisp hard pixel edges, no anti-aliasing, no smooth gradients, retro handheld aesthetic, geometric-cute original design language using rounded-rectangle body and triangular accents, light source from upper-left and shadow to lower-right. SUBJECT: a small ice spirit with rounded-rectangle body, TWO drooping downward triangular ears, NO horns, TWO upward forked triangular tails like hanging bells, simple eyes. Palette: dusk purple #7A5E9E body, sky blue #3FA7FF frost, teal #2EC4B6 accents, cream #F4E4C1 snow highlights, dark #1A1C2C outline. AVOID ENTIRELY: blur, gradient smoothing, jpeg artifacts, anti-aliasing, photorealism, 3D render, Pokemon, Nintendo, World of Warcraft icons, any copyrighted character, text, logos, watermark, ground, cast shadow, frame, background scenery, extra characters, multiple views, spritesheet."
+    },
+    {
+      "id": "05",
+      "entity_slug": "voltsprite",
+      "category": "char",
+      "variant": "idle",
+      "size": 24,
+      "scene": "upper",
+      "prompt_sha256": "8215bea80b6481df955f471cfcec8971925b43c377ea15b67c465343b282cb27",
+      "prompt": "Original pixel art game sprite designed for a 24x24 pixel grid, one single isolated creature centered on a fully transparent background, front-facing idle pose. STYLE LOCK: clean 1-2px dark outline in #1A1C2C, flat cel shading with hard-edged color blocks, 2x2 ordered dithering for shading transitions, strictly limited 16-color palette with PICO-8-like restraint, crisp hard pixel edges, no anti-aliasing, no smooth gradients, retro handheld aesthetic, geometric-cute original design language using rounded-rectangle body and triangular accents, light source from upper-left and shadow to lower-right. SUBJECT: a swift bird-like sprite with streamlined rounded-rectangle body, ONE triangular ear swept backward, NO horns, ONE sharp triangular tail pointing back and up, a distinct triangular BEAK, simple eyes. Palette: honey #FFD23F body, mist teal #7BC9B0 wing accents, leaf green #5FD35A trim, cream #F4E4C1 highlights, dark #1A1C2C outline. AVOID ENTIRELY: blur, gradient smoothing, jpeg artifacts, anti-aliasing, photorealism, 3D render, Pokemon, Nintendo, World of Warcraft icons, any copyrighted character, text, logos, watermark, ground, cast shadow, frame, background scenery, extra characters, multiple views, spritesheet."
+    },
+    {
+      "id": "06",
+      "entity_slug": "boss_deep",
+      "category": "char",
+      "variant": "idle",
+      "size": 48,
+      "scene": "boss",
+      "prompt_sha256": "0beafeeab888af46ff09231a6c5834c37d21e2a7849d93bc5cc8f748fc66f54e",
+      "prompt": "Original pixel art game sprite designed for a 48x48 pixel grid, one single isolated creature centered on a fully transparent background, front-facing idle pose. STYLE LOCK: clean 1-2px dark outline in #1A1C2C, flat cel shading with hard-edged color blocks, 2x2 ordered dithering for shading transitions, strictly limited 16-color palette with PICO-8-like restraint, crisp hard pixel edges, no anti-aliasing, no smooth gradients, retro handheld aesthetic, geometric-cute original design language using rounded-rectangle body and triangular accents, light source from upper-left and shadow to lower-right. SUBJECT: a large imposing deep-cavern boss creature, broad rounded-rectangle armored body, asymmetric jagged triangular spikes along the back, a heavy triangular tail, glowing molten cracks, sharp angular enemy silhouette. Palette: night indigo #1A1C2C and abyss indigo #2B3A66 armor, lava orange #FF6A2C molten cracks, honey #FFD23F embers, teal #2EC4B6 floating dust, danger red #FF4D4D eyes, cream #F4E4C1 highlights. AVOID ENTIRELY: blur, gradient smoothing, jpeg artifacts, anti-aliasing, photorealism, 3D render, Pokemon, Nintendo, World of Warcraft icons, any copyrighted character, text, logos, watermark, ground, cast shadow, frame, background scenery, extra characters, multiple views, spritesheet."
+    },
+    {
+      "id": "07",
+      "entity_slug": "upper_floor",
+      "category": "tile",
+      "variant": "a01",
+      "size": 16,
+      "scene": "upper",
+      "prompt_sha256": "715847b3969c62bee6381a378e08dc5f656f885b91d034d0be76218d13acc8e1",
+      "prompt": "Original pixel art game sprite designed for a 16x16 pixel grid, one single isolated square floor tile centered on a fully transparent background, flat top-down view. STYLE LOCK: clean 1-2px dark outline in #1A1C2C, flat cel shading with hard-edged color blocks, 2x2 ordered dithering for shading transitions, strictly limited 16-color palette with PICO-8-like restraint, crisp hard pixel edges, no anti-aliasing, no smooth gradients, retro handheld aesthetic, geometric-cute original design language using rounded-rectangle body and triangular accents, light source from upper-left and shadow to lower-right. SUBJECT: a single seamless square floor tile for a bright upper cavern, simple stone flagstone pattern with moss in the seams, no characters. Palette: mist teal #7BC9B0, leaf green #5FD35A, honey #FFD23F, clay #A56A43, cream #F4E4C1, dark #1A1C2C outline. AVOID ENTIRELY: blur, gradient smoothing, jpeg artifacts, anti-aliasing, photorealism, 3D render, Pokemon, Nintendo, World of Warcraft icons, any copyrighted character, text, logos, watermark, ground, cast shadow, frame, background scenery, extra characters, multiple views, spritesheet."
+    },
+    {
+      "id": "08",
+      "entity_slug": "upper_wall",
+      "category": "tile",
+      "variant": "a01",
+      "size": 16,
+      "scene": "upper",
+      "prompt_sha256": "7390468319354acd5ee06ae2b8490b865dae134fd262d1bb4d66312d87ec201f",
+      "prompt": "Original pixel art game sprite designed for a 16x16 pixel grid, one single isolated square wall tile centered on a fully transparent background, flat front view. STYLE LOCK: clean 1-2px dark outline in #1A1C2C, flat cel shading with hard-edged color blocks, 2x2 ordered dithering for shading transitions, strictly limited 16-color palette with PICO-8-like restraint, crisp hard pixel edges, no anti-aliasing, no smooth gradients, retro handheld aesthetic, geometric-cute original design language using rounded-rectangle body and triangular accents, light source from upper-left and shadow to lower-right. SUBJECT: a single seamless square wall tile for a bright upper cavern, stacked stone blocks with a dark top edge and a parchment highlight, no characters. Palette: mist teal #7BC9B0, clay #A56A43, dusk blue #2B2F4A shadow, cream #F4E4C1 highlight, dark #1A1C2C outline. AVOID ENTIRELY: blur, gradient smoothing, jpeg artifacts, anti-aliasing, photorealism, 3D render, Pokemon, Nintendo, World of Warcraft icons, any copyrighted character, text, logos, watermark, ground, cast shadow, frame, background scenery, extra characters, multiple views, spritesheet."
+    },
+    {
+      "id": "09",
+      "entity_slug": "mid_floor",
+      "category": "tile",
+      "variant": "a01",
+      "size": 16,
+      "scene": "mid",
+      "prompt_sha256": "18944efb4ed78003bc5d5692b794521f72fbbe3f43f7ef4d6600a22a5b6505dd",
+      "prompt": "Original pixel art game sprite designed for a 16x16 pixel grid, one single isolated square floor tile centered on a fully transparent background, flat top-down view. STYLE LOCK: clean 1-2px dark outline in #1A1C2C, flat cel shading with hard-edged color blocks, 2x2 ordered dithering for shading transitions, strictly limited 16-color palette with PICO-8-like restraint, crisp hard pixel edges, no anti-aliasing, no smooth gradients, retro handheld aesthetic, geometric-cute original design language using rounded-rectangle body and triangular accents, light source from upper-left and shadow to lower-right. SUBJECT: a single seamless square floor tile for a dim mid-cavern, cracked amber stone with faint violet seams, no characters. Palette: amber #D98E32, lava orange #FF6A2C, dusk purple #7A5E9E, sky blue #3FA7FF faint rune, cream #F4E4C1, dark #1A1C2C outline. AVOID ENTIRELY: blur, gradient smoothing, jpeg artifacts, anti-aliasing, photorealism, 3D render, Pokemon, Nintendo, World of Warcraft icons, any copyrighted character, text, logos, watermark, ground, cast shadow, frame, background scenery, extra characters, multiple views, spritesheet."
+    },
+    {
+      "id": "10",
+      "entity_slug": "boss_lava",
+      "category": "tile",
+      "variant": "a01",
+      "size": 16,
+      "scene": "boss",
+      "prompt_sha256": "a5ee66335b0e585f8c1ae220b9178cdbe8a51d8fe29fb7dfd40cb3a7889feb58",
+      "prompt": "Original pixel art game sprite designed for a 16x16 pixel grid, one single isolated square lava floor tile centered on a fully transparent background, flat top-down view. STYLE LOCK: clean 1-2px dark outline in #1A1C2C, flat cel shading with hard-edged color blocks, 2x2 ordered dithering for shading transitions, strictly limited 16-color palette with PICO-8-like restraint, crisp hard pixel edges, no anti-aliasing, no smooth gradients, retro handheld aesthetic, geometric-cute original design language using rounded-rectangle body and triangular accents, light source from upper-left and shadow to lower-right. SUBJECT: a single seamless square lava floor tile for a deep boss cavern, dark cooled crust with glowing orange cracks and a subtle upward glow, no characters. Palette: night indigo #1A1C2C, abyss indigo #2B3A66, lava orange #FF6A2C, honey #FFD23F, danger red #FF4D4D, dark outline. AVOID ENTIRELY: blur, gradient smoothing, jpeg artifacts, anti-aliasing, photorealism, 3D render, Pokemon, Nintendo, World of Warcraft icons, any copyrighted character, text, logos, watermark, ground, cast shadow, frame, background scenery, extra characters, multiple views, spritesheet."
+    },
+    {
+      "id": "11",
+      "entity_slug": "sanctuary_floor",
+      "category": "tile",
+      "variant": "a01",
+      "size": 16,
+      "scene": "sanctuary",
+      "prompt_sha256": "8414ff209abe43297195985096bac929c827a8322b2b8b84a2ebcc071acfea43",
+      "prompt": "Original pixel art game sprite designed for a 16x16 pixel grid, one single isolated square wooden floor tile centered on a fully transparent background, flat top-down view. STYLE LOCK: clean 1-2px dark outline in #1A1C2C, flat cel shading with hard-edged color blocks, 2x2 ordered dithering for shading transitions, strictly limited 16-color palette with PICO-8-like restraint, crisp hard pixel edges, no anti-aliasing, no smooth gradients, retro handheld aesthetic, geometric-cute original design language using rounded-rectangle body and triangular accents, light source from upper-left and shadow to lower-right. SUBJECT: a single seamless square wooden floor tile for a warm sanctuary camp, warm planks with soft cream highlights, no characters. Palette: sun ember #FF8C42, clay #A56A43, honey #FFD23F, parchment #F4E4C1, dusk blue #2B2F4A shadows, dark #1A1C2C outline. AVOID ENTIRELY: blur, gradient smoothing, jpeg artifacts, anti-aliasing, photorealism, 3D render, Pokemon, Nintendo, World of Warcraft icons, any copyrighted character, text, logos, watermark, ground, cast shadow, frame, background scenery, extra characters, multiple views, spritesheet."
+    },
+    {
+      "id": "12",
+      "entity_slug": "chest",
+      "category": "prop",
+      "variant": "a01",
+      "size": 16,
+      "scene": "sanctuary",
+      "prompt_sha256": "3a9dedb11e22a7933dfd34d444a1199988c9c965593e138290d20c7ed72b3b2e",
+      "prompt": "Original pixel art game sprite designed for a 16x16 pixel grid, one single isolated small treasure chest prop centered on a fully transparent background, flat front view. STYLE LOCK: clean 1-2px dark outline in #1A1C2C, flat cel shading with hard-edged color blocks, 2x2 ordered dithering for shading transitions, strictly limited 16-color palette with PICO-8-like restraint, crisp hard pixel edges, no anti-aliasing, no smooth gradients, retro handheld aesthetic, geometric-cute original design language using rounded-rectangle body and triangular accents, light source from upper-left and shadow to lower-right. SUBJECT: a single small treasure chest prop with rounded corners and a cyan-green glowing clasp, isolated object, no characters. Palette: sun ember #FF8C42 wood, clay #A56A43 bands, honey #FFD23F lock, teal-like sky blue #3FA7FF clasp glow, cream #F4E4C1 highlights, dark #1A1C2C outline. AVOID ENTIRELY: blur, gradient smoothing, jpeg artifacts, anti-aliasing, photorealism, 3D render, Pokemon, Nintendo, World of Warcraft icons, any copyrighted character, text, logos, watermark, ground, cast shadow, frame, background scenery, extra characters, multiple views, spritesheet."
+    },
+    {
+      "id": "13",
+      "entity_slug": "trap",
+      "category": "prop",
+      "variant": "a01",
+      "size": 16,
+      "scene": "mid",
+      "prompt_sha256": "93bfebce9b9b4a7ce34e07433bcd5d133dd128d0879b4a52b12a2ffcab3975bc",
+      "prompt": "Original pixel art game sprite designed for a 16x16 pixel grid, one single isolated floor spike trap prop centered on a fully transparent background, flat front view. STYLE LOCK: clean 1-2px dark outline in #1A1C2C, flat cel shading with hard-edged color blocks, 2x2 ordered dithering for shading transitions, strictly limited 16-color palette with PICO-8-like restraint, crisp hard pixel edges, no anti-aliasing, no smooth gradients, retro handheld aesthetic, geometric-cute original design language using rounded-rectangle body and triangular accents, light source from upper-left and shadow to lower-right. SUBJECT: a single floor spike trap prop, jagged zigzag frame with amber warning pattern, isolated object, no characters. Palette: amber #D98E32 frame, lava orange #FF6A2C warning, dusk purple #7A5E9E shadows, sky blue #3FA7FF cold metal, cream #F4E4C1 glints, dark #1A1C2C outline. AVOID ENTIRELY: blur, gradient smoothing, jpeg artifacts, anti-aliasing, photorealism, 3D render, Pokemon, Nintendo, World of Warcraft icons, any copyrighted character, text, logos, watermark, ground, cast shadow, frame, background scenery, extra characters, multiple views, spritesheet."
+    },
+    {
+      "id": "14",
+      "entity_slug": "rune",
+      "category": "ui",
+      "variant": "a01",
+      "size": 24,
+      "scene": "sanctuary",
+      "prompt_sha256": "af9a63b11e4043f513b2d5bd61790f193d765cd62a11e0c14838215149352dfc",
+      "prompt": "Original pixel art game sprite designed for a 24x24 pixel grid, one single isolated square UI skill icon centered on a fully transparent background, flat front view. STYLE LOCK: clean 1-2px dark outline in #1A1C2C, flat cel shading with hard-edged color blocks, 2x2 ordered dithering for shading transitions, strictly limited 16-color palette with PICO-8-like restraint, crisp hard pixel edges, no anti-aliasing, no smooth gradients, retro handheld aesthetic, geometric-cute original design language using rounded-rectangle body and triangular accents, light source from upper-left and shadow to lower-right. SUBJECT: a single square UI skill icon showing a glowing rune glyph with a shape-distinct hexagonal ring and a triangular notch, flat vector-like pixel shapes, no text, no characters. Palette: sun ember #FF8C42 glow, honey #FFD23F core, parchment #F4E4C1 highlight, dusk blue #2B2F4A frame, sky blue #3FA7FF inner light, dark #1A1C2C outline. AVOID ENTIRELY: blur, gradient smoothing, jpeg artifacts, anti-aliasing, photorealism, 3D render, Pokemon, Nintendo, World of Warcraft icons, any copyrighted character, text, logos, watermark, ground, cast shadow, frame, background scenery, extra characters, multiple views, spritesheet."
+    }
+  ]
+}

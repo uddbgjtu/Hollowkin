@@ -1,0 +1,558 @@
+{
+  "_meta": {
+    "batch": "E1-full-14",
+    "generated_at": "2026-11-07T05:21:28.729675+00:00",
+    "assets": 14,
+    "pass": 14,
+    "seed": "0 (sentinel: ImageGen does not expose a seed parameter)",
+    "note": "R1-R4 via pixel_pipeline.validate_python; R5 checksum/color_count recompute; R6 naming is a soft warning. GDScript palette_validator headless CI and .import preset application remain open (see E1_batch_notes.md)."
+  },
+  "results": [
+    {
+      "id": "01",
+      "entity_slug": "tamer",
+      "category": "char",
+      "scene": "upper",
+      "size": 24,
+      "variant": "idle",
+      "prompt_sha256": "7a928d52a3b6f2e060de853cfbb6bc7cf476b6f60897076a1dc8f57ed158628b",
+      "gen_arch": "assets/reference/_raw/gen/01_tamer.png",
+      "source_raw": "assets/reference/_raw/rgba/01_tamer_0_20261107T0508.png",
+      "asset_path": "assets/chars/tamer/char_tamer_idle_24.png",
+      "checksum": "0d8e18fdaacddc9cd92b711779be1c5d4ff25f41214fcfb236d65c1f85051771",
+      "color_count": 7,
+      "transparent_px": 268,
+      "validator_result": "pass",
+      "R1_R4": "pass: 7 色, scene=upper",
+      "R5": true,
+      "R6_naming": true,
+      "prepare": {
+        "mode": "white_background_removed",
+        "source_size": [
+          1024,
+          1024
+        ],
+        "alpha_bbox": [
+          256,
+          112,
+          768,
+          912
+        ],
+        "fit_grid": 24,
+        "canvas_size": [
+          768,
+          768
+        ],
+        "transparent_ratio": 0.7319,
+        "opaque_px": 158110
+      }
+    },
+    {
+      "id": "02",
+      "entity_slug": "mossback",
+      "category": "char",
+      "scene": "upper",
+      "size": 24,
+      "variant": "idle",
+      "prompt_sha256": "3eb355d917316249a200f46b4b5b91d9fb1151c54bf712903904f07631a755ab",
+      "gen_arch": "assets/reference/_raw/gen/02_mossback.png",
+      "source_raw": "assets/reference/_raw/rgba/02_mossback_0_20261107T0508.png",
+      "asset_path": "assets/chars/mossback/char_mossback_idle_24.png",
+      "checksum": "30fd8eae3330405dc2d58783aa1b7a7418bdd3d9ab8469238f579a33edfd5969",
+      "color_count": 8,
+      "transparent_px": 181,
+      "validator_result": "pass",
+      "R1_R4": "pass: 8 色, scene=upper",
+      "R5": true,
+      "R6_naming": true,
+      "prepare": {
+        "mode": "white_background_removed",
+        "source_size": [
+          1024,
+          1024
+        ],
+        "alpha_bbox": [
+          208,
+          128,
+          848,
+          896
+        ],
+        "fit_grid": 24,
+        "canvas_size": [
+          768,
+          768
+        ],
+        "transparent_ratio": 0.6307,
+        "opaque_px": 217794
+      }
+    },
+    {
+      "id": "03",
+      "entity_slug": "emberhorn",
+      "category": "char",
+      "scene": "mid",
+      "size": 24,
+      "variant": "idle",
+      "prompt_sha256": "6c4fe00d69e62a6b6884137fa72651e79911b93a77f9b1a83a9e516207c7f4a5",
+      "gen_arch": "assets/reference/_raw/gen/03_emberhorn.png",
+      "source_raw": "assets/reference/_raw/rgba/03_emberhorn_0_20261107T0508.png",
+      "asset_path": "assets/chars/emberhorn/char_emberhorn_idle_24.png",
+      "checksum": "c24ed69c2baaf9a1017894d4a46f1e64819835db91c4a0a6bc6dba99966f8174",
+      "color_count": 5,
+      "transparent_px": 251,
+      "validator_result": "pass",
+      "R1_R4": "pass: 5 色, scene=mid",
+      "R5": true,
+      "R6_naming": true,
+      "prepare": {
+        "mode": "white_background_removed",
+        "source_size": [
+          1024,
+          1024
+        ],
+        "alpha_bbox": [
+          224,
+          128,
+          800,
+          864
+        ],
+        "fit_grid": 24,
+        "canvas_size": [
+          768,
+          768
+        ],
+        "transparent_ratio": 0.7156,
+        "opaque_px": 167737
+      }
+    },
+    {
+      "id": "04",
+      "entity_slug": "frostling",
+      "category": "char",
+      "scene": "mid",
+      "size": 24,
+      "variant": "idle",
+      "prompt_sha256": "1f671d30503f55d603ca32b68b7e74a149c9aadbb84198af9c3cd92a90cdcf7b",
+      "gen_arch": "assets/reference/_raw/gen/04_frostling.png",
+      "source_raw": "assets/reference/_raw/rgba/04_frostling_0_20261107T0508.png",
+      "asset_path": "assets/chars/frostling/char_frostling_idle_24.png",
+      "checksum": "550e3c12d1b9840572417970da0ce1fe2797e18fff89d8224f10f35068d42caa",
+      "color_count": 6,
+      "transparent_px": 167,
+      "validator_result": "pass",
+      "R1_R4": "pass: 6 色, scene=mid",
+      "R5": true,
+      "R6_naming": true,
+      "prepare": {
+        "mode": "white_background_removed",
+        "source_size": [
+          1024,
+          1024
+        ],
+        "alpha_bbox": [
+          136,
+          160,
+          882,
+          880
+        ],
+        "fit_grid": 24,
+        "canvas_size": [
+          768,
+          768
+        ],
+        "transparent_ratio": 0.6244,
+        "opaque_px": 221543
+      }
+    },
+    {
+      "id": "05",
+      "entity_slug": "voltsprite",
+      "category": "char",
+      "scene": "upper",
+      "size": 24,
+      "variant": "idle",
+      "prompt_sha256": "8215bea80b6481df955f471cfcec8971925b43c377ea15b67c465343b282cb27",
+      "gen_arch": "assets/reference/_raw/gen/05_voltsprite.png",
+      "source_raw": "assets/reference/_raw/rgba/05_voltsprite_0_20261107T0508.png",
+      "asset_path": "assets/chars/voltsprite/char_voltsprite_idle_24.png",
+      "checksum": "ba49fa46217bddd4c42f464b3612894c9683652e44d03172d3c7ed53e1e74826",
+      "color_count": 9,
+      "transparent_px": 111,
+      "validator_result": "pass",
+      "R1_R4": "pass: 9 色, scene=upper",
+      "R5": true,
+      "R6_naming": true,
+      "prepare": {
+        "mode": "white_background_removed",
+        "source_size": [
+          1024,
+          1024
+        ],
+        "alpha_bbox": [
+          96,
+          128,
+          864,
+          896
+        ],
+        "fit_grid": 24,
+        "canvas_size": [
+          768,
+          768
+        ],
+        "transparent_ratio": 0.5346,
+        "opaque_px": 274522
+      }
+    },
+    {
+      "id": "06",
+      "entity_slug": "boss_deep",
+      "category": "char",
+      "scene": "boss",
+      "size": 48,
+      "variant": "idle",
+      "prompt_sha256": "0beafeeab888af46ff09231a6c5834c37d21e2a7849d93bc5cc8f748fc66f54e",
+      "gen_arch": "assets/reference/_raw/gen/06_boss_deep.png",
+      "source_raw": "assets/reference/_raw/rgba/06_boss_deep_0_20261107T0508.png",
+      "asset_path": "assets/chars/boss_deep/char_boss_deep_idle_48.png",
+      "checksum": "4d97a3900f056fa331c44309bcdae19ef85cfc26b24754a173c4bdffe82b0ab4",
+      "color_count": 10,
+      "transparent_px": 974,
+      "validator_result": "pass",
+      "R1_R4": "pass: 10 色, scene=boss",
+      "R5": true,
+      "R6_naming": true,
+      "prepare": {
+        "mode": "white_background_removed",
+        "source_size": [
+          1024,
+          1024
+        ],
+        "alpha_bbox": [
+          160,
+          160,
+          865,
+          832
+        ],
+        "fit_grid": 48,
+        "canvas_size": [
+          768,
+          768
+        ],
+        "transparent_ratio": 0.6004,
+        "opaque_px": 235683
+      }
+    },
+    {
+      "id": "07",
+      "entity_slug": "upper_floor",
+      "category": "tile",
+      "scene": "upper",
+      "size": 16,
+      "variant": "a01",
+      "prompt_sha256": "715847b3969c62bee6381a378e08dc5f656f885b91d034d0be76218d13acc8e1",
+      "gen_arch": "assets/reference/_raw/gen/07_upper_floor.png",
+      "source_raw": "assets/reference/_raw/rgba/07_upper_floor_0_20261107T0508.png",
+      "asset_path": "assets/tiles/upper_floor/tile_upper_floor_a01_16.png",
+      "checksum": "cb09ee5a4ca6611dcbdf147d3d8f4bc8edff009f43b140034945a8e0f68ffdd9",
+      "color_count": 7,
+      "transparent_px": 60,
+      "validator_result": "pass",
+      "R1_R4": "pass: 7 色, scene=upper",
+      "R5": true,
+      "R6_naming": true,
+      "prepare": {
+        "mode": "white_background_removed",
+        "source_size": [
+          1024,
+          1024
+        ],
+        "alpha_bbox": [
+          272,
+          272,
+          752,
+          752
+        ],
+        "fit_grid": 16,
+        "canvas_size": [
+          768,
+          768
+        ],
+        "transparent_ratio": 0.3635,
+        "opaque_px": 375396
+      }
+    },
+    {
+      "id": "08",
+      "entity_slug": "upper_wall",
+      "category": "tile",
+      "scene": "upper",
+      "size": 16,
+      "variant": "a01",
+      "prompt_sha256": "7390468319354acd5ee06ae2b8490b865dae134fd262d1bb4d66312d87ec201f",
+      "gen_arch": "assets/reference/_raw/gen/08_upper_wall.png",
+      "source_raw": "assets/reference/_raw/rgba/08_upper_wall_0_20261107T0508.png",
+      "asset_path": "assets/tiles/upper_wall/tile_upper_wall_a01_16.png",
+      "checksum": "b5487fbbae1e8151dbdc5f3446b7540981c643e0f503656bc54f1fb285aeaec7",
+      "color_count": 7,
+      "transparent_px": 60,
+      "validator_result": "pass",
+      "R1_R4": "pass: 7 色, scene=upper",
+      "R5": true,
+      "R6_naming": true,
+      "prepare": {
+        "mode": "white_background_removed",
+        "source_size": [
+          1024,
+          1024
+        ],
+        "alpha_bbox": [
+          208,
+          208,
+          816,
+          816
+        ],
+        "fit_grid": 16,
+        "canvas_size": [
+          768,
+          768
+        ],
+        "transparent_ratio": 0.3712,
+        "opaque_px": 370852
+      }
+    },
+    {
+      "id": "09",
+      "entity_slug": "mid_floor",
+      "category": "tile",
+      "scene": "mid",
+      "size": 16,
+      "variant": "a01",
+      "prompt_sha256": "18944efb4ed78003bc5d5692b794521f72fbbe3f43f7ef4d6600a22a5b6505dd",
+      "gen_arch": "assets/reference/_raw/gen/09_mid_floor.png",
+      "source_raw": "assets/reference/_raw/rgba/09_mid_floor_0_20261107T0508.png",
+      "asset_path": "assets/tiles/mid_floor/tile_mid_floor_a01_16.png",
+      "checksum": "d7f8a40c261b7991a266abd5000fdec457dc7b25da3ea6e729d674791ded34b5",
+      "color_count": 4,
+      "transparent_px": 62,
+      "validator_result": "pass",
+      "R1_R4": "pass: 4 色, scene=mid",
+      "R5": true,
+      "R6_naming": true,
+      "prepare": {
+        "mode": "white_background_removed",
+        "source_size": [
+          1024,
+          1024
+        ],
+        "alpha_bbox": [
+          158,
+          176,
+          864,
+          848
+        ],
+        "fit_grid": 16,
+        "canvas_size": [
+          768,
+          768
+        ],
+        "transparent_ratio": 0.4352,
+        "opaque_px": 333133
+      }
+    },
+    {
+      "id": "10",
+      "entity_slug": "boss_lava",
+      "category": "tile",
+      "scene": "boss",
+      "size": 16,
+      "variant": "a01",
+      "prompt_sha256": "a5ee66335b0e585f8c1ae220b9178cdbe8a51d8fe29fb7dfd40cb3a7889feb58",
+      "gen_arch": "assets/reference/_raw/gen/10_boss_lava.png",
+      "source_raw": "assets/reference/_raw/rgba/10_boss_lava_0_20261107T0508.png",
+      "asset_path": "assets/tiles/boss_lava/tile_boss_lava_a01_16.png",
+      "checksum": "77856eba8d5ba5c90cbe1944466f175573e7ac493c932bd182ddf6398fe17e60",
+      "color_count": 5,
+      "transparent_px": 64,
+      "validator_result": "pass",
+      "R1_R4": "pass: 5 色, scene=boss",
+      "R5": true,
+      "R6_naming": true,
+      "prepare": {
+        "mode": "white_background_removed",
+        "source_size": [
+          1024,
+          1024
+        ],
+        "alpha_bbox": [
+          233,
+          233,
+          791,
+          791
+        ],
+        "fit_grid": 16,
+        "canvas_size": [
+          768,
+          768
+        ],
+        "transparent_ratio": 0.3913,
+        "opaque_px": 359052
+      }
+    },
+    {
+      "id": "11",
+      "entity_slug": "sanctuary_floor",
+      "category": "tile",
+      "scene": "sanctuary",
+      "size": 16,
+      "variant": "a01",
+      "prompt_sha256": "8414ff209abe43297195985096bac929c827a8322b2b8b84a2ebcc071acfea43",
+      "gen_arch": "assets/reference/_raw/gen/11_sanctuary_floor.png",
+      "source_raw": "assets/reference/_raw/rgba/11_sanctuary_floor_0_20261107T0508.png",
+      "asset_path": "assets/tiles/sanctuary_floor/tile_sanctuary_floor_a01_16.png",
+      "checksum": "4c97f6a2b6b82fa491b53b5a96226fefda50bd14cfb62c4372a3b7bb8e77f50f",
+      "color_count": 7,
+      "transparent_px": 60,
+      "validator_result": "pass",
+      "R1_R4": "pass: 7 色, scene=sanctuary",
+      "R5": true,
+      "R6_naming": true,
+      "prepare": {
+        "mode": "white_background_removed",
+        "source_size": [
+          1024,
+          1024
+        ],
+        "alpha_bbox": [
+          206,
+          206,
+          816,
+          816
+        ],
+        "fit_grid": 16,
+        "canvas_size": [
+          768,
+          768
+        ],
+        "transparent_ratio": 0.3754,
+        "opaque_px": 368427
+      }
+    },
+    {
+      "id": "12",
+      "entity_slug": "chest",
+      "category": "prop",
+      "scene": "sanctuary",
+      "size": 16,
+      "variant": "a01",
+      "prompt_sha256": "3a9dedb11e22a7933dfd34d444a1199988c9c965593e138290d20c7ed72b3b2e",
+      "gen_arch": "assets/reference/_raw/gen/12_chest.png",
+      "source_raw": "assets/reference/_raw/rgba/12_chest_0_20261107T0508.png",
+      "asset_path": "assets/props/chest/prop_chest_a01_16.png",
+      "checksum": "6592e6b88322b5260b1c7e2a5404200b0269bd200f7f4d00ea406262773cf3bb",
+      "color_count": 9,
+      "transparent_px": 76,
+      "validator_result": "pass",
+      "R1_R4": "pass: 9 色, scene=sanctuary",
+      "R5": true,
+      "R6_naming": true,
+      "prepare": {
+        "mode": "white_background_removed",
+        "source_size": [
+          1024,
+          1024
+        ],
+        "alpha_bbox": [
+          272,
+          288,
+          768,
+          752
+        ],
+        "fit_grid": 16,
+        "canvas_size": [
+          768,
+          768
+        ],
+        "transparent_ratio": 0.5222,
+        "opaque_px": 281831
+      }
+    },
+    {
+      "id": "13",
+      "entity_slug": "trap",
+      "category": "prop",
+      "scene": "mid",
+      "size": 16,
+      "variant": "a01",
+      "prompt_sha256": "93bfebce9b9b4a7ce34e07433bcd5d133dd128d0879b4a52b12a2ffcab3975bc",
+      "gen_arch": "assets/reference/_raw/gen/13_trap.png",
+      "source_raw": "assets/reference/_raw/rgba/13_trap_0_20261107T0508.png",
+      "asset_path": "assets/props/trap/prop_trap_a01_16.png",
+      "checksum": "dcb89ee8d292cc7f17278422cb55248357102068b717f830000beddc678d0452",
+      "color_count": 7,
+      "transparent_px": 94,
+      "validator_result": "pass",
+      "R1_R4": "pass: 7 色, scene=mid",
+      "R5": true,
+      "R6_naming": true,
+      "prepare": {
+        "mode": "white_background_removed",
+        "source_size": [
+          1024,
+          1024
+        ],
+        "alpha_bbox": [
+          256,
+          272,
+          768,
+          752
+        ],
+        "fit_grid": 16,
+        "canvas_size": [
+          768,
+          768
+        ],
+        "transparent_ratio": 0.6084,
+        "opaque_px": 230984
+      }
+    },
+    {
+      "id": "14",
+      "entity_slug": "rune",
+      "category": "ui",
+      "scene": "sanctuary",
+      "size": 24,
+      "variant": "a01",
+      "prompt_sha256": "af9a63b11e4043f513b2d5bd61790f193d765cd62a11e0c14838215149352dfc",
+      "gen_arch": "assets/reference/_raw/gen/14_rune.png",
+      "source_raw": "assets/reference/_raw/rgba/14_rune_0_20261107T0508.png",
+      "asset_path": "assets/uis/rune/ui_rune_a01_24.png",
+      "checksum": "23ef920b1d270778b46f8e5fec189c1a03c84f7922ec6e2fd1a9ffd372621dee",
+      "color_count": 9,
+      "transparent_px": 140,
+      "validator_result": "pass",
+      "R1_R4": "pass: 9 色, scene=sanctuary",
+      "R5": true,
+      "R6_naming": true,
+      "prepare": {
+        "mode": "white_background_removed",
+        "source_size": [
+          1024,
+          1024
+        ],
+        "alpha_bbox": [
+          256,
+          224,
+          768,
+          784
+        ],
+        "fit_grid": 24,
+        "canvas_size": [
+          768,
+          768
+        ],
+        "transparent_ratio": 0.5421,
+        "opaque_px": 270054
+      }
+    }
+  ]
+}

@@ -269,11 +269,11 @@ editor/scale_with_editor_zoom=false
 | R3 | 每个不透明色 ∈ 该资产声明 `scene` 的场景子集（bestiary §4） | bestiary §4（上层 9 / 中层 7 / Boss 深层 10 / 庇护所 9，均 ≤16） | **硬阻断**（比 R2 更紧） |
 | R4 | 无半透明像素（alpha ∈ {0,255}，阈值同 §1.3 ①a） | 美术圣经 §6.2 #4 | 硬阻断 |
 | R5 | `color_count` 与 `checksum` 与 `asset-manifest.csv` 一致 | §2 schema | 硬阻断（防绕过/重量化） |
-| R6 | 文件名符合 `{category}_{entity}_{variant}_{size}.png` 且 `entity` ∈ bestiary §0.1 slug | 美术圣经 §8 / bestiary §0.1 | 软警告（命名漂移） |
+| R6 | 文件名符合 `{category}_{entity}_{variant}_{size}.png`；`category` ∈ {char,tile,ui,fx,prop}、`size` ∈ {16,24,32,48}、`entity` ∈ 登记 slug（bestiary §0.1 五生物 + E1 扩产 tile/prop/ui 实体，可含下划线如 `upper_floor`） | 美术圣经 §8 / bestiary §0.1 | 软警告（命名漂移） |
 
 ### 4.2 参考实现（GDScript，源自可行性评审 §6.5，已扩展 R3/R4）
 ```gdscript
-# PaletteValidator.gd  (EditorScript / CI 调用; 扩展自 feasibility-review §6.5)
+# PaletteValidator.gd  (headless -s / CI 调用; 扩展自 feasibility-review §6.5；2026-11-07 修正为 extends SceneTree 使 -s 可实跑，原 EditorScript 永不可 headless 实例化)
 const MASTER := {  # 美术圣经 §2.2 hex 集合
   "FF8C42","3FA7FF","5FD35A","7BC9B0","FFD23F","7A5E9E","D98E32",
   "2B3A66","FF6A2C","9B6BFF","2EC4B6","FF6FB5","A56A43","FF4D4D",
@@ -299,7 +299,7 @@ func validate(tex:Texture2D, scene:String, cap:=16) -> bool:
         if not SCENE[scene].has(col): push_error("场景%s子集外色: %s" % [scene,col]); return false  # R3
     return true
 ```
-> **CI 集成**：在 pre-commit / CI 用 Godot `--headless --script` 跑 `PaletteValidator` 全量扫描 `assets/` + `asset-manifest.csv`；任一资产 fail 即 **非零退出阻断流水线**（ADR-4 "否则阻断导入"）。编辑器内用 `EditorPlugin` 在导入完成时回调校验，fail 则标红资产并阻止进入构建。
+> **CI 集成**：在 pre-commit / CI 用 `godot --headless -s res://src/core/asset_pipeline/palette_validator.gd` 全量扫描 `assets/` + `asset-manifest.csv`；退出码 = 失败资产数（0 = 全通过），任一 R1–R5 失败即 **非零退出阻断流水线**（ADR-4 "否则阻断导入"）。`EditorPlugin` 编辑器内回调路径未实现（无 EditorPlugin 落地），R6 为软警告不阻断。
 
 ---
 
@@ -329,7 +329,7 @@ func validate(tex:Texture2D, scene:String, cap:=16) -> bool:
 | §1 脚本骨架 | 在 `src/` 落地 `pixel_pipeline.py`；`MASTER_PALETTE`/`SCENE_SUBSET` 从 §2.2/§4 单一来源生成 | 已附 Python 骨架，非强制实现 |
 | §2 manifest | 实现 `append_manifest()` 与 CSV 初始化；种子/提示词摘要/校验和写入 | schema 已定 |
 | §3 `.import` | 固化像素资产目录导入预设（Lossless/Uncompressed + 关 filter/mipmap + 关 detect_3d） | 建议钉入 `docs/engine-reference/godot/` |
-| §4 Validator | 落地 `PaletteValidator`（GDScript），接 CI headless + EditorPlugin；R1–R6 阻断 | 已附扩展 GDScript |
+| §4 Validator | 落地 `PaletteValidator`（GDScript，extends SceneTree，-s headless 可实跑）；R1–R6 已对 14 资产实跑全绿 | 已附扩展 GDScript |
 | §5 一致性 | #2/#6-R4 已自动；#1/#3 建议并入同脚本自动；#4/#5 人工复核流程 | 清单已定 |
 
 > 本文件为**规格**，不修改 `src/`、不 git commit（遵循任务约束与可行性评审 §6 约定）。

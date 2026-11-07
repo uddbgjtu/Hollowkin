@@ -93,8 +93,8 @@
 - **关联 ADR**：ADR-3（核心落地）、ADR-2（队列联动）。
 
 ### 1.8 资产管线（AssetPipeline）`src/core/asset_pipeline/`
-- **职责**：离线后处理脚本（Python+Pillow）产出 PNG-8 索引色 + `asset-manifest.csv`；Godot 目录导入预设（Lossless/Uncompressed + filter=false + gen_mipmaps=false，见 `docs/engine-reference/godot/pixel_texture.import.tpl`）；`PaletteValidator`（EditorScript/EditorPlugin）校验 ≤16 色且取自母库；批绘制同帧敌人（`MultiMeshInstance2D`）。
-- **关键文件（实）**：`src/core/asset_pipeline/pixel_pipeline.py`（全链路·Pillow，单一来源 `palette_source.json`）、`src/core/asset_pipeline/palette_source.json`（调色板唯一真源）、`src/core/asset_pipeline/palette_validator.gd`（R1–R6）、`src/core/asset_pipeline/asset_manifest.csv`（14 列表头）、`docs/engine-reference/godot/pixel_texture.import.tpl`（ADR-4 导入预设）。
+- **职责**：离线后处理脚本（Python+Pillow）产出 PNG-8 索引色 + `asset-manifest.csv`；Godot 目录导入预设（Lossless/Uncompressed + filter=false + gen_mipmaps=false，见 `docs/engine-reference/godot/pixel_texture.import.tpl`）；`PaletteValidator`（SceneTree 脚本，godot --headless -s 调用）校验 ≤16 色且取自母库；批绘制同帧敌人（`MultiMeshInstance2D`）。
+- **关键文件（实）**：`src/core/asset_pipeline/pixel_pipeline.py`（全链路·Pillow，单一来源 `palette_source.json`）、`src/core/asset_pipeline/palette_source.json`（调色板唯一真源）、`src/core/asset_pipeline/palette_validator.gd`（R1–R6）、`src/core/asset_pipeline/asset_manifest.csv`（14 行资产登记 + 14 列表头）、`docs/engine-reference/godot/pixel_texture.import.tpl`（ADR-4 导入预设）。
 - **关键约束**：
   - 脚本为唯一出口，禁人工绕过（美术圣经 §6.1 强制链路，CLAUDE.md 禁止项）。
   - 16 色由离线脚本+manifest 校验保证，非引擎格式要求（ADR-4）。
@@ -192,7 +192,7 @@ run 起始:
 | **ADR-1** | 可恢复存档架构 | Save + DungeonGen + EventLog | `save_service.gd` / `dungeon_generator.gd`（Epic B） | 层间硬存档点写 seed+floor+log；paused 同步落盘；损坏回退庇护所；同 (seed,floor) 重建一致 |
 | **ADR-2** | 输入事件并发仲裁 | InputArbiter | `input_queue.gd` / `hit_zone.gd` / `joystick_pointer.gd` | 输入入队、帧末结算、去重、cd 下限 0.5s；30/60fps 行为一致（ADR-6 不改队列语义） |
 | **ADR-3** | AI 定步长 10Hz | SpiritAI | `simulation_clock.gd` / `enemy_ai.gd` / `spirit_ai.gd` | 10Hz tick、MAX_CATCHUP=3、移动插值、自适应降 5Hz |
-| **ADR-4** | 像素资产后处理 | AssetPipeline | `src/core/asset_pipeline/pixel_pipeline.py` / `palette_validator.gd` / `palette_source.json` / `docs/engine-reference/godot/pixel_texture.import.tpl` | PNG-8 索引、导入预设关 filter/mipmap、CI 校验 ≤16 色 |
+| **ADR-4** | 像素资产后处理 | AssetPipeline | `src/core/asset_pipeline/pixel_pipeline.py` / `palette_validator.gd`（SceneTree + headless -s）/ `palette_source.json` / `docs/engine-reference/godot/pixel_texture.import.tpl` | PNG-8 索引、导入预设关 filter/mipmap、headless -s 实跑 R1–R6（2026-11-07 对 14 资产 0 失败 0 警告） |
 | **ADR-5** | RNG 种子化 | RNGService（跨切）+ 全部随机源 | `rng_service.gd` + 各模块 | 单一出口、floor_seed 派生、lint 禁全局随机、重建一致 |
 | **C1（契约）** | StatBlock 乘算 | StatBlock（跨切）+ Pouch + SpiritVein | `stat_block.gd`（完整 D1）/ `rune_entry.gd` / `run_snapshot.gd` / `vein_graph.gd`（无环断言）/ `pouch.gd`（+1 堆叠） | `FinalStat=(Base+ΣVeinAdd)×ΠRuneMult`，每击 O(1) |
 | **ADR-6** | 平台定位：PC 单平台 | 跨切（输入 / 布局 / QA） | `adr-006-pc-first.md` / `CLAUDE.md §1` / UX 规格 / a11y | 移动端彻底放弃；横屏 1280×720 整数缩放；R1/R3 改 PC 基线；不自动翻转 CONCERNS |

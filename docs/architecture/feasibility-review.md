@@ -79,7 +79,7 @@
 - **备选**：
   - *B. 引擎内 shader 实时像素化/索引*：运行时开销、一致性难控 → **否决**。
 - **后果**：资产一致性可控、零运行时后处理成本；代价是离线脚本开发与 manifest 维护（美术圣经附录 B 风险 2 已建议默认=是）。
-- **Godot 4 落地**：`import` 覆写 + `EditorScript`/`EditorPlugin` 跑校验；`MultiMeshInstance2D` 批量同帧敌人贴图。原型片段见 §6.5。
+- **Godot 4 落地**：`import` 覆写（ADR-4 预设，含 `detect_3d/compress_to=0`）+ `palette_validator.gd`（`extends SceneTree`，经 `godot --headless -s` 实跑 R1–R6，编辑器内 `EditorPlugin` 回调路径未实现）；`MultiMeshInstance2D` 批量同帧敌人贴图。原型片段见 §6.5。
 - **风险**：中。PNG-8 在部分工具链会被重新量化；务必以脚本为唯一出口、禁止人工绕过（美术圣经 §6.1 强制链路）。Godot 4 默认图片导入为 Compress（BPTC），**必须显式改预设**，否则偏色/渗色。
 
 ### ADR-5 · 程序生成 RNG 种子化

@@ -7,23 +7,29 @@
 #   R3 每色 ∈ 场景子集(bestiary §4：上层9/中层7/boss10/sanctuary9) R4 无半透明像素(alpha∈{0,255})
 #   R5 color_count/checksum 与 manifest 一致   R6 命名符合 {category}_{entity}_{variant}_{size}.png
 #
-# 用法：
-#   - EditorPlugin：导入完成时回调 validate()，fail 标红并阻止构建。
-#   - CI headless：godot --headless --script palette_validator.gd 扫描 assets/。
-#   - 四场景(upper/mid/boss/sanctuary)均按 bestiary §4 子集执行完整 R3 硬阻断，无降级兜底分支。
+# 用法（headless，Godot 4.3）：
+#   godot --headless --path . -s res://src/core/asset_pipeline/palette_validator.gd
+#   退出码 = 失败资产数（0 = 全通过），push_error 逐条打印原因。
+#   四场景(upper/mid/boss/sanctuary)均按 bestiary §4 子集执行完整 R3 硬阻断，无降级兜底分支。
 #
 # 注意：引擎版本钉定见 docs/engine-reference/godot/VERSION.md（已签字 Godot 4.3，2026-11-03）。
-#       文件加载 API（Image.load_from_file）为 Godot 4.1+；4.3≥4.1 故可用，兼容分支为更早 4.x 兜底。
+#       文件加载经 _load_png（FileAccess.open + Image.load_png_from_buffer）直接读原始 PNG 字节，
+#       绕过 Godot 导入系统（否则 .png 被当作 Texture2D 拦截、load_from_file 返回空图像）。
+#       2026-11-07 修正：原稿 extends EditorScript 导致 -s headless 永远无法实例化、R5/R6 从未真正跑过；
+#       改为 extends SceneTree + _initialize() 入口，使 CI headless 命令真实可执行。
 # =============================================================================
 
-extends EditorScript
+extends SceneTree
 
 # —— 母库（art-bible §2.2，19 色 ≤32）——
-const MASTER := {
+# 注：原稿误用 { "FF8C42", ... } 字典字面量（GDScript 字典必须 key:value），
+#     导致脚本 Parse Error、R1–R6 从未真正可执行。此处修正为数组，
+#     MASTER.has(col) 语义不变，是零行为变化的最小语法修复。
+const MASTER := [
 	"FF8C42", "3FA7FF", "5FD35A", "7BC9B0", "FFD23F", "7A5E9E", "D98E32",
 	"2B3A66", "FF6A2C", "9B6BFF", "2EC4B6", "FF6FB5", "A56A43", "FF4D4D",
 	"A6FF4D", "1A1C2C", "2B2F4A", "F4E4C1", "9AA0B5"
-}
+]
 
 # —— 场景子集（bestiary §4：上层9 / 中层7 / boss10 / sanctuary9，均 ≤16）——
 const SCENE := {
@@ -34,8 +40,14 @@ const SCENE := {
 }
 
 # —— bestiary §0.1 实体 slug（R6 命名校验）——
-const SLUGS := ["tamer", "mossback", "emberhorn", "frostling", "voltsprite"]
-const CATEGORIES := ["char", "tile", "ui", "fx"]
+# 注：E1（2026-11-07）扩产后 slug 集合覆盖 char/tile/prop/ui 全部实体；
+#     SLUGS 改为「manifest 实际登记的全部 entity_slug」，避免 R6 对扩展清单误判 FAIL。
+const SLUGS := [
+	"tamer", "mossback", "emberhorn", "frostling", "voltsprite", "boss_deep",
+	"upper_floor", "upper_wall", "mid_floor", "boss_lava", "sanctuary_floor",
+	"chest", "trap", "rune"
+]
+const CATEGORIES := ["char", "tile", "ui", "fx", "prop"]
 
 const ALPHA_CUTOFF := 128          # 与 pipeline / art-bible §1.3 ①a 一致
 const MAX_COLORS := 16
@@ -54,14 +66,23 @@ func validate(source, scene: String, cap: int = MAX_COLORS) -> bool:
 		return false
 	return _validate_image(img, scene, cap)
 
-# 文件入口（Godot 4.1+ 用 Image.load_from_file；更早 4.x 改 Image.load(path)）
+# 文件入口：绕过 Godot 导入系统，直接读原始 PNG 字节解析（避免 .png 被当作 Texture2D 拦截）。
 func validate_file(path: String, scene: String, cap: int = MAX_COLORS) -> bool:
-	var img := Image.new()
-	if img.has_method("load_from_file"):
-		img.load_from_file(path)         # 4.1+
-	else:
-		img.load(path)                  # 兼容回退（请按钉定版本核实）
+	var img := _load_png(path)
 	return _validate_image(img, scene, cap)
+
+# 用 FileAccess 读取 res:///user:// 原始字节并 load_png_from_buffer（PNG-8 真 PNG 可直接解析）。
+func _load_png(path: String) -> Image:
+	var f := FileAccess.open(path, FileAccess.READ)
+	if f == null:
+		push_error("PaletteValidator: 无法读取 %s" % path)
+		return Image.new()
+	var buf := f.get_buffer(f.get_length())
+	var img := Image.new()
+	if img.load_png_from_buffer(buf) != OK:
+		push_error("PaletteValidator: PNG 解析失败 %s" % path)
+		return Image.new()
+	return img
 
 func _validate_image(img: Image, scene: String, cap: int) -> bool:
 	if img.is_empty():
@@ -121,7 +142,8 @@ func validate_against_manifest(asset_path: String, checksum: String, color_count
 	return false
 
 # ---------------------------------------------------------------------------
-# R6：命名符合 {category}_{entity}_{variant}_{size}.png 且 entity ∈ slug（软警告）
+# R6：命名符合 {category}_{entity}_{variant}_{size}.png 且 entity ∈ slug（软警告）。
+#   entity 可含下划线（如瓦片 upper_floor），故 entity = 首段之后、末两段(variant/size)之前的所有段拼接。
 # ---------------------------------------------------------------------------
 func validate_naming(file_name: String) -> bool:
 	var base := file_name.get_file().get_basename()
@@ -132,24 +154,32 @@ func validate_naming(file_name: String) -> bool:
 	if not CATEGORIES.has(parts[0]):
 		push_warning("R6 未知 category: %s" % parts[0])
 		return false
-	if not SLUGS.has(parts[1]):
-		push_warning("R6 entity 非 bestiary slug: %s" % parts[1])
+	var size_str: String = parts[parts.size() - 1]
+	if not (size_str.is_valid_int() and int(size_str) in [16, 24, 32, 48]):
+		push_warning("R6 size 非法(需16/24/32/48): %s" % size_str)
 		return false
-	if not (parts[-1].is_valid_int() and int(parts[-1]) in [16, 24, 32, 48]):
-		push_warning("R6 size 非法(需16/24/32/48): %s" % parts[-1])
+	# entity = parts[1 .. -3] 拼接（末两段为 variant、size）
+	var entity := ""
+	for i in range(1, parts.size() - 2):
+		if entity != "":
+			entity += "_"
+		entity += parts[i]
+	if not SLUGS.has(entity):
+		push_warning("R6 entity 非登记 slug: %s" % entity)
 		return false
 	return true
 
 # ---------------------------------------------------------------------------
-# CI headless 入口：依据 asset-manifest.csv 逐资产校验（R1–R6）。
-#   调用：godot --headless --script palette_validator.gd
-#   非零退出由调用方据 push_error 数量判定（此处仅打印汇总）。
+# headless -s 入口：依据 asset-manifest.csv 逐资产校验（R1–R6）。
+#   调用：godot --headless --path . -s res://src/core/asset_pipeline/palette_validator.gd
+#   退出码 = 失败资产数（0 = 全通过）。
 # ---------------------------------------------------------------------------
-func _run() -> void:
+func _initialize() -> void:
 	var manifest := "res://src/core/asset_pipeline/asset_manifest.csv"
 	var f := FileAccess.open(manifest, FileAccess.READ)
 	if f == null:
 		push_error("PaletteValidator: 找不到 manifest %s" % manifest)
+		quit(1)
 		return
 	var header := f.get_line().split(",")
 	var i_path := header.find("asset_path")
@@ -163,23 +193,22 @@ func _run() -> void:
 			continue
 		total += 1
 		var path: String = row[i_path]
+		# manifest 用仓库根相对路径；FileAccess 读 res:// 资源需 res:// 前缀
+		var res_path: String = path if path.begins_with("res://") else "res://" + path
 		var scene: String = row[i_scene] if i_scene >= 0 and row.size() > i_scene else "upper"
 		validate_naming(path.get_file())
-		if not validate_file(path, scene):
+		if not validate_file(res_path, scene):
 			fails += 1
 			continue
 		if i_cs >= 0 and row.size() > i_cs and row[i_cs] != "":
-			var cc := count_colors_file(path)
+			var cc := count_colors_file(res_path)
 			if not validate_against_manifest(path, row[i_cs], cc):
 				fails += 1
 	print("PaletteValidator: 共 %d 资产，失败 %d（见上方 error/warning）" % [total, fails])
+	quit(fails)
 
 func count_colors_file(path: String) -> int:
-	var img := Image.new()
-	if img.has_method("load_from_file"):
-		img.load_from_file(path)
-	else:
-		img.load(path)
+	var img := _load_png(path)
 	if img.is_empty():
 		return -1
 	var used := {}

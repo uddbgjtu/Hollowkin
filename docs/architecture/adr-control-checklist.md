@@ -63,13 +63,13 @@
 
 | 字段 | 内容 |
 |---|---|
-| **状态** | **已闭环（工具链 verified · 2026-11-04 主理人独立实跑 `pixel_pipeline.py --selftest` → PASS / exit 0；引擎已签字 Godot 4.3）**；开放项：① E1 真实资产产出（art-director，AI 原图→pipeline→manifest）② Godot 侧 `.import`/Import Preset 固化 + `palette_validator` headless CI 实跑 —— 二者均非架构阻断 |
-| **落地文件（实）** | `src/core/asset_pipeline/pixel_pipeline.py`（全链路·Pillow）、`src/core/asset_pipeline/palette_source.json`（调色板单一来源）、`src/core/asset_pipeline/palette_validator.gd`（R1–R6）、`src/core/asset_pipeline/asset_manifest.csv`（14 列表头）、`docs/engine-reference/godot/pixel_texture.import.tpl`（ADR-4 导入预设）、`docs/engine-reference/godot/VERSION.md`（引擎 4.3 签字版） |
+| **状态** | **已闭环（工具链 verified · 2026-11-04 主理人实跑 `pixel_pipeline.py --selftest` → PASS；引擎签字 Godot 4.3）**；2026-11-07 E1 真实资产已产出（14 张，AI 原图→pipeline→manifest，R1–R6 全绿、`.import` 已固化落盘待提交）。剩余：运行时渲染层仍用 `DEBUG_PLACEHOLDER`、未接入正式资产（属独立批准的渲染集成改动）；R1/R3 仍 CONCERNS |
+| **落地文件（实）** | `src/core/asset_pipeline/pixel_pipeline.py`（全链路·Pillow）、`src/core/asset_pipeline/palette_source.json`（调色板单一来源）、`src/core/asset_pipeline/palette_validator.gd`（R1–R6）、`src/core/asset_pipeline/asset_manifest.csv`（14 行资产登记 + 14 列表头）、`docs/engine-reference/godot/pixel_texture.import.tpl`（ADR-4 导入预设）、`docs/engine-reference/godot/VERSION.md`（引擎 4.3 签字版） |
 | **关联模块** | AssetPipeline（见 architecture-doc.md §1.8、§4） |
-| **验证点** | ① 离线脚本输出 PNG-8 索引色 + 登记 manifest（seed/提示词/色数/校验）；② 目录 `.import` 覆写 `compress/mode=0或1`、`filter=false`、`gen_mipmaps=false`、`detect_3d/compress_to=0`；③ `PaletteValidator` 断言每资产 ≤16 色且取自母库，否则阻断导入；④ CI headless 接口就绪；**⑤ Python `--selftest` 已实跑通过（upper=9 色 / mid=7 色，R1–R4 绿），与 bestiary §4（9/16、7/16）吻合** |
+| **验证点** | ① 离线脚本输出 PNG-8 索引色 + 登记 manifest（seed/提示词/色数/校验）；② 目录 `.import` 覆写 `compress/mode=0或1`、`filter=false`、`gen_mipmaps=false`、`detect_3d/compress_to=0`；③ `PaletteValidator` 断言每资产 ≤16 色且取自母库，否则阻断导入；④ CI headless 已实跑（14 资产 0 失败 0 警告，R1–R6 全绿）；**⑤ Python `--selftest` 已实跑通过（upper=9 色 / mid=7 色，R1–R4 绿），与 bestiary §4（9/16、7/16）吻合** |
 | **负责人** | engineering-lead（脚本/预设/校验）+ art-director（母库/风格锁） |
-| **风险** | 中（已缓解）。PNG-8 在部分工具链被重新量化 → 以脚本为唯一出口、禁人工绕过（CLAUDE.md 禁止项）；Godot 默认 Compress(BPTC) 必须显式改预设否则偏色/渗色（已钉预设）。**boss/sanctuary 场景子集已由 bestiary §4（v1.2）正式定义**（boss 10 色 / sanctuary 9 色，均 ≤16），已回填 `palette_source.json` 并接入 `palette_validator.gd` 完整 R3 硬阻断（与 upper/mid 同对待，降级分支已删除）。引擎已签字 4.3（≥4.1），`Image.load_from_file()` 可用，兼容分支为更早 4.x 兜底 |
-| **完成判据** | 1) 导入预设已钉进 `docs/engine-reference/godot/`（4.3 签字版）；2) `PaletteValidator` 已实现 R1–R6（GDScript，EditorPlugin + CI headless 接口就绪）；3) Python `--selftest` 实跑通过（upper=9/mid=7/boss=10/sanctuary=9，R1–R4 绿）；4) **boss/sanctuary 子集已由 bestiary §4 回填，R3 严格硬阻断已实现（降级分支删除）**，仅待 Godot 环境接 CI headless 实跑 |
+| **风险** | 中（已缓解）。PNG-8 在部分工具链被重新量化 → 以脚本为唯一出口、禁人工绕过（CLAUDE.md 禁止项）；Godot 默认 Compress(BPTC) 必须显式改预设否则偏色/渗色（已钉预设）。**boss/sanctuary 场景子集已由 bestiary §4（v1.2）正式定义**（boss 10 色 / sanctuary 9 色，均 ≤16），已回填 `palette_source.json` 并接入 `palette_validator.gd` 完整 R3 硬阻断（与 upper/mid 同对待，降级分支已删除）。引擎已签字 4.3；`palette_validator.gd` 经 `_load_png`（FileAccess + load_png_from_buffer）绕过导入系统直读原始 PNG（避免 .png 被当 Texture2D 拦截返回空图像） |
+| **完成判据** | 1) 导入预设已钉进 `docs/engine-reference/godot/`（4.3 签字版）；2) `PaletteValidator` 已实现 R1–R6（GDScript，`extends SceneTree` + `godot --headless -s` 已实跑 14 资产 0 失败 0 警告；编辑器内 `EditorPlugin` 回调路径未实现，不影响 CI）；3) Python `--selftest` 实跑通过（upper=9/mid=7/boss=10/sanctuary=9，R1–R4 绿）；4) **boss/sanctuary 子集已由 bestiary §4 回填，R3 严格硬阻断已实现（降级分支删除）**，且 2026-11-07 已 headless 实跑全绿 |
 
 ---
 

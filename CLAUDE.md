@@ -48,7 +48,7 @@
 | `detect_3d/compress_to` | 关 | 2D 像素资产不转 3D 压缩 |
 
 ### 3.2 校验（CI / 编辑器）
-- `src/core/asset_pipeline/palette_validator.gd`（`EditorScript`/`EditorPlugin`）：断言每资产 ≤16 色且取自母库（`art-bible.md` §2.2），否则**阻断导入**。
+- `src/core/asset_pipeline/palette_validator.gd`（`extends SceneTree`，`godot --headless -s` 调用）：断言每资产 ≤16 色且取自母库（`art-bible.md` §2.2），否则**阻断导入**（R1–R5 硬阻断，R6 软警告）；编辑器内 `EditorPlugin` 回调路径未实现，不影响 CI headless。
 - CI 在提交资产时跑校验；偏色/超色资产不得合入。
 - **预设固化真源**：`docs/engine-reference/godot/VERSION.md`（引擎版本待签字 + ADR-4 导入覆写清单）+ `docs/engine-reference/godot/pixel_texture.import.tpl`（Godot 4 `.import` 模板）。新增像素资产目录须套用该预设。
 

@@ -12,7 +12,7 @@
 
 ```
 AI 原图 → pixel_pipeline.py(降采样→≤16色索引→2×2 Bayer抖动→1-2px描边#1A1C2C)
-       → palette_validator.gd(R1-R6 硬阻断)
+       → palette_validator.gd(R1–R5 硬阻断 / R6 软警告)
        → Godot 导入预设(pixel_texture.import.tpl, filter=false/mipmap=false)
        → asset_manifest.csv(14列登记)
 ```
