@@ -22,3 +22,7 @@ addons/gut/
 
 # Windows Desktop 导出产物（Wave 2b / ADR-6）：exe、pck 与 console wrapper 不入库。
 /build/
+
+# Python 工具脚本（tools/qa/verify_probe_evidence.py 等）的运行缓存不入库。
+__pycache__/
+*.pyc

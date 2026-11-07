@@ -8,4 +8,4 @@ device_id,os_version,gpu_backend,build_sha,godot_version,build_type,thermal_stat
 【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,r3_ai_tick,ms,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,~1.66 / ~3.3,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】
 【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,r3_entity_render,ms,—,—,—,< 4 / < 8,blocked,—,【PC 基线待实测】,【PC 基线待实测】
 【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,r3_particles,ms,—,—,—,< 3 / < 6,blocked,—,【PC 基线待实测】,【PC 基线待实测】
-【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,r3_total_frame_share,ms,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,< 9.16（55%）,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】
+【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,【PC 基线待实测】,r3_total_frame_share,ms,—,—,—,< 9.16（55%）,blocked,—,【PC 基线待实测】,【PC 基线待实测】

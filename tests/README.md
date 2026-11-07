@@ -119,8 +119,9 @@ func test_harness_runs():
 | 首轮无超时悬挂 run `42038019907`（sha `9c33a9d`） | 已通过 Actions API 取消：`completed / cancelled` | HTTP 202 + 复查结论 |
 | 本机 Windows（Wave 3 复跑） | **8 scripts / 60 tests / 60 passing / 11511 asserts / `GUT_EXIT=0`**；PC 主场景 headless 自检 `WAVE3_SELFTEST_OK`；全局类缓存仍 40 类 | `test_pc_platform.gd` 6 例 +43 断言；`godot --headless --path . res://src/main.tscn -- --wave3-selftest` |
 | 本机 Windows（Wave 3b） | **9 scripts / 69 tests / 69 passing / 11572 asserts / `GUT_EXIT=0`**；ADR-5 lint 49 个 `.gd` 0 违规；主场景自检 `tile_cells=145 visible_entities=6 particles_amount=24` | `test_render_layer.gd` 9 例；`FloorGrid` / `FloorTilemap` / `EntityLayer` / `BattleParticles` |
-| 本机 Windows（Wave 4 导出） | Game / Probe 双预设 `--export-debug` 均 `EXIT=0`；导出的 exe 启动 `RUN_EXIT=0` / `WAVE3_SELFTEST_OK`；Probe exe `rows=10 err=0` | HTTP Range 只取 59MB Windows 模板；`application/modify_resources=false` 规避 rcedit；`exclude_filter=addons/gut/*` 使 `.pck` 3.7MB→约 181–183KB（多次实测有微小浮动） |
+| 本机 Windows（Wave 4 导出） | Game / Probe 双预设 `--export-debug` 均 `EXIT=0`；导出的 exe 启动 `RUN_EXIT=0` / `WAVE3_SELFTEST_OK`；Probe exe `rows=10 err=0` | HTTP Range 只取 59MB Windows 模板；`application/modify_resources=false` 规避 rcedit；`exclude_filter=addons/gut/*` 使 `.pck` 3.7MB→约 0.18–0.19MB（多次实测 185088–192928 bytes，随打包内容浮动） |
 | 本机 Windows（`_adapt` 修复后） | **9 scripts / 72 tests / 72 passing / 11582 asserts / `GUT_EXIT=0`**；30fps 600 帧 **104→200 tick**、`is_slow()=false` | `test_frame_budget.gd` 偏差探测还原为正确断言 + `test_combat.gd` 新增帧间隔长不降频用例 |
+| 本机 Windows（PC 基线插桩 v1.2） | 非 headless 窗口模式实跑 `FRAME_CAPTURE\|samples=60`，GPU 样本全部非零、`frame_wall_ms≈16.6667`（60fps 档）；headless 自检 `rows=10 err=0 / raw_rows=470`；`verify_probe_evidence.py` → `RESULT: PASS` | `RenderingServer.viewport_get_measured_render_time_gpu` 反射核实可用；逐样本长表 470 / 650 行可复算 mean / p95；帧时间标 `DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE`，不进 19 列 verdict；试跑 `round_id=instrument_smoke`、`build_sha=SMOKE_NOT_A_BASELINE`，明确非正式基线 |
 
 - 残留**非致命**告警：GUT 自带字体未导入（headless 无编辑器导入）引起的 fontdata /
   ObjectDB leak 提示，本地与 CI 同样存在，不影响测试结果。
@@ -128,7 +129,7 @@ func test_harness_runs():
 
 ## 7. 开放项（不臆造、不勾选未验证项）
 
-1. **G4 PC 基线（ADR-6）**：Wave 4 已打通导出 / 启动 / 采集链路（headless smoke），但**窗口 / 全屏 60/30fps 帧预算仍需带显示器的 PC 实测**；单手可达性热力图与 iOS 后台强杀判据已废止，改键盘可达 / PC 进程强杀双保险。R1 / R3 仍为 CONCERNS。
+1. **G4 PC 基线（ADR-6）**：Wave 4 已打通导出 / 启动 / 采集链路；v1.2 补齐逐样本原始证据、GPU / CPU / 墙钟帧时间插桩与窗口 / 全屏 × 60 / 30fps 分轮编排，并核实**本机非 headless 窗口可用**（Vulkan Forward+ / NVIDIA MX450，1920×1080；v1.1「本机无显示器」判定已更正）。仍待：① 按 `docs/qa/evidence/_template/README.md §7` 跑完四轮正式采集并补齐 `MANUAL_REQUIRED` 字段；② ADR-4 E1 真实像素资产到位后重测 5 项渲染 / 粒子指标。单手可达性热力图与 iOS 后台强杀判据已废止，改键盘可达 / PC 进程强杀双保险。**R1 / R3 仍为 CONCERNS**，插桩跑通不自动翻转。
 2. **Epic E**：E1 真实 AI 原图 → pipeline → manifest 登记；Godot `.import`/Import Preset 固化；`palette_validator` headless CI 与 R5/R6 实跑。
 3. **Epic F / Wave 3b 资产层**：`TileMapLayer` / `MultiMesh` + 屏外剔除 / `CPUParticles2D` 技术层已落地并实跑；但纹理均为 `DEBUG_PLACEHOLDER`，**ADR-4 E1 真实像素原图仍未产出**（需 AI 原图 → pipeline → manifest）。5 项渲染 / 粒子 / 合计占帧比的阻塞理由由「场景未落地」改为 `BLOCKED-BY-ASSET`，数值栏保持为空。
 4. **集成层**：InputArbiter 接入 PC 键鼠事件（Wave 3 适配层）、`enemy_ai.gd` / `spirit_ai.gd` 独立文件、DungeonGen↔Save 重建联测。

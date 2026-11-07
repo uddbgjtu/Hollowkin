@@ -5,19 +5,33 @@
 # 因此无法在 PC 基线上触发归档 runbook docs/qa/archive/r1r3-device-test-plan.md §2 / §3 的测量场景。
 # 本场景把「可立即测分项」的生产模块按固定种子驱动起来，逐样本打点后输出 CSV。
 #
-# PC 基线采集三步（ADR-6）：
-#   1) 导出前把本文件 PROBE_BUILD_SHA 填成被测构建的 git SHA（UNSET 会被 §6 退回），
+# PC 基线采集（ADR-6，2026-11-07 插桩补齐后）：
+#   1) 导出前把 PROBE_BUILD_SHA 填成被测构建的 git SHA（UNSET 会被 §5 退回），
 #      并把 project.godot 的 run/main_scene 临时指向 res://src/qa/probe_runner.tscn；
-#   2) 导出 Windows Desktop exe 并在目标 PC 运行，点「Start R1/R3 probe」；预热 >=5s 后再点；
-#   3) 取回 user://hollowkin_probe_metrics.csv（或 console / stdout 的 METRIC| 行）交给主理人。
+#   2) 导出 Windows Desktop exe 后在 PC 上运行，预热 >=5s 再点按钮（或 --probe-auto）；
+#   3) 每轮窗口/全屏 × 60/30fps 单独跑，取回两份文件：
+#      user://hollowkin_probe_metrics_<round>.csv      （19 列汇总，结构不变）
+#      user://hollowkin_probe_metrics_raw_<round>.csv  （逐样本长表，供复算 mean / p95）
+#      连同 METRIC| / METRIC_NOTE| / FRAME_CAPTURE| / PROBE_SUMMARY| 日志交给主理人。
 #      测完把 main_scene 改回 res://src/main.tscn。
 #
-# 本地 / CI 无头自检：
+# 命令行参数（写在 -- 之后，或作为常规参数均可）：
+#   --probe-auto                    跑完自动退出
+#   --round-id=win_60_release      轮次标识；进入汇总 / 原始文件名，禁止跨轮混算
+#   --window-mode=windowed|fullscreen
+#   --fps-cap=60|30                用 Engine.max_fps 固定目标帧率档
+#   --frame-samples=120            逐帧 GPU / CPU / 墙钟样本数（0 = 跳过帧采集）
+#   --warmup-frames=30             预热帧剔除（在脚本内剔除，不删原始值）
+#   --build-sha=<sha>              覆盖 PROBE_BUILD_SHA，便于不改源码即可标定构建
+#
+# 本地 / CI 无头自检（窗口与 GPU 计时不可用，自动降级并如实记录，不填 0、不臆造）：
 #   godot --headless --path . res://src/qa/probe_runner.tscn -- --probe-auto
-#   （--probe-auto 跑完自动退出；仅验证脚本可执行，产出的数字不是 PC 基线正式数据。）
+#   （仅验证脚本可执行；产出的数字不是 PC 基线正式数据。）
 #
 # 纪律：零预置测量值；不使用全局随机（ADR-5）；不声明 class_name（不改全局类缓存）。
 #       渲染 / 粒子 / 合计占帧比一律标 blocked，见 r1r3_probe.gd::add_blocked。
+#       帧时间只写逐样本长表并标 DEBUG_PLACEHOLDER_FRAME_NOT_A_BASELINE，
+#       绝不进 19 列 verdict —— E1 正式资产未产出，不构成正式判据。
 #
 # Wave 3b 更新：TileMapLayer / MultiMesh + 屏外剔除 / CPUParticles2D 已真实接入，
 #   但纹理均为 DEBUG_PLACEHOLDER（非 ADR-4 E1 像素原图），以其为负载测出的耗时
@@ -52,9 +66,31 @@ const N_INPUT := 100            # §3：输入仲裁 >=100 帧
 const N_TICK := 200             # §3：AI tick >=200 tick
 
 const USER_CSV := "user://hollowkin_probe_metrics.csv"
+const USER_RAW_CSV := "user://hollowkin_probe_metrics_raw.csv"
+
+const FRAME_SAMPLES_DEFAULT := 120
+const WARMUP_FRAMES_DEFAULT := 30
+const FRAME_NOTE := "DEBUG_PLACEHOLDER 负载；E1 正式资产未产出，不作正式判据、不进 19 列 verdict"
 
 var _status: Label
 var _button: Button
+
+var _round_id: String = "default"
+var _window_mode: String = "windowed"
+var _fps_cap: int = 0
+var _frame_target: int = FRAME_SAMPLES_DEFAULT
+var _warmup_initial: int = WARMUP_FRAMES_DEFAULT
+var _warmup_left: int = WARMUP_FRAMES_DEFAULT
+var _build_sha_override: String = ""
+var _auto_quit: bool = false
+
+var _capturing: bool = false
+var _frame_available: bool = false
+var _frame_reason: String = ""
+var _vp: RID
+var _frame_gpu: Array = []
+var _frame_cpu: Array = []
+var _frame_wall: Array = []
 
 
 # consume_into(target) 的回调桩：只承接 on_action，不把业务逻辑计入仲裁耗时。
@@ -64,9 +100,12 @@ class Sink extends RefCounted:
 
 
 func _ready() -> void:
+    _parse_args()
+    _apply_window_settings()
+    _detect_frame_capture()
     _build_ui()
     if _auto_requested():
-        call_deferred("_run_and_quit")
+        call_deferred("_begin_and_quit")
 
 
 func _build_ui() -> void:
@@ -82,12 +121,109 @@ func _build_ui() -> void:
     box.add_child(_button)
 
 
+# ---------------------------------------------------------------------
+# 轮次编排：窗口 / 全屏 × 60 / 30fps 各单独一轮，参数本身即证据的一部分。
+# ---------------------------------------------------------------------
+func _all_args() -> Array:
+    var out: Array = []
+    for a in OS.get_cmdline_args():
+        out.append(str(a))
+    for a in OS.get_cmdline_user_args():
+        out.append(str(a))
+    return out
+
+
+func _parse_args() -> void:
+    for a in _all_args():
+        if not a.begins_with("--") or "=" not in a:
+            continue
+        var parts: Array = a.split("=", true, 1)
+        var key: String = str(parts[0])
+        var val: String = str(parts[1])
+        match key:
+            "--round-id": _round_id = val
+            "--window-mode": _window_mode = val
+            "--fps-cap": _fps_cap = int(val)
+            "--frame-samples": _frame_target = int(val)
+            "--warmup-frames": _warmup_initial = int(val)
+            "--build-sha": _build_sha_override = val
+    _warmup_left = _warmup_initial
+
+
+func _apply_window_settings() -> void:
+    if DisplayServer.get_name() == "headless":
+        return
+    if _window_mode == "fullscreen":
+        DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+    else:
+        DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+    if _fps_cap > 0:
+        Engine.max_fps = _fps_cap
+
+
+func _detect_frame_capture() -> void:
+    # headless 下没有窗口也没有 GPU 渲染计时；如实记录不可用，绝不填 0 冒充样本。
+    if DisplayServer.get_name() == "headless":
+        _frame_available = false
+        _frame_reason = "headless: no window, no GPU render timing"
+        return
+    _vp = get_viewport().get_viewport_rid()
+    if not _vp.is_valid():
+        _frame_available = false
+        _frame_reason = "viewport RID invalid"
+        return
+    RenderingServer.viewport_set_measure_render_time(_vp, true)
+    _frame_available = true
+    _frame_reason = "RenderingServer.viewport_get_measured_render_time_gpu via %s" % DisplayServer.get_name()
+
+
+func _begin_and_quit() -> void:
+    _begin(true)
+
+
+func _begin(p_auto_quit: bool = false) -> void:
+    _auto_quit = p_auto_quit
+    _button.disabled = true
+    _frame_gpu.clear()
+    _frame_cpu.clear()
+    _frame_wall.clear()
+    _warmup_left = _warmup_initial
+    if _frame_available and _frame_target > 0:
+        _capturing = true
+        set_process(true)
+        _status.text = "采集中：round=%s mode=%s fps_cap=%d warmup=%d target=%d" % [
+            _round_id, _window_mode, _fps_cap, _warmup_left, _frame_target
+        ]
+    else:
+        _finish()
+
+
+func _process(delta: float) -> void:
+    if not _capturing:
+        return
+    if _warmup_left > 0:
+        _warmup_left -= 1
+        return
+    _frame_gpu.append(float(RenderingServer.viewport_get_measured_render_time_gpu(_vp)))
+    _frame_cpu.append(float(RenderingServer.viewport_get_measured_render_time_cpu(_vp)))
+    _frame_wall.append(delta * 1000.0)
+    if _frame_gpu.size() >= _frame_target:
+        _capturing = false
+        set_process(false)
+        _finish()
+
+
 func _intro_text() -> String:
+    var paths: Array = _csv_paths()
     var t := "Hollowkin R1/R3 PC baseline probe\n"
     t += "Godot %s | build_type=%s | device=%s\n" % [_godot_version(), _build_type(), _device_id()]
-    if PROBE_BUILD_SHA == "UNSET":
+    t += "round=%s | mode=%s | fps_cap=%d | frame=%s\n" % [
+        _round_id, _window_mode, _fps_cap, "available" if _frame_available else "unavailable"
+    ]
+    if _effective_build_sha() == "UNSET":
         t += "WARNING: PROBE_BUILD_SHA=UNSET -> set git SHA before export\n"
-    t += "Warm up >=5s, then press the button. CSV: " + USER_CSV + "\n"
+    t += "Warm up >=5s, then press the button.\n"
+    t += "CSV: " + str(paths[0]) + "\nRAW: " + str(paths[1]) + "\n"
     t += "Fill MANUAL_REQUIRED fields (see docs/qa/evidence/_template/README.md)."
     return t
 
@@ -103,20 +239,41 @@ func _auto_requested() -> bool:
 
 
 func _on_start_pressed() -> void:
-    _button.disabled = true
-    var r := _run()
-    _status.text = str(r["summary"])
-    _button.disabled = false
+    _begin(false)
 
 
-func _run_and_quit() -> void:
-    var r := _run()
-    print("PROBE_SUMMARY|" + str(r["summary"]))
-    get_tree().quit(0 if bool(r["ok"]) else 1)
+func _csv_paths() -> Array:
+    # 默认轮次沿用旧文件名，保持既有 headless 自检与文档记录兼容；
+    # 正式轮次按 round_id 分文件，禁止跨轮混算。
+    if _round_id == "default":
+        return [USER_CSV, USER_RAW_CSV]
+    return [
+        "user://hollowkin_probe_metrics_%s.csv" % _round_id,
+        "user://hollowkin_probe_metrics_raw_%s.csv" % _round_id
+    ]
 
 
-func _run() -> Dictionary:
+func _write_csv(path: String, text: String) -> int:
+    var f := FileAccess.open(path, FileAccess.WRITE)
+    if f == null:
+        return FileAccess.get_open_error()
+    f.store_string(text)
+    f.close()
+    return OK
+
+
+func _effective_build_sha() -> String:
+    return _build_sha_override if _build_sha_override != "" else PROBE_BUILD_SHA
+
+
+func _finish() -> void:
     var probe := Probe.new(_build_meta())
+    probe.set_round(_round_id)
+    probe.note("ROUND|id=%s mode=%s fps_cap=%d display=%s vsync=%d build_sha=%s raw=%s" % [
+        _round_id, _window_mode, _fps_cap, DisplayServer.get_name(),
+        (DisplayServer.window_get_vsync_mode() if DisplayServer.get_name() != "headless" else -1),
+        _effective_build_sha(), str(_csv_paths()[1])
+    ])
     _collect_r1_logic(probe)
     _collect_r1_fallback(probe)
     _collect_r1_density(probe)
@@ -124,25 +281,49 @@ func _run() -> Dictionary:
     _collect_r3_ai_tick(probe)
     _mark_blocked(probe)
     _note_render_structure(probe)
+    _record_frame_times(probe)
 
-    var csv := probe.to_csv()
-    var err := OK
-    var f := FileAccess.open(USER_CSV, FileAccess.WRITE)
-    if f == null:
-        err = FileAccess.get_open_error()
-    else:
-        f.store_string(csv)
-        f.close()
+    var paths: Array = _csv_paths()
+    var csv_path: String = str(paths[0])
+    var raw_path: String = str(paths[1])
+    var err := _write_csv(csv_path, probe.to_csv())
+    var raw_err := _write_csv(raw_path, probe.to_raw_csv())
     probe.print_rows()
 
-    var summary := "rows=%d csv=%s err=%d" % [probe.row_count(), USER_CSV, err]
-    var complete := probe.row_count() == 10
+    var summary := "rows=%d csv=%s err=%d" % [probe.row_count(), csv_path, err]
+    summary += " | raw_rows=%d raw=%s raw_err=%d" % [probe.raw_row_count(), raw_path, raw_err]
+    var frame_state: String = "samples=%d" % _frame_gpu.size() if _frame_available else "UNAVAILABLE (%s)" % _frame_reason
+    summary += " | round=%s mode=%s fps_cap=%d frame=%s" % [
+        _round_id, _window_mode, _fps_cap, frame_state
+    ]
+    var complete: bool = probe.row_count() == 10 and err == OK and raw_err == OK
     if not complete:
         summary += " | ERROR: expected 10 rows (possible module load failure)"
-    if PROBE_BUILD_SHA == "UNSET":
+    if _effective_build_sha() == "UNSET":
         summary += " | WARNING: PROBE_BUILD_SHA=UNSET (fill before export)"
     summary += " | verdict=auto pre-judgement; final per PC baseline README section 5"
-    return {"ok": err == OK and complete, "summary": summary, "csv": csv}
+
+    _button.disabled = false
+    _status.text = summary
+    print("PROBE_SUMMARY|" + summary)
+    if _auto_quit:
+        get_tree().quit(0 if complete else 1)
+
+
+# 帧时间只写逐样本长表：不进 19 列、不参与 verdict、不构成正式基线。
+func _record_frame_times(probe) -> void:
+    if not _frame_available or _frame_gpu.is_empty():
+        probe.note("FRAME_CAPTURE_UNAVAILABLE|%s|no frame timings recorded; 19 列渲染项仍 blocked" % _frame_reason)
+        return
+    var note := "round=%s mode=%s fps_cap=%d warmup_dropped=%d | %s" % [
+        _round_id, _window_mode, _fps_cap, _warmup_initial, FRAME_NOTE
+    ]
+    probe.record_frame_samples("frame_gpu_ms", _frame_gpu, note)
+    probe.record_frame_samples("frame_cpu_ms", _frame_cpu, note)
+    probe.record_frame_samples("frame_wall_ms", _frame_wall, note)
+    probe.note("FRAME_CAPTURE|round=%s mode=%s fps_cap=%d samples=%d load=DEBUG_PLACEHOLDER NOT_A_BASELINE" % [
+        _round_id, _window_mode, _fps_cap, _frame_gpu.size()
+    ])
 
 
 # ---------------------------------------------------------------------
@@ -156,14 +337,14 @@ func _build_meta() -> Dictionary:
         # Godot 4.3 无跨平台的 GPU 后端字符串；这里取 rendering_method 作代理。
         # Vulkan / D3D12 / GLES3 仍需采集人按 PC 基线 README §1 手工核对，勿当作已填。
         "gpu_backend": str(ProjectSettings.get_setting("rendering/renderer/rendering_method", "unknown")),
-        "build_sha": PROBE_BUILD_SHA,
+        "build_sha": _effective_build_sha(),
         "godot_version": _godot_version(),
         "build_type": _build_type(),
         # PC 下 thermal_state / battery_pct 可填 N/A，但须注明降频与省电策略。
         "thermal_state": "MANUAL_REQUIRED",
         "battery_pct": "MANUAL_REQUIRED",
         "background_policy": "MANUAL_REQUIRED",
-        "evidence_path": USER_CSV,
+        "evidence_path": str(_csv_paths()[0]),
         "measured_at": Time.get_datetime_string_from_system(true) + "Z",
         "operator": "MANUAL_REQUIRED"
     }
