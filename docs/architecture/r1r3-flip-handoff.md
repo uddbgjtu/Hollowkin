@@ -12,7 +12,7 @@
 | 项 | 状态 |
 |---|---|
 | 远端 HEAD | `f1c79c2`（E1 资产批次，已推送，CI 双绿） |
-| 待推送本地提交（按时间序） | `7018e01` → `9a2270d` → `05b8747` → `4f2fcce` → `789e567` → `d09d3c8`（共 6 个） |
+| 待推送本地提交（按时间序） | `7018e01` → `9a2270d` → `05b8747` → `4f2fcce` → `789e567` → `d09d3c8` → `54d7904`（共 7 个） |
 | 本沙箱推送能力 | ❌ 出口代理拦截 `github.com` git smart-HTTP（502）；**须在他处直连推送** |
 | R1 / R3 质量门 | 仍 `CONCERNS` |
 | 治理包 G1/G2/G3 本地准备 | ✅ 已就绪（占位待填 / 待签 / 待批，未伪造任何数据或签字） |
@@ -24,12 +24,12 @@
 
 ```bash
 # 在可直连 github.com 的机器上，于仓库根目录：
-git status --short            # 确认工作区干净（本会话已提交 d09d3c8）
-git log --oneline origin/master..master   # 预览将要推送的 6 个提交
-git push origin master        # 一次性推送 6 个本地提交
+git status --short            # 确认工作区干净（本会话已提交 54d7904）
+git log --oneline origin/master..master   # 预览将要推送的 7 个提交
+git push origin master        # 一次性推送 7 个本地提交
 ```
 
-- **预期**：`origin/master` 前进至 `d09d3c8`。
+- **预期**：`origin/master` 前进至 `54d7904`。
 - **若失败**：确认网络可达 `github.com`（非本沙箱）；凭据用 SSH key 或 `gh` 登录态；本沙箱代理 502 属环境限制，非仓库问题。
 - **推送后**：GitHub Actions 自动触发（见 §2）。
 
@@ -57,7 +57,7 @@ git push origin master        # 一次性推送 6 个本地提交
 ### 3.1 前置
 - 一台能创建窗口并读 GPU 帧时间的 PC（参考机型：Vulkan Forward+ / NVIDIA MX450，1080p@120Hz 单屏）。
 - Godot 4.3 导出构建（`--export-release` 或 debug 均可，建议 release 对齐 v1.3）。
-- 工作区已切到推送后的 `d09d3c8`（或其后），`asset_registry.gd` 驱动 E1 真实 PNG-8（`ASSET_SOURCE=E1_PNG8`）。
+- 工作区已切到推送后的 `54d7904`（或其后），`asset_registry.gd` 驱动 E1 真实 PNG-8（`ASSET_SOURCE=E1_PNG8`）。
 
 ### 3.2 采集（四轮，禁止跨轮混算）
 用 `tools/qa/r1r3_probe.gd` + `src/qa/probe_runner.gd`，按 `round_id` 分文件归档：
@@ -69,9 +69,28 @@ git push origin master        # 一次性推送 6 个本地提交
 | `fullscreen_60_release` | fullscreen | 60fps |
 | `fullscreen_30_release` | fullscreen | 30fps |
 
-- 每轮用 `--build-sha=<实际测量构建的纯 git SHA>` 标定（推送后该 SHA 为 `d09d3c8` 或其后；**以实际构建为准**，非硬编码）。
-- 探针输出：19 列 `summary_*.csv`（汇总）+ 7 列 `metrics_raw.csv`（逐样本长表）。
+- 每轮用 `--build-sha=<实际测量构建的纯 git SHA>` 标定（推送后该 SHA 为 `54d7904` 或其后；**以实际构建为准**，非硬编码）。
+- 探针输出（按 `round_id` 分文件）：`hollowkin_probe_metrics_<round_id>.csv`（19 列汇总）+ `hollowkin_probe_metrics_raw_<round_id>.csv`（7 列逐样本长表）。
 - 真实 GPU PC 下自动构建 E1 真实渲染负载（地板 TileMapLayer + 实体 MultiMesh + 浮尘 CPUParticles2D），并跑四态显隐 Δ 隔离采集：`full` / `no_entity` / `no_particles` / `base`。
+
+**精确启动命令（复制即用）**
+1. 临时改 `project.godot`：`run/main_scene=res://src/qa/probe_runner.tscn`（测完改回 `res://src/main.tscn`；亦可不改而用 `godot --path . res://src/qa/probe_runner.tscn` 直接以编辑器二进制启动）。
+2. 用 Godot 4.3 导出 Windows Desktop 可执行文件（建议 `--export-release`）；**非 `--headless` 运行**（须真实窗口才能读 GPU 帧时间）。四轮各启动一次，参数为：
+   ```bash
+   # 窗口 60fps 轮（其余三轮仅改 --round-id / --window-mode / --fps-cap）
+   Hollowkin.exe --user-data-dir="%CD%/probe_out" \
+     -- --round-id=windowed_60_release --window-mode=windowed --fps-cap=60 \
+        --frame-samples=120 --warmup-frames=300 --build-sha=<实际构建SHA> --probe-auto
+   # 窗口 30fps：--round-id=windowed_30_release   --window-mode=windowed   --fps-cap=30
+   # 全屏 60fps：--round-id=fullscreen_60_release --window-mode=fullscreen --fps-cap=60
+   # 全屏 30fps：--round-id=fullscreen_30_release --window-mode=fullscreen --fps-cap=30
+   ```
+   - `--probe-auto` 跑完自动退出；省略则需手动点界面「Start R1/R3 PC baseline probe」按钮。
+   - `--user-data-dir` 把 CSV 固定到工作区 `probe_out/` 子目录，便于 `verify_probe_evidence.py` 直接读取；省略则落盘 Godot `user://`（Windows 通常 `%APPDATA%\Godot\app_userdata\<项目名>\`）。
+   - 导出可执行文件名以实际 export preset 为准（上例 `Hollowkin.exe` 为示意）。
+3. 每轮产出（按 `round_id` 分文件，**禁止跨轮混算**）：
+   - `hollowkin_probe_metrics_<round_id>.csv`（19 列汇总）
+   - `hollowkin_probe_metrics_raw_<round_id>.csv`（7 列逐样本长表）
 
 ### 3.3 五项指标与闭合判据（回填到治理包 §2.1）
 
@@ -88,7 +107,10 @@ git push origin master        # 一次性推送 6 个本地提交
 
 ### 3.4 自动核验 + 手动字段
 ```bash
-python tools/qa/verify_probe_evidence.py summary_*.csv metrics_raw.csv
+# 逐轮分别校验（以 windowed_60_release 为例，其余三轮改 round_id 即可）
+python tools/qa/verify_probe_evidence.py \
+  hollowkin_probe_metrics_windowed_60_release.csv \
+  hollowkin_probe_metrics_raw_windowed_60_release.csv
 # 预期输出：RESULT: PASS（mean/p95 可由逐样本复算；blocked 数值栏为空）
 ```
 - **必填手动字段**（不得为 `MANUAL_REQUIRED` / `UNSET`）：`build_sha`、`operator`、`thermal_state`、`battery_pct`、`background_policy`。
@@ -102,7 +124,7 @@ python tools/qa/verify_probe_evidence.py summary_*.csv metrics_raw.csv
 
 - **落笔前提（红线）**：仅当 §2.1 G1 标注「G1 闭合」方可勾选「核验通过」；否则一律「核验不通过」。
 - **逐项核验**：对 §1 E1–E6 逐行打 ✓（E1 14 张 PNG-8、E2 ADR-4 工具链、E3 导入预设、E4 PaletteValidator 0 失败、E5 方法学、E6 测量链代码就位）。
-- **核验结论落笔**：勾「核验通过」时注明复核的 `summary_*.csv`/`raw_*.csv` 路径与 `build_sha`。
+- **核验结论落笔**：勾「核验通过」时注明复核的 `hollowkin_probe_metrics_<round_id>.csv` / `hollowkin_probe_metrics_raw_<round_id>.csv` 路径与 `build_sha`。
 - **签字行**：核验人实名 / 日期（YYYY-MM-DD）/ 电子签，禁止代签。
 - **与 G1 同源绑定**：核验结论须与 §2.1 回填数据同源（同 `build_sha`、同 `round_id` 分轮）。
 
@@ -160,4 +182,38 @@ python tools/qa/verify_probe_evidence.py summary_*.csv metrics_raw.csv
 
 ---
 
-*本 handoff 为外部/人工动作清单，随治理包一并本地准备（未经授权不推送）。执行顺序严格按 §1→§2→§3→§4→§5→§6；任一前置未满足不得跳步。*
+## 9. 故障处置与回滚
+
+| 情形 | 征兆 | 处置 |
+|---|---|---|
+| 某轮 `verify_probe_evidence.py` 返回 `RESULT: FAIL` | mean/p95 复算与汇总不一致，或 blocked 数值栏非空 | 不回填 G1；回到 §3.2 重跑该轮；检查 raw 长表是否被篡改/截断；确认探针源码未被改过 |
+| `delta_isolation` 报 `WARN_CLOSURE_DRIFT` | 残差超容差 `max(0.3ms, 20%)` | 排查四态显隐是否漏切（实体/粒子层 `visible` 标志）、`base` 态是否纯地板；必要时重测 `full`/`no_entity`/`no_particles`/`base` 四态 |
+| CI 某 job 失败（test 或 Lint） | Actions run `conclusion=failure` | 不翻转；本地复现（跑 GUT headless + ADR-5 lint）修复后重新推送（§1）；**失败绝不手工标绿** |
+| 推送后远端 HEAD 与本地不一致 | `commits/master` 的 sha ≠ 本地 `54d7904` | 确认是否漏推/浅推；`git fetch` 后比对；不要基于错误 HEAD 判定 CI |
+| 跨轮混算风险 | 同一 CSV 含多 `round_id` 样本 | 删除重跑；`round_id` 严格分文件（§3.2 输出按 `round_id` 命名）；治理包 §2.1 只回填主档 `windowed_60_release` |
+| GPU 样本全零 / `frame_available=false` | 日志 `headless: no window` 或 viewport RID invalid | 确认非 `--headless` 运行、确有窗口与 GPU、Vulkan 驱动可用；否则数据不合法，禁止当作基线 |
+| 手动字段 `MANUAL_REQUIRED`/`UNSET` | verify 通过但治理包 §2.1 字段空 | 补填 `build_sha`/`operator`/`thermal_state`/`battery_pct`/`background_policy` 真实读数后再计 G1 闭合 |
+
+---
+
+## 10. 治理包 ↔ handoff 状态对齐核对
+
+本 handoff 与 `r1r3-verification-approval.md`（治理包）须保持以下一致；任一不符即回头修正：
+
+| 维度 | 治理包 | 本 handoff | 一致 |
+|---|---|---|---|
+| 远端已推 HEAD | `f1c79c2` | §0 / §1 | ✅ |
+| 待推送本地链 | `7018e01`→`9a2270d`→`05b8747`→`4f2fcce`→`789e567`→`d09d3c8`→`54d7904` | §0 / §1 | ✅ |
+| R1/R3 当前状态 | `CONCERNS` | §0 / §7 | ✅ |
+| G1 五项指标 + 阈值 | §2.1 | §3.3 | ✅ |
+| G2 落笔范本 | §3.1 | §4 | ✅ |
+| G3 落笔范本 | §4.1 | §5 | ✅ |
+| 翻转落地文件 | §6 | §6 | ✅ |
+| 纪律红线 | 纪律声明 / §5 / §6 | §7 | ✅ |
+
+- 治理包为本会话最早产出，handoff 为其下游清单；handoff 创建提交 `54d7904`，治理包 §5/§6 已注明配套 handoff 存在。
+- 翻转后两文档须同步改状态（R1/R3 → `PASS`），不可只改其一。
+
+---
+
+*本 handoff 为外部/人工动作清单，随治理包一并本地准备（未经授权不推送）。执行顺序严格按 §1→§2→§3→§4→§5→§6；§9/§10 为参考性故障处置与对齐核对，不计入步骤。任一前置未满足不得跳步。*

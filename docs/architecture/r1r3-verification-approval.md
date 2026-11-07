@@ -58,12 +58,27 @@
 > **可闭合性（本批次探针改动后）**：真实 GPU PC 实测时，5 项渲染指标**全部可测**——`r1_render_mean` / `r1_render_p95_spike` / `r3_total_frame_share` 三项取 full 态整帧 GPU 时间；`r3_entity_render` / `r3_particles` 用四态显隐 Δ 隔离法（full / no_entity / no_particles / base 成对显隐，Δ = 两段均值差）测得边际 GPU 成本，并经 `delta_isolation` 闭合校验。故 **R1 与 R3 均可在真实 GPU PC 实测后闭合**。`headless`（无 GPU 帧采集链）下五项仍 `blocked`，工程改动不构建负载、不影响 CI。
 
 **回填步骤与闭合判据（全满足方闭合 G1）**
-1. **采集**：主理人带 GPU 的 PC 用 Godot 4.3 导出构建运行 `tools/qa/r1r3_probe.gd` + `src/qa/probe_runner.gd`，导出 19 列 `summary.csv` 与 7 列 `metrics_raw.csv`。
-2. **自动核验**：`python tools/qa/verify_probe_evidence.py summary.csv metrics_raw.csv` 须返回 `RESULT: PASS`（mean/p95 可由逐样本复算、blocked 数值栏为空）。
+1. **采集**：主理人带 GPU 的 PC 用 Godot 4.3 导出构建运行 `tools/qa/r1r3_probe.gd` + `src/qa/probe_runner.gd`，导出 19 列 `hollowkin_probe_metrics_<round_id>.csv` 与 7 列 `hollowkin_probe_metrics_raw_<round_id>.csv`（按 `round_id` 分文件命名；精确启动命令见配套 handoff `r1r3-flip-handoff.md` §3.2）。
+2. **自动核验**：`python tools/qa/verify_probe_evidence.py hollowkin_probe_metrics_<round_id>.csv hollowkin_probe_metrics_raw_<round_id>.csv` 须返回 `RESULT: PASS`（mean/p95 可由逐样本复算、blocked 数值栏为空；逐轮分别校验）。
 3. **必填手动字段**：`build_sha`（以实际测量构建的 git SHA 为准，a 阶段为 `9a2270d`）、`operator`、`thermal_state`、`battery_pct`、`background_policy` 不得留 `MANUAL_REQUIRED` / `UNSET`。
 4. **分轮纪律**：`round_id` 按 窗口×60 / 窗口×30 / 全屏×60 / 全屏×30 分文件归档，**禁止跨轮混算**。
 5. **独立实测**：`r3_total_frame_share` 不得由分项（entity_render + particles + …）拼接部分和判 pass，须独立实测。
 6. **判定口径**：5 项 `verdict` 全 `pass`（对照各自阈值）且核验脚本 PASS、手动字段齐全，方计 G1 闭合。
+
+#### 2.1.1 填写范例（示意 · 非实测 · 不得照抄为实测值）
+
+> ⚠️ 以下为**示范**某一轮（`windowed_60_release`）回填样貌，数值为**占位示意**（非 PC 实跑结果），仅展示每列怎么填；真实回填须由 `verify_probe_evidence.py` 产出、且 5 项 `verdict` 全 `pass`。
+
+| 指标 (metric) | 阈值 (target) | 实测 mean(ms) | 实测 p95(ms) | 采集模式 | 样本数 | 判定 | 证据文件 |
+|---|---|---|---|---|---|---|---|
+| `r1_render_mean` | ≤ 16.6 | `12.34`（示意） | `18.90`（示意） | 窗口×60fps | `120` | ✅ pass | `hollowkin_probe_metrics_windowed_60_release.csv` |
+| `r1_render_p95_spike` | < 50 | `18.90`（示意） | `22.10`（示意） | 窗口×60fps | `120` | ✅ pass | 同上 |
+| `r3_entity_render` | < 4 / < 8 | `2.10`（示意·60fps） | `3.40`（示意） | Δ 隔离 full−no_entity | `120` | ✅ pass | 同上 |
+| `r3_particles` | < 3 / < 6 | `1.80`（示意·60fps） | `2.60`（示意） | Δ 隔离 full−no_particles | `120` | ✅ pass | 同上 |
+| `r3_total_frame_share` | < 9.16 | `8.05`（示意） | `9.00`（示意） | 窗口×60fps 整帧 | `120` | ✅ pass | 同上 |
+
+- 真实回填时：`mean`/`p95` 取自 `verify_probe_evidence.py` 复算结果；`evidence_file` 取实际 `hollowkin_probe_metrics_<round_id>.csv`；`build_sha` 填实际构建 SHA（见步骤 3）。
+- 仅主档 `windowed_60_release` 回填此表；其余三轮见各自 CSV、**不并入**（分轮纪律，§2.1 步骤 4）。
 
 ---
 
@@ -126,6 +141,7 @@
 - 本包为 **b 阶段产出**（治理包已备，已提交 7018e01）；a 阶段渲染集成已完成并本地提交 `9a2270d`（已接 E1 真实 PNG-8，解 `BLOCKED-BY-ASSET`）。
 - **本地准备已完成（本批次）**：§2.1 G1 实测回填模板（5 项指标 + 阈值 + 闭合判据，占位待填）、§3 G2 核验签字栏（E1–E6 逐项清单 + 状态标记）、§4 G3 独立审批栏（状态标记 + 三件套前置）均已备为「待回填 / 待签 / 待批」就绪；**未填任何实测数字、未伪造签字**。
 - **G1 落地补强（本批次，工程侧）**：探针 `probe_runner.gd` 已落地四态显隐 Δ 隔离法——真实 GPU PC（`_frame_available`）下**构建 E1 真实渲染负载**（地板 TileMapLayer + 实体 MultiMesh + 浮尘 CPUParticles2D），五项渲染指标**全部**为 `measured`（R1 三项取整帧 GPU 时间、R3 二项取 Δ 隔离边际，并经 `delta_isolation` 闭合校验）；`headless` 下不构建负载、五项仍 `blocked`（BLOCKED-BY-HARDWARE），CI 不受影响；证据落区 `docs/qa/evidence/pc_win_02/` 与复测 runbook 已更新；`verify_probe_evidence.py` 经合成数据自检（合规→`RESULT: PASS`、篡改 mean→`RESULT: FAIL`）。**R1 与 R3 现均可在真实 GPU PC 上由 Δ 隔离实测闭合**。
+- **配套 handoff 清单**：`r1r3-flip-handoff.md`（提交 `54d7904`）为本包的下游一页式验收清单，涵盖推送 / CI 双绿 / G1 四轮 Δ 隔离实测 / G2·G3 落笔 / 翻转落地 / 故障处置（§9）/ 状态对齐核对（§10）；两文档 SHA、提交链与状态口径须保持一致（见 handoff §10），翻转后须同步改状态（R1/R3 → `PASS`）。
 - **仍待**：① a 阶段 `9a2270d` 推送至远端并等 CI 双绿（本沙箱出口代理拦截 github.com，须在他处推送）；② 主理人带 GPU 的 PC 实测回填 G1（§2.1，按 `pc_win_02/README.md` 流程，R3 的 `r3_entity_render` / `r3_particles` 现可由四态 Δ 隔离法实测闭合）；③ G2 核验签字、G3 独立审批。三件套（G1+G2+G3）齐备且 R1/R3 五项 `verdict` 全 `pass` 方可翻转。
 
 ---
@@ -135,7 +151,7 @@
 - **b（本包，已完成）**：证据台账 + 缺口台账 + 签字/审批栏已齐（已提交 7018e01）；G2/G3 签字栏已本地准备为待签/待批（见 §3/§4）。注意 G2/G3 不能替代 G1。
 - **a（渲染集成，已完成）**：已替换 `DEBUG_PLACEHOLDER` 为 ADR-4 E1 真实 PNG-8（asset_source=E1_PNG8，新增 asset_registry.gd 由 manifest 驱动），解 `BLOCKED-BY-ASSET`；剩余阻塞为 `BLOCKED-BY-HARDWARE`（无头无 GPU 帧采集链）。已本地提交 `9a2270d`，待他处推送 + CI 双绿。
 - **本批次（G1 落地补强 + G2/G3 本地准备，已完成）**：探针 `_collect_render_metrics` 工程改动（四态 Δ 隔离法使 R3 可闭合）、`pc_win_02/` 证据落区与复测 runbook、§2.1 G1 回填模板、§3 G2 逐项核验清单与 §3.1 落笔范本、§4 G3 状态标记与 §4.1 落笔范本均已备（待填说明）；下一步填实测数字与落笔签字即可，无需再改结构。
-- **翻转路径**：他处推送 `9a2270d` → CI 双绿 → PC 实测回填 G1（按 `pc_win_02/README.md`，§2.1，五项含 R3 子系统 Δ 隔离）→ G2 签字 → G3 审批 → **R1 与 R3 均可由 CONCERNS 升 PASS**（五项 `verdict` 全 `pass`）。
+- **翻转路径**：他处一次性推送 7 个本地提交（`7018e01`→`54d7904`）→ CI 双绿 → PC 实测回填 G1（按 `pc_win_02/README.md`，§2.1，五项含 R3 子系统 Δ 隔离；精确命令见 handoff §3.2/§3.4）→ G2 签字 → G3 审批 → **R1 与 R3 均可由 CONCERNS 升 PASS**（五项 `verdict` 全 `pass`）。
 
 ---
 
