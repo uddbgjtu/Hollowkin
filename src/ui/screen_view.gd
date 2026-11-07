@@ -34,6 +34,19 @@ func refresh() -> void:
     queue_redraw()
 
 
+# Wave 3b：地图屏挂有 FloorTilemap / EntityLayer 时转发布局渲染；
+# 其他屏没有这两个子节点则安全跳过（通用视图不绑定地图专用逻辑）。
+func render_floor(layout: Dictionary, view: Rect2i) -> int:
+    var tm = get_node_or_null("FloorTilemap")
+    if tm == null:
+        return 0
+    var n: int = int(tm.build_from_layout(layout, view))
+    var el = get_node_or_null("EntityLayer")
+    if el != null:
+        el.update_from_layout(layout, view)
+    return n
+
+
 func _draw() -> void:
     var bg: Color = Color(0.08, 0.10, 0.13, 1.0)
     var header: Color = Color(0.13, 0.17, 0.21, 1.0)

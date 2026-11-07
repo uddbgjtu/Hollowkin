@@ -6,7 +6,9 @@
 #
 # 纪律（对齐 runbook §9 诚实性约束）：
 #   - 本文件不含任何预置测量值；所有数值由 PC 运行时真实产生。
-#   - 渲染 / 粒子 / 合计占帧比等【前置依赖未满足】项只标 blocked，绝不代填数字。
+#   - 渲染 / 粒子 / 合计占帧比只标 blocked，绝不代填数字。Wave 3b 后技术层
+#     （TileMapLayer / MultiMesh + 剔除 / CPUParticles2D）已就位，但纹理仍是
+#     DEBUG_PLACEHOLDER，故阻塞理由为 BLOCKED-BY-ASSET（E1 原图未产出）。
 #   - 不使用全局随机（ADR-5）；采集种子固定，随机由生产模块经 RNGService 派生。
 #   - 不声明 class_name，避免污染 .godot/global_script_class_cache.cfg（保持 40 类）。
 #

@@ -18,6 +18,11 @@
 #
 # 纪律：零预置测量值；不使用全局随机（ADR-5）；不声明 class_name（不改全局类缓存）。
 #       渲染 / 粒子 / 合计占帧比一律标 blocked，见 r1r3_probe.gd::add_blocked。
+#
+# Wave 3b 更新：TileMapLayer / MultiMesh + 屏外剔除 / CPUParticles2D 已真实接入，
+#   但纹理均为 DEBUG_PLACEHOLDER（非 ADR-4 E1 像素原图），以其为负载测出的耗时
+#   不能充当正式 GPU 帧预算基线。故 5 项 blocked 理由由「场景未落地」改为
+#   BLOCKED-BY-ASSET，仍保持 blocked、数值栏留空、R1/R3 CONCERNS 不翻转。
 # =====================================================================
 
 extends Control
@@ -27,6 +32,7 @@ const DungeonGeneratorMod := preload("res://src/core/dungeon_gen/dungeon_generat
 const HitZoneMod := preload("res://src/gameplay/input/hit_zone.gd")
 const InputQueueMod := preload("res://src/gameplay/input/input_queue.gd")
 const CombatDirectorMod := preload("res://src/gameplay/combat/combat_director.gd")
+const FloorGridMod := preload("res://src/gameplay/render/floor_grid.gd")
 
 # ---------------------------------------------------------------------
 # 采集前必须人工填写（导出 Windows exe 之前）
@@ -117,6 +123,7 @@ func _run() -> Dictionary:
     _collect_r3_input(probe)
     _collect_r3_ai_tick(probe)
     _mark_blocked(probe)
+    _note_render_structure(probe)
 
     var csv := probe.to_csv()
     var err := OK
@@ -295,12 +302,27 @@ func _collect_r3_ai_tick(probe) -> void:
 # ---------------------------------------------------------------------
 func _mark_blocked(probe) -> void:
     probe.add_blocked("r1_render_mean", "ms", "≤ 16.6",
-        "BLOCKED-BY-SCENE: TileMapLayer.set_cell 未落地")
+        "BLOCKED-BY-ASSET: TileMapLayer.set_cell 已接入，但纹理为 DEBUG_PLACEHOLDER，须 E1 原图 + PC 窗口实测")
     probe.add_blocked("r1_render_p95_spike", "ms", "< 50",
-        "BLOCKED-BY-SCENE: 无瓦片渲染态")
+        "BLOCKED-BY-ASSET: 瓦片渲染态已就位，但 debug 占位纹理不代表正式负载")
     probe.add_blocked("r3_entity_render", "ms", "< 4 / < 8",
-        "BLOCKED-BY-SCENE: 无场景 / MultiMesh / 屏外剔除")
+        "BLOCKED-BY-ASSET: MultiMesh + 屏外剔除已就位，但实体贴图为 DEBUG_PLACEHOLDER")
     probe.add_blocked("r3_particles", "ms", "< 3 / < 6",
-        "BLOCKED-BY-SCENE: 无粒子系统")
+        "BLOCKED-BY-ASSET: CPUParticles2D 已启用，但特效贴图为无纹理默认方块")
     probe.add_blocked("r3_total_frame_share", "ms", "< 9.16（55%）",
         "分项缺失，不得拼接部分和判 pass")
+
+
+# 结构计数（格数 / 实例数）只作证据日志，**不是性能耗时**，不进 CSV 数值列。
+# 用于证明 Wave 3b 的格映射与屏外剔除确实可用，而非「场景未落地」。
+func _note_render_structure(probe) -> void:
+    var dg := DungeonGeneratorMod.new()
+    var layout: Dictionary = dg.generate_sync(SEED, FLOOR_START, TIER_HIGH)
+    var view: Rect2i = FloorGridMod.view_rect_for_layout(layout)
+    var all_tiles: Dictionary = FloorGridMod.build_tiles(layout)
+    var visible: Dictionary = FloorGridMod.cull_tiles(all_tiles, view)
+    var ents: Array = FloorGridMod.visible_entities(layout, view)
+    probe.note("render_structure (counts_only_not_ms): total_cells=%d visible_cells=%d visible_entities=%d view=%s asset=%s" % [
+        all_tiles.size(), visible.size(), ents.size(), str(view), FloorGridMod.ASSET_SOURCE
+    ])
+    dg.free()

@@ -13,6 +13,8 @@ extends Control
 
 const RNGServiceMod := preload("res://src/core/rng/rng_service.gd")
 const LayoutConfig := preload("res://src/ui/layout_config.gd")
+const FloorGrid := preload("res://src/gameplay/render/floor_grid.gd")
+const DungeonGeneratorMod := preload("res://src/core/dungeon_gen/dungeon_generator.gd")
 const PcInputAdapter := preload("res://src/gameplay/input/pc_input_adapter.gd")
 const OverviewView := preload("res://src/ui/screens/overview_screen.tscn")
 const PouchView := preload("res://src/ui/screens/pouch_screen.tscn")
@@ -25,6 +27,7 @@ var adapter
 var _screens: Dictionary = {}
 var _views: Dictionary = {}
 var _last_active: String = ""
+var _map_built: bool = false
 # 视图脚本无 class_name（保持全局类缓存 40 类），故用动态引用调用 bind/refresh。
 var _tab_view = null
 var _status: Label
@@ -168,6 +171,28 @@ func _sync_active(force: bool) -> void:
         label = router.active_id
     _status.text = "当前屏：%s  |  分辨率 %s" % [label, str(LayoutConfig.viewport())]
     _hint.text = "鼠标左键点击热区；1-4 切屏；Tab 循环；Enter 主操作；Esc 返回总览"
+    if router.active_id == "map" and not _map_built:
+        _build_map_view()
+
+
+# Wave 3b：首次进入地图屏时按 (run_seed, floor_index) 确定性重建布局（ADR-1/ADR-5），
+# 交给 TileMapLayer / MultiMesh 视图做格映射 + 屏外剔除。只建一次，避免每次切屏重复 set_cell。
+func _build_map_view() -> void:
+    var run: Dictionary = SaveSvc.load_run()
+    if run.is_empty():
+        return
+    var seed_value: int = int(run["run_seed"])
+    var floor_index: int = int(run["floor_index"])
+    var dg = DungeonGeneratorMod.new()
+    var layout: Dictionary = dg.generate_sync(seed_value, floor_index, 0)
+    var view: Rect2i = FloorGrid.view_rect_for_layout(layout)
+    var mv = _views["map"]
+    var written: int = int(mv.render_floor(layout, view))
+    _map_built = true
+    print("[Main] 地图屏渲染 seed=%d floor=%d visible_cells=%d asset=%s" % [
+        seed_value, floor_index, written, FloorGrid.ASSET_SOURCE
+    ])
+    dg.free()
 
 
 func _selftest_requested() -> bool:
@@ -221,6 +246,37 @@ func _run_selftest() -> void:
         ok = false
         notes.append("esc_return_failed")
     _sync_active(true)
+
+    # Wave 3b：地图屏 TileMapLayer / MultiMesh / 战斗屏粒子层就位且有可见格。
+    router.switch_to("map")
+    _sync_active(true)
+    var mv2 = _views["map"]
+    var tm = mv2.get_node_or_null("FloorTilemap")
+    if tm == null:
+        ok = false
+        notes.append("tilemap_missing")
+    else:
+        var used: int = tm.get_used_cells().size()
+        notes.append("tile_cells=%d" % used)
+        if used <= 0:
+            ok = false
+            notes.append("tilemap_empty")
+        if str(tm.asset_source()) != "DEBUG_PLACEHOLDER":
+            ok = false
+            notes.append("asset_source_not_marked")
+    var el = mv2.get_node_or_null("EntityLayer")
+    if el == null:
+        ok = false
+        notes.append("entity_layer_missing")
+    else:
+        notes.append("visible_entities=%d" % int(el.last_visible))
+    var bv = _views["battle"]
+    var bp = bv.get_node_or_null("BattleParticles")
+    if bp == null or not bp.emitting:
+        ok = false
+        notes.append("particles_not_emitting")
+    else:
+        notes.append("particles_amount=%d" % int(bp.amount))
 
     var mb: InputEventMouseButton = InputEventMouseButton.new()
     mb.position = Vector2(10.0, 10.0)

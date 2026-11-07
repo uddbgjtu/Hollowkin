@@ -130,16 +130,29 @@ func test_clock_adaptive_5hz_after_over_budget():
     var clock := SimulationClock.new()
     var fake := FakeDirector.new()
     clock.combat_director = fake
-    # 连续 feed 超预算帧（delta=0.02 > 1/60）直至触发 5Hz
+    # 2026-11-07 _adapt 修复后：超预算只认【实测单帧耗时】，不再看帧间隔。
+    # 这里注入 20ms 真实耗时（> 16.67ms 预算），delta 保持 0.02。
     for i in range(31):
-        clock.advance(0.02)
-    assert_true(clock.is_slow(), "连续超预算应触发 5Hz 降频")
+        clock.advance(0.02, 0.02)
+    assert_true(clock.is_slow(), "连续 31 帧实测超预算应触发 5Hz 降频")
     # 降频后 4s（200 帧 @0.02）@5Hz → ~20 ticks
     var before := clock.tick_count
     for i in range(200):
-        clock.advance(0.02)
+        clock.advance(0.02, 0.02)
     var delta_ticks := clock.tick_count - before
     assert_true(delta_ticks >= 19 and delta_ticks <= 21, "降频后应≈5 ticks/秒，得 %d" % delta_ticks)
+
+
+func test_clock_long_frame_interval_alone_does_not_downclock():
+    # 回归 30fps 误降 5Hz 偏差：帧间隔 1/30 很长，但单帧真实耗时只有 2ms。
+    var clock := SimulationClock.new()
+    var fake := FakeDirector.new()
+    clock.combat_director = fake
+    for i in range(600):
+        clock.advance(1.0 / 30.0, 0.002)
+    assert_false(clock.is_slow(), "帧间隔长不等于单帧超时，30fps 稳态不得降频")
+    assert_true(clock.tick_count >= 199 and clock.tick_count <= 201,
+        "30fps 20s 应≈200 tick（10Hz 记账），得 %d" % clock.tick_count)
 
 
 # ----------------------------------------------------------------------

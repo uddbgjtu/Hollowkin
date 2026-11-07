@@ -55,7 +55,7 @@
 | **验证点** | ① `SimulationClock` 累加器每满 0.1s（10Hz）跑 `tick()`，MAX_CATCHUP=3；② tick 内消费输入队列→`CombatDirector.step_simulation`；③ 移动/动画逐帧 lerp 读 AI 目标（不重算决策）；④ 连续超帧预算降 5Hz、后台暂停；⑤ 屏外实体经 `VisibleOnScreenNotifier2D` 停用 AI/动画（留桩） |
 | **负责人** | engineering-lead |
 | **风险** | 低。10Hz 下技能响应最大 ~100ms，对低 APM 桌面设计可接受；若手感偏钝，仅玩家主动技能走即时通道（备注方案；ADR-6 仅改述措辞） |
-| **完成判据** | 1) 10Hz tick 计数/追帧断言（`test_clock_steady_state_10hz` / `test_clock_stall_capped_at_max_catchup`）；2) 自适应降频触发逻辑有单测（`test_clock_adaptive_5hz_after_over_budget`）；3) 同屏 ≤12 敌人渲染 <4ms、粒子 <3ms 在 PC 基线达标（R3，**ADR-6 后待 PC 实测**）。① ② 已由 `tests/unit/combat_test.gd` 覆盖 |
+| **完成判据** | 1) 10Hz tick 计数/追帧断言；2) 自适应降频只在**实测单帧耗时**超预算时触发（`test_clock_adaptive_5hz_after_over_budget` / `test_adaptive_5hz_recovers_when_frames_return_to_budget`）；3) 同屏 ≤12 敌人渲染 <4ms、粒子 <3ms 在 PC 窗口基线达标（R3，**仍待实测**）。① ② 已由 `test_combat.gd` / `test_frame_budget.gd` 覆盖（含 30fps 不误降频回归）；③ 因 E1 资产缺失仍 `BLOCKED-BY-ASSET` |
 
 ---
 
@@ -125,9 +125,9 @@
 | ADR-4 | 已闭环（工具链 verified 2026-11-04；selftest 实跑 PASS） | E1 资产产出 / Godot 应用待办（非架构阻断） | 脚本唯一出口 + CI 校验 + Python selftest 实跑 PASS（upper=9/mid=7/boss=10/sanctuary=9） |
 | ADR-5 | 进行中（GUT 单测已接线 CI） | 待与 ADR-1 联测；GUT 实跑待 Godot 环境 | RNGService+单测已落；全局随机调用拦截（lint 已落地）；`rng_service_test.gd` 等 5 件套经 `.github/workflows/test.yml` 接 Godot 4.3 headless（Epic G 接线，主理人已做静态 API 对账，待实跑） |
 | C1 | 已闭环（Epic D 实现已落） | 低 | 单测覆盖加算/乘区/堆叠（`pouch_vein_test.gd`） |
-| ADR-6 | 已批准 / Wave 1 + 2 + 2b 已落地 | 布局硬编码、`_adapt` 偏差、移动端 runbook 待归档 | Wave 2 下游对齐 ✅ → Wave 2b 归档 ✅ → Wave 3 工程 → Wave 4 回归；R1/R3 不自动翻转 |
+| ADR-6 | 已批准 / Wave 1–4 + `_adapt` 修复已落地 | E1 真实像素资产、PC 窗口 60/30fps 帧预算实测 | 文档层 ✅ → 布局/键鼠/四主屏 ✅（`f445740`）→ 渲染层技术接入 ✅ → Windows exe 实导出/启动 ✅ → `_adapt` 修复 ✅；R1/R3 不自动翻转 |
 
-> **总评**：6 项决策 + 新增 ADR-6 均"技术可落地、无 FAIL"。ADR-1 因 E-A 拍板由拟采纳升级为可完整实现；**ADR-4 已实现完成（引擎 4.3 签字、Python `--selftest` 实跑通过含 boss/sanctuary R3 严格硬阻断）**；ADR-5 的 GUT 已由 Godot 4.3 headless + `windows-latest` CI 实跑（7 scripts / 54 tests）。**ADR-6 已批准但仅 Wave 1 文档层落地**，剩余开放项集中在 **R1/R3 的 PC 帧预算基线（原移动端真机判据失效）**、**Wave 2–4 实施** 与 **R2 的 PC 实机验证**，不构成架构阻断。
+> **总评**：6 项决策 + 新增 ADR-6 均"技术可落地、无 FAIL"。ADR-1 因 E-A 拍板由拟采纳升级为可完整实现；**ADR-4 已实现完成（引擎 4.3 签字、Python `--selftest` 实跑通过含 boss/sanctuary R3 严格硬阻断）**；ADR-5 的 GUT 已由 Godot 4.3 headless + `windows-latest` CI 实跑，当前本地基线 **9 scripts / 72 tests**。**ADR-6 的 Wave 1–4 与 `_adapt` 修复均已落地**（Wave 3 已提交 `f445740`）；剩余开放项集中在 **ADR-4 E1 真实像素资产**、**R1/R3 的 PC 窗口 60/30fps 帧预算实测** 与 **R2 的 PC 实机验证**，不构成架构阻断。
 
 ---
 

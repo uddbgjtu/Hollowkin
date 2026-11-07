@@ -225,12 +225,12 @@ run 起始:
 | A-3 | StatBlock 契约 C1 落地 | **PASS** | §3.3 注入链 + §5 一致性 2/4 | — |
 | A-4 | 输入→AI→战斗 解耦 | **PASS** | ADR-2/3 + §3.2 | 10Hz 判定延迟 ~100ms 手感待 PC 实机验证 |
 | A-5 | 存档 ADR-1 完整落地 | **PASS** | E-A 已拍板，仅层间落盘 | R2：PC 进程被强杀 / 断电时 `paused` 未必触发（ADR-6 改述） |
-| R1 | 地窟生成帧预算 | **CONCERNS** | `prototype-r1r3-report.md` 算法级基准 + 步进让帧设计 | ADR-6：目标设备改为 PC 基线，尚未建表与实测；`TileMapLayer.set_cell` 渲染尖峰未测 |
-| R3 | 输入 + AI 同帧预算 | **CONCERNS** | `prototype-r1r3-report.md` 预算对照表 + 10Hz 自适应 | ADR-6：目标设备改为 PC 基线，尚未建表与实测；输入/AI/渲染/粒子分项未测 |
+| R1 | 地窟生成帧预算 | **CONCERNS** | `prototype-r1r3-report.md` 算法级基准 + 步进让帧设计 | ADR-6：PC 基线表已就位、导出链路已实跑；Wave 3b 已接入 `TileMapLayer.set_cell` + 屏外剔除，但纹理为 `DEBUG_PLACEHOLDER`（E1 原图缺），窗口模式渲染尖峰仍未实测 |
+| R3 | 输入 + AI 同帧预算 | **CONCERNS** | `prototype-r1r3-report.md` 预算对照表 + 10Hz 自适应 | ADR-6：PC 基线表已就位；`MultiMesh` ≤12 + 剔除 / 粒子层已就位但为 debug 占位；`_adapt` 30fps 误降频已修复；输入/AI/渲染/粒子分项仍待窗口模式实测 |
 | ADR-4 | 像素资产防偏色 | **CONCERNS** | 预设+PaletteValidator | PNG-8 在部分工具链被重新量化（须脚本唯一出口） |
 | 总判定 | — | **PASS（带 3 项 CONCERNS）** | 架构可行、ADR 体系完备 | R1/R3 须 PC 基线实测闭环；R2/ADR-4 须实测/纪律 |
 
-> **ADR-6 状态注（2026-11-06）**：目标平台改为 Windows Desktop 单平台、移动端彻底放弃后，R1/R3 的「低端 iOS/Android 真机」判据失去适用前提，须改由 PC 窗口 / 全屏基线测量（见 `adr-006-pc-first.md §3`）。**本表 CONCERNS 状态不因平台变更自动翻转**；翻转仍须实测数据 + 独立审批。移动端 runbook 已于 Wave 2b 归档至 `docs/qa/archive/r1r3-device-test-plan.md`，证据模板已重定位为 PC 基线；R1 / R3 **仍为 CONCERNS**。
+> **ADR-6 状态注（2026-11-06，2026-11-07 补充）**：目标平台改为 Windows Desktop 单平台、移动端彻底放弃后，R1/R3 的「低端 iOS/Android 真机」判据失去适用前提，须改由 PC 窗口 / 全屏基线测量（见 `adr-006-pc-first.md §3`）。**本表 CONCERNS 状态不因平台变更自动翻转**；翻转仍须实测数据 + 独立审批。移动端 runbook 已于 Wave 2b 归档至 `docs/qa/archive/r1r3-device-test-plan.md`，证据模板已重定位为 PC 基线。Wave 3b 渲染层技术接入、Wave 4 Windows exe 实导出 / 启动、`_adapt` 30fps 误降频修复均已完成（headless 实跑），但 E1 真实像素资产与窗口 60/30fps 帧预算实测仍缺；headless smoke 数据不充当基线。R1 / R3 **仍为 CONCERNS**。
 
 ### 6.2 残留风险说明
 - **R1 / R3（高优先）**：本环境可跑 Godot 4.3 headless，但**无渲染 / 设备帧时间采集链**，无法实测渲染 / AI 运行时帧时间。已交付"原型代码 + 测量方法学 + 预算对照表 + 算法级基准"，**PC 基线测量为开放项**，不编造数据（见报告 §1/§4、ADR-6 §4）。

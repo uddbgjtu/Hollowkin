@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://src/ui/screen_view.gd" id="1_view"]
+[ext_resource type="Script" path="res://src/gameplay/render/battle_particles.gd" id="2_particles"]
 
 [node name="BattleView" type="Control"]
 layout_mode = 3
@@ -13,7 +14,7 @@ mouse_filter = 2
 script = ExtResource("1_view")
 screen_id = "battle"
 title = "战斗 · 技能 / 防御 / 跳过"
-hint = "Esc 返回总览；Q / W 对应灵击 / 缚灵（需已注入 CombatDirector）"
+hint = "Esc 返回总览；Q / W 对应灵击 / 缚灵（需已注入 CombatDirector）；浮尘粒子为 DEBUG_PLACEHOLDER"
 
 [node name="TitleLabel" type="Label" parent="."]
 layout_mode = 0
@@ -37,6 +38,4 @@ text = ""
 
 [node name="BattleParticles" type="CPUParticles2D" parent="."]
 position = Vector2(640, 360)
-amount = 24
-lifetime = 1.2
-emitting = false
+script = ExtResource("2_particles")

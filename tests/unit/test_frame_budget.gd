@@ -9,24 +9,20 @@
 #   ADR-6 后判据改由 PC 窗口 / 全屏基线采集（Wave 4）。
 #
 # 与 tests/unit/test_combat.gd 的分工（避免重复造轮子）：
-#   test_combat.gd 已覆盖：60fps 稳态 10Hz、5s 卡顿追帧钳 3、连续超预算降 5Hz。
-#   本文件只补其未覆盖的 4 项：30fps 稳态、跨帧率记账一致、降频恢复、
-#   ADR-2 tick 内「先消费队列 → 再推仿真」及 cd 钳基于仿真时间。
+#   test_combat.gd 已覆盖：60fps 稳态 10Hz、5s 卡顿追帧钳 3、
+#   连续【实测超预算】降 5Hz、帧间隔长但耗时低不降频。
+#   本文件只补其未覆盖的：30fps 稳态记账、跨帧率一致、降频恢复、
+#   ADR-2 tick 内「先消费队列 → 再推仿真」、无插桩数据的保守策略、
+#   report_frame_cost 注入链路。
 # ADR-5：本文件不含任何全局随机调用。
 #
-# 【2026-11-06 headless 实跑发现 · 已知偏差，不掩盖】
-#   prototype-r1r3-report.md §3.3 的 Python 记账基准称「30fps 600 帧 = 200 tick、
-#   跨帧率一致」，但 Python 仿真的「超预算」是外部注入，稳态用例从不注入；
-#   而 GDScript 原型 gd_simulation_clock.gd::_adapt() 与生产
-#   simulation_clock.gd::_adapt() 均以 delta > 1/60 判超预算 —— 30fps 每帧
-#   1/30 全部命中，连续 30 帧后误降 5Hz（TICK_DT_SLOW=0.2）。
-#   实跑证据：30fps 20s 得 104 tick（基准期望 200）；10s 墙钟对比
-#   60fps 99 tick vs 30fps 54 tick；仿真步长总量仍近似守恒（≈墙钟时长）。
-#   影响：低端 30fps 设备（正是 R3 目标档）被误判降载，AI tick 腰斩。
-#   本文件用例 (1)(2) 因此改为「如实锁定当前行为 + 标注已知偏差」，不把缺陷写成期望；
-#   修复 _adapt（改以插桩真实耗时判超预算）后，应把断言改回
-#   「tick_count≈200 且 is_slow()==false」/「a.tick_count == b.tick_count」。
-#   生产代码不在本次批准写入范围内，修复需另行审批。
+# 【2026-11-06 发现 → 2026-11-07 修复】
+#   旧 `simulation_clock.gd::_adapt()` 以 `delta > 1/60` 判超预算，30fps 每帧
+#   1/30 必然命中，连续 30 帧后误降 5Hz。实跑证据：30fps 20s 得 104 tick
+#   （记账基准 200）；10s 墙钟 60fps 99 tick vs 30fps 54 tick。
+#   本文件 (1)(2) 曾改为「偏差探测」如实锁定缺陷；本次修复后已**还原为正确断言**：
+#   30fps ≈200 tick / 跨帧率一致 / 不降频。超预算改由实测单帧耗时注入触发。
+#   影响范围：PC 30fps 下限档（R3）不再被误判降载，r3_ai_tick 测量不再受污染。
 # =====================================================================
 
 extends GutTest
@@ -49,30 +45,29 @@ class Recorder extends RefCounted:
 
 
 # ----------------------------------------------------------------------
-# (1) 【已知偏差探测】30fps 稳态：当前实现误降 5Hz，实跑 104 tick（基准期望 200）
-#     修复后的正确期望：tick_count≈200 且 is_slow()==false。
+# (1) 30fps 稳态：600 帧 @30fps = 20s → ≈200 tick，且不降频
+#     （修复前实跑 104 tick / is_slow()=true）
 # ----------------------------------------------------------------------
-func test_30fps_false_positive_downclock_known_deviation():
+func test_30fps_steady_state_20s_yields_200_ticks():
     var rec := Recorder.new()
     var c := SimulationClock.new()
     c.combat_director = rec
     for i in range(600):
-        c.advance(1.0 / 30.0)   # 600 帧 @30fps = 20s
-    assert_true(c.is_slow(),
-        "【已知偏差】30fps 每帧 1/30 > 1/60，被 _adapt 误判为持续超预算并降 5Hz")
-    assert_true(c.tick_count > 90 and c.tick_count < 200,
-        "【已知偏差】降频后 tick 显著低于 200（实跑 104），但仿真仍持续推进，不得卡死")
-    assert_true(abs(rec.sim_dt_sum - 20.0) < 0.5,
-        "仿真步长总量应近似守恒（≈20s 墙钟），得 %s" % rec.sim_dt_sum)
+        c.advance(1.0 / 30.0)   # 无插桩数据：帧间隔长不得推断为单帧超时
+    assert_false(c.is_slow(), "修复后 30fps 稳态不应误降 5Hz")
+    assert_true(c.tick_count >= 199 and c.tick_count <= 201,
+        "30fps 20s 应≈200 tick（10Hz 记账），得 %d" % c.tick_count)
+    assert_true(abs(rec.sim_dt_sum - 20.0) < 0.25,
+        "累计仿真步长应≈20s，得 %s" % rec.sim_dt_sum)
     assert_eq(rec.steps, c.tick_count, "每 tick 恰驱动一次 step_simulation")
     c.free()
 
 
 # ----------------------------------------------------------------------
-# (2) 【已知偏差探测】跨帧率：仿真步长守恒，但 tick 频率不守恒（99 vs 54）
-#     修复后的正确期望：a.tick_count == b.tick_count 且 b.is_slow()==false。
+# (2) 跨帧率一致性：相同仿真时长不因 60/30fps 改变记账结果
+#     （修复前实跑 99 vs 54）
 # ----------------------------------------------------------------------
-func test_cross_framerate_divergence_known_deviation():
+func test_cross_framerate_same_elapsed_same_accounting():
     var rec_a := Recorder.new()
     var rec_b := Recorder.new()
     var a := SimulationClock.new()
@@ -84,27 +79,30 @@ func test_cross_framerate_divergence_known_deviation():
     for i in range(300):
         b.advance(1.0 / 30.0)   # 10s @30fps
     assert_false(a.is_slow(), "60fps 稳态不应触发降频")
-    assert_true(b.is_slow(), "【已知偏差】30fps 被误判降频")
-    assert_true(a.tick_count > b.tick_count,
-        "【已知偏差】当前实现下 30fps 记账数低于 60fps（实跑 99 vs 54）")
-    assert_true(abs(rec_a.sim_dt_sum - rec_b.sim_dt_sum) < 0.5,
-        "两种帧率累计仿真步长应近似守恒：%s vs %s" % [rec_a.sim_dt_sum, rec_b.sim_dt_sum])
+    assert_false(b.is_slow(), "30fps 稳态不应触发降频")
+    # 浮点累加器在 6 帧 / 3 帧分界上允许 ±1 tick 抖动，与既有 60fps 用例同口径。
+    assert_true(abs(a.tick_count - b.tick_count) <= 1,
+        "相同仿真时长（10s）不应因帧率产生不同 tick 数：%d vs %d" % [a.tick_count, b.tick_count])
+    assert_true(abs(rec_a.sim_dt_sum - rec_b.sim_dt_sum) < 0.25,
+        "两种帧率累计仿真步长应一致：%s vs %s" % [rec_a.sim_dt_sum, rec_b.sim_dt_sum])
     a.free()
     b.free()
 
 
 # ----------------------------------------------------------------------
-# (3) 自适应降频可逆：预算内帧应把 5Hz 态恢复为 10Hz
+# (3) 自适应降频可逆：注入真实超预算耗时触发 5Hz，回到预算内即恢复 10Hz
 # ----------------------------------------------------------------------
 func test_adaptive_5hz_recovers_when_frames_return_to_budget():
     var c := SimulationClock.new()
     c.combat_director = Recorder.new()
     for i in range(31):
-        c.advance(0.02)          # 连续超预算帧（> 1/60）
-    assert_true(c.is_slow(), "连续 31 帧超预算应进入 5Hz 降频态")
+        c.advance(0.02, 0.02)    # 实测单帧 20ms > 16.67ms 预算
+    assert_true(c.is_slow(), "连续 31 帧实测超预算应进入 5Hz 降频态")
+    assert_eq(c.over_budget_streak(), 31, "连续超预算帧数可观测")
     for i in range(5):
-        c.advance(1.0 / 60.0)   # 回到预算内
-    assert_false(c.is_slow(), "预算内帧应使 _over_budget_streak 归零并退出降频态")
+        c.advance(1.0 / 60.0, 0.005)   # 实测单帧 5ms，预算内
+    assert_false(c.is_slow(), "预算内帧应使 streak 归零并退出降频态")
+    assert_eq(c.over_budget_streak(), 0, "streak 应归零")
     c.free()
 
 
@@ -143,4 +141,36 @@ func test_adr2_tick_consumes_queue_before_simulation():
     iq.push({"position": Vector2(10.0, 10.0), "touch_id": 4})
     c.advance(0.1)
     assert_eq(rec.actions.size(), 2, "仿真时刻 ≥0.5s 后应可再次触发")
+    c.free()
+
+
+# ----------------------------------------------------------------------
+# (5) 无插桩数据时保守不降频：帧间隔再长也不得兜底猜测
+# ----------------------------------------------------------------------
+func test_no_instrumentation_data_never_downclocks():
+    var c := SimulationClock.new()
+    c.combat_director = Recorder.new()
+    for i in range(200):
+        c.advance(0.05)          # 20fps 的帧间隔，但无任何实测耗时
+    assert_false(c.is_slow(), "无实测耗时不得用 delta 推断超预算")
+    assert_eq(c.last_frame_cost_s, SimulationClock.COST_UNAVAILABLE,
+        "应记录为无插桩数据")
+    assert_eq(c.over_budget_streak(), 0, "streak 应始终保持 0")
+    c.free()
+
+
+# ----------------------------------------------------------------------
+# (6) report_frame_cost 注入链路：真实 profiler 数据优先于 CPU 侧近似
+# ----------------------------------------------------------------------
+func test_reported_frame_cost_drives_downclock():
+    var c := SimulationClock.new()
+    c.combat_director = Recorder.new()
+    for i in range(31):
+        c.report_frame_cost(0.03)   # 30ms 实测完整帧耗时
+        c.advance(0.02, c._measured_frame_cost())
+    assert_true(c.is_slow(), "注入的真实单帧耗时应触发降频")
+    assert_eq(c.last_frame_cost_source, SimulationClock.COST_SOURCE_INJECTED,
+        "来源应标记为外部注入")
+    assert_true(c.last_frame_cost_s > SimulationClock.BUDGET_FRAME_DT,
+        "注入值应超过单帧预算")
     c.free()

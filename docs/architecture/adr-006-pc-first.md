@@ -15,6 +15,8 @@
 - 可运行条件：本机 Windows + Godot 4.3 headless 已可实跑（7 scripts / 54 tests / 11468 asserts），CI 为 `windows-latest` 双绿；Windows Desktop 导出不需要 Android SDK / keystore / 额外模板。
 - 用户裁决（2026-11-06）：选择 **C · PC 优先**，并明确 **移动端彻底放弃**。
 
+> **阅读口径**：本节与 §4 的 `BLOCKED-BY-SCENE`、`_adapt` 偏差等描述均为 2026-11-06 立项当时的事实快照，按审计链纪律不静默删除；**当前状态以 §5.2 与 §6 为准**（Wave 3b 后阻塞理由已改标 `BLOCKED-BY-ASSET`，`_adapt` 已修复）。
+
 ## 2. 决策
 
 **目标平台改为 Windows Desktop（PC）单平台；iOS / Android 彻底放弃**——不再是目标平台，不再作为「后续可选移植」，不保留兼容承诺、不保留移动端设备矩阵与专有验收项。
@@ -54,7 +56,7 @@
 
 1. **布局硬编码**：5 个 `.gd` 共 6 处硬编码 `720×1280`（`overview_screen.gd`、`battle_screen.gd`、`pouch_screen.gd`、`spirit_vein_screen.gd`、`test_ui.gd` 两处 `Rect2(0,1232,720,48)`）。改横屏前须抽 `LayoutConfig` 单一真源、测试改读配置，否则 Epic F 热区与 54 个 GUT 用例会失效。
 2. **G4 失去适用前提**：`docs/qa/archive/r1r3-device-test-plan.md`（Wave 2b 已归档）的设备矩阵（Redmi 9A / Pixel 6a / iPhone SE）与 §8「目标最低档 iOS/Android 真机」硬证据不再成立；`export_presets.cfg` 的 Android 预设骨架已于 Wave 2b 删除，`src/qa/probe_runner.tscn` 已重定位为 PC 基线。**本 ADR 不自动关闭 R1 / R3 CONCERNS**——仍需 PC 实测数据 + 独立审批，禁止拿 PC 数字冒充原真机判据。
-3. **`_adapt` 偏差仍在**：`simulation_clock.gd::_adapt()` 以 `delta > 1/60` 判超预算，PC 掉帧至 30fps 同样会误降 5Hz，污染 R3 测量；修复属生产代码改动，需单独授权。
+3. **`_adapt` 偏差（立项当时）**：`simulation_clock.gd::_adapt()` 以 `delta > 1/60` 判超预算，PC 掉帧至 30fps 同样会误降 5Hz，污染 R3 测量；修复属生产代码改动，需单独授权。（2026-11-07 用户已按「Wave 3b → Wave 4 → 修 `_adapt`」顺序授权并完成修复、回归，见 §5.2；本条保留作偏差证据）
 4. **审计链**：已签字文档采用「版本升级 + 顶部废止横幅 + 规范句替换」，不静默删除历史原文；git 变更记录保留完整差异。
 
 ## 5. 分批执行与闸门
@@ -65,10 +67,13 @@
 | **2** | 约 12 份下游文档对齐（✅ 已落地）：`spirit-pouch-gdd.md`、`spirit-vein-gdd.md`、`art-bible.md`、`asset-production-spec.md`、`pixel-asset-pipeline.md`、`lighting-direction-audit.md`、`VERSION.md`、`feasibility-review.md`、`prototype-r1r3-report.md`、`epic-breakdown.md`、`tests/README.md`、`eng2-duplicate-egg-counting.md` | ✅ 本次批准并落地 |
 | **2b** | 归档移动端 runbook v1.1 → `docs/qa/archive/r1r3-device-test-plan.md`、删除 / 替换 `export_presets.cfg` 的 Android `[preset.0]` 为 Windows Desktop 骨架、`docs/qa/evidence/` 证据模板重定位为 PC 基线 | ✅ 本次批准并落地 |
 | **3** | `LayoutConfig` 抽真源、`project.godot` 横屏 1280×720、键鼠适配层、四主屏 + 战斗屏 `*.tscn`、PC 主场景组装、Windows Desktop 双导出预设 | ✅ 本次批准并落地（核心可运行；边界见 §5.1） |
-| **3b** | TileMapLayer 真实 TileSet / 粒子效果参数（依赖 ADR-4 E1 真实原图） | ⏸ 待报批 |
-| **4** | 回归：GUT 全量、ADR-5 lint、文档一致性、导出 exe 启动、PC 帧预算基线 | ⏸ 待报批 |
+| **3b** | `TileMapLayer` / `MultiMesh` + 屏外剔除 / `CPUParticles2D` 技术层 | ✅ 技术层已落地并实跑；⏸ 资产层（E1 原图）仍未产出，见 §5.2 |
+| **4** | 回归、Windows exe 实导出与启动、PC 帧预算基线采集口径 | ✅ 导出 / 启动 / 链路 smoke 已实跑；⏸ 窗口 60/30fps 实测仍待带显示器 PC，见 §5.2 |
+| **`_adapt` 修复** | 30fps 误降 5Hz（帧间隔长 ≠ 单帧超时） | ✅ 已修复并回归，见 §5.2 |
 
-### 5.1 Wave 3 落地边界（2026-11-06，诚实记录）
+### 5.1 Wave 3 落地边界（2026-11-06，诚实记录 · 当日快照）
+
+> 下面「未完成」清单是 Wave 3 交付当日的状态，用于披露部分交付边界，**不代表当前状态**；其中渲染层 / 粒子 / 导出链路、`_adapt` 的后续处置统一见 §5.2。
 
 **已完成且 headless 实跑验证**：
 
@@ -81,14 +86,21 @@
 
 **未完成，不得当作已交付**：
 
-- **TileMapLayer 正式接入与真实 TileSet**：ADR-4 的 E1 真实像素原图尚未产出，强造占位贴图会违反「零臆造资产」纪律；5 项渲染 / 粒子指标仍 BLOCKED-BY-SCENE。
-- **粒子效果参数与贴图**：`BattleParticles` 仅 CPUParticles2D 节点就位，未启用效果。
-- **Windows exe 实导出与启动 / PC 帧预算基线**：导出模板与 rcedit 未配置；R1 / R3 仍 CONCERNS，翻转需独立审批。
+- **TileMapLayer 正式接入与真实 TileSet**：ADR-4 的 E1 真实像素原图尚未产出，强造占位贴图会违反「零臆造资产」纪律；5 项渲染 / 粒子指标当时标 BLOCKED-BY-SCENE。（当日口径；Wave 3b 已接入 `set_cell` 技术层，但纹理为 `DEBUG_PLACEHOLDER`，阻塞理由改标 `BLOCKED-BY-ASSET`，E1 原图仍缺，见 §5.2）
+- **粒子效果参数与贴图**：`BattleParticles` 当日仅 CPUParticles2D 节点就位，未启用效果。（当日口径；Wave 3b 已启用浮尘参数与低档降密度，贴图仍待 E1，见 §5.2）
+- **Windows exe 实导出与启动 / PC 帧预算基线**（Wave 3 当时的未完成项）：导出模板与 rcedit 当时未配置；**Wave 4 已打通导出与启动链路，见 §5.2**。R1 / R3 仍 CONCERNS，翻转需独立审批。
 - **战斗仿真接入**：battle 屏技能热区需注入 CombatDirector 后出现，当前仅有防御 / 跳过占位。
+
+### 5.2 Wave 3b / 4 / `_adapt` 落地记录（2026-11-07）
+
+- **Wave 3b 技术层**：新增 `src/gameplay/render/` 四个脚本——`floor_grid.gd`（布局→格坐标、L 形走廊、屏外剔除、相机锚点）、`floor_tilemap.gd`（运行时 TileSet + `set_cell`）、`entity_layer.gd`（`MultiMeshInstance2D`，≤12 实例）、`battle_particles.gd`（浮尘参数 + 低档降密度）；`map_screen.tscn` / `battle_screen.tscn` 接入，`main.gd` 按 `(run_seed, floor_index)` 确定性重建。所有纹理显式标记 `DEBUG_PLACEHOLDER`：**不写 manifest、不生成 PNG、不冒充 E1 资产**；新脚本均无 `class_name`，全局类缓存仍 40 类。
+- **Wave 4**：官方 1.07GB `tpz` 用 HTTP Range 只取 4 个 x86_64 模板 + `version.txt`（约 59MB）装到 Godot 模板目录；两个预设设 `application/modify_resources=false` 规避 rcedit、`exclude_filter="addons/gut/*"` 排除开发依赖。Game / Probe 双预设 `--export-debug` 均 `EXIT=0`；导出的 exe 真实启动 → `WAVE3_SELFTEST_OK`；Probe exe → `rows=10 err=0`。**headless smoke 数字未回填任何基线表、未参与 verdict**；窗口 / 全屏 60/30fps 帧预算仍待带显示器 PC 实测（口径见 `docs/qa/evidence/_template/README.md §7`）。
+- **`_adapt` 修复**：超预算判定与帧间隔 `delta` 解耦，只认实测单帧耗时 `frame_cost_s`；`advance(delta, cost)` 支持注入，`_process` 取 `Performance.TIME_PROCESS` 作 CPU 侧保守近似，另提供 `report_frame_cost()` 供真实 profiler；无插桩数据时**保守不降频**。实跑对照：30fps 600 帧 **104→200 tick**、`is_slow()=false`；31 帧实测 20ms 超预算仍正常降频（`streak=31`）。`test_frame_budget.gd` 两个「偏差探测」用例已还原为正确断言。
+- **仍未闭环**：ADR-4 E1 真实像素原图（AI 原图 → `pixel_pipeline.py` → PNG-8 → manifest）未产出，5 项渲染 / 粒子指标由「场景未落地」改标 `BLOCKED-BY-ASSET`；`r3_total_frame_share` 仍不得判 pass；**R1 / R3 仍 CONCERNS**。
 
 ## 6. 质量门
 
-**CONCERNS（Wave 3 可运行骨架已落地，平台变更未完整回归）**：Wave 3 首次改动生产代码与场景层，GUT 全量与 PC 主场景 headless 自检均全绿，但 TileMapLayer / 粒子效果 / Windows exe 实导出 / PC 帧预算基线仍未完成（§5.1）。R1 / R3 仍为 **CONCERNS**，`architecture-doc.md §6` 状态列不翻转；任何 CONCERNS → PASS 属独立审批动作。全程未写入任何性能测量数字。
+**CONCERNS（工程链路已打通，性能判据仍未闭环）**：Wave 3b 渲染层技术接入、Wave 4 Windows exe 实导出与启动、`_adapt` 30fps 误降频修复均已完成并 headless 实跑（GUT **9/72/72/11582**、`WAVE3_SELFTEST_OK`、导出 `EXIT=0`）。仍未闭环：① ADR-4 E1 真实像素资产未产出，5 项渲染 / 粒子指标为 `BLOCKED-BY-ASSET`；② 窗口 / 全屏 60/30fps 帧预算未实测（本环境无显示器），headless smoke 不充当基线；③ 战斗屏技能热区待注入 `CombatDirector`。**R1 / R3 仍为 CONCERNS**，`architecture-doc.md §6` 状态列不翻转；任何 CONCERNS → PASS 属独立审批动作。全程未向仓库写入任何设备性能测量数字。
 
 ## 7. 审批记录
 
@@ -101,7 +113,9 @@
 | 2026-11-06 | Wave 2 + 2b 落地（12 份文档对齐 + 归档 + 预设 / 证据模板重定位） | 已完成 |
 | 2026-11-06 | 用户批准 commit + push（`b6e12ed`） | 已完成 |
 | 2026-11-06 | 用户批准 Wave 3 | 已批准并落地（部分，见 §5.1） |
+| 2026-11-07 | 用户批准 commit + push（`f445740`，Wave 3 固化） | 已完成，远端 CI 双绿 |
+| 2026-11-07 | 用户指定顺序「Wave 3b → Wave 4 → 修 `_adapt`」 | 三项均已实跑落地（见 §5.2）；未 commit / push |
 
 ---
 
-*本 ADR 为平台定位的唯一新真源；与其冲突的 Phase 1–4 历史条款以本文件为准。Wave 3 改动尚未 git commit。*
+*本 ADR 为平台定位的唯一新真源；与其冲突的 Phase 1–4 历史条款以本文件为准。Wave 3 已随 `f445740` commit + push；Wave 3b / Wave 4 / `_adapt` 修复为本批未提交改动。*
