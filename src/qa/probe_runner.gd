@@ -30,17 +30,19 @@
 #
 # 纪律：零预置测量值；不使用全局随机（ADR-5）；不声明 class_name（不改全局类缓存）。
 #       渲染 / 粒子 / 合计占帧比：headless（无 GPU 帧采集链）一律标 blocked；
-#       真实 GPU PC（_frame_available）下三项聚合可派生指标发射为 measured，见 _collect_render_metrics。
+#       真实 GPU PC（_frame_available）下构建 E1 真实渲染负载，五项均可测：
+#         · r1 三项（整帧渲染预算）取自 full 态聚合帧 GPU 时间；
+#         · r3_entity_render / r3_particles 用四态显隐 Δ 隔离法测得边际 GPU 成本，见 _collect_render_metrics。
 #       帧时间只写逐样本长表并标 E1_PNG8_FRAME_NOT_A_BASELINE（a 阶段后负载为 E1），
 #       绝不进 19 列 verdict —— 无头无 GPU 帧采集链，不构成正式判据，须 PC 实测（G1）。
 #
 # a 阶段更新（渲染集成已实施）：TileMapLayer / MultiMesh + 屏外剔除 / CPUParticles2D
-#   现已接 ADR-4 E1 真实像素原图（asset_source=E1_PNG8，已提交 f1c79c2），资产阻塞
-#   解除；但 headless 无 GPU 帧时间采集链，5 项仍 blocked（BLOCKED-BY-HARDWARE）。
-#   真实 GPU PC（_frame_available）下：r1_render_mean / r1_render_p95_spike /
-#   r3_total_frame_share 三项由聚合帧 GPU 时间（frame_gpu_ms）派生为 measured；
-#   r3_entity_render / r3_particles 为子系统级 GPU 时间，须「层显隐 Δ 隔离」法方可测，
-#   当前未仪表化，仍 blocked（BLOCKED-BY-METHOD）。headless 行为不变，CI 不受影响；
+#   现已接 ADR-4 E1 真实像素原图（asset_source=E1_PNG8，已提交 f1c79c2），资产阻塞解除。
+#   headless 无 GPU 帧采集链，5 项仍 blocked（BLOCKED-BY-HARDWARE / 资产未集成时 ASSET）。
+#   G1 本地落地后（本批次）：真实 GPU PC（_frame_available）下构建 E1 真实渲染负载，
+#   五项均可测——r1 三项取 full 态整帧 GPU 时间；r3_entity_render / r3_particles 用
+#   四态显隐 Δ 隔离法（full / no_entity / no_particles / base）测得边际 GPU 成本，
+#   闭合校验经 delta_isolation 笔记输出。headless 行为不变、不构建负载，CI 不受影响；
 #   R1/R3 不因采集完成或 CI 全绿自动翻转，仍须 G1（实测）+ G2 + G3 三件套。
 # =====================================================================
 
@@ -53,6 +55,8 @@ const InputQueueMod := preload("res://src/gameplay/input/input_queue.gd")
 const CombatDirectorMod := preload("res://src/gameplay/combat/combat_director.gd")
 const FloorGridMod := preload("res://src/gameplay/render/floor_grid.gd")
 const FloorTilemapMod := preload("res://src/gameplay/render/floor_tilemap.gd")
+const EntityLayerMod := preload("res://src/gameplay/render/entity_layer.gd")
+const BattleParticlesMod := preload("res://src/gameplay/render/battle_particles.gd")
 
 # ---------------------------------------------------------------------
 # 采集前必须人工填写（导出 Windows exe 之前）
@@ -86,7 +90,6 @@ var _window_mode: String = "windowed"
 var _fps_cap: int = 0
 var _frame_target: int = FRAME_SAMPLES_DEFAULT
 var _warmup_initial: int = WARMUP_FRAMES_DEFAULT
-var _warmup_left: int = WARMUP_FRAMES_DEFAULT
 var _build_sha_override: String = ""
 var _auto_quit: bool = false
 
@@ -97,6 +100,20 @@ var _vp: RID
 var _frame_gpu: Array = []
 var _frame_cpu: Array = []
 var _frame_wall: Array = []
+
+# ── Δ 隔离四态采集（让 r3_entity_render / r3_particles 可测，R3 可闭合）──
+# Godot 不暴露按 mesh / 粒子的单独 GPU 计时；在同一确定性负载下成对显隐目标层，
+# 帧 GPU 时间的差即该子系统边际渲染成本。四态：full / no_entity / no_particles / base。
+# 仅真实 GPU PC（_frame_available）下构建负载并采集；headless 不构建、不采集、不污染 CI。
+var _render_load_built: bool = false
+var _tm: Node = null
+var _el: Node = null
+var _bp: Node = null
+var _phase_keys: Array = ["full", "no_entity", "no_particles", "base"]
+var _phase_idx: int = 0
+var _phase_warmup_left: int = 0
+var _phase_target: int = 0
+var _phase_samples: Dictionary = {}
 
 
 # consume_into(target) 的回调桩：只承接 on_action，不把业务逻辑计入仲裁耗时。
@@ -153,7 +170,6 @@ func _parse_args() -> void:
             "--frame-samples": _frame_target = int(val)
             "--warmup-frames": _warmup_initial = int(val)
             "--build-sha": _build_sha_override = val
-    _warmup_left = _warmup_initial
 
 
 func _apply_window_settings() -> void:
@@ -193,12 +209,26 @@ func _begin(p_auto_quit: bool = false) -> void:
     _frame_gpu.clear()
     _frame_cpu.clear()
     _frame_wall.clear()
-    _warmup_left = _warmup_initial
     if _frame_available and _frame_target > 0:
+        # 构建与游戏同等的真实渲染负载（固定 seed 布局，确定性）；
+        # headless 不进入此分支，故不构建、不污染 CI。
+        var dg := DungeonGeneratorMod.new()
+        var layout: Dictionary = dg.generate_sync(SEED, FLOOR_START, TIER_HIGH)
+        var view: Rect2i = FloorGridMod.view_rect_for_layout(layout)
+        dg.free()
+        _build_render_load(layout, view)
+        # 初始化四态 Δ 隔离采集：full / no_entity / no_particles / base 各采一段。
+        _phase_samples = {}
+        for k in _phase_keys:
+            _phase_samples[k] = []
+        _phase_idx = 0
+        _phase_target = _frame_target
+        _phase_warmup_left = _warmup_initial
+        _apply_phase_visibility(_phase_keys[0])
         _capturing = true
         set_process(true)
-        _status.text = "采集中：round=%s mode=%s fps_cap=%d warmup=%d target=%d" % [
-            _round_id, _window_mode, _fps_cap, _warmup_left, _frame_target
+        _status.text = "Δ 隔离采集中：round=%s mode=%s fps_cap=%d 四态×%d" % [
+            _round_id, _window_mode, _fps_cap, _phase_target
         ]
     else:
         _finish()
@@ -207,16 +237,26 @@ func _begin(p_auto_quit: bool = false) -> void:
 func _process(delta: float) -> void:
     if not _capturing:
         return
-    if _warmup_left > 0:
-        _warmup_left -= 1
+    if _phase_warmup_left > 0:
+        _phase_warmup_left -= 1
         return
-    _frame_gpu.append(float(RenderingServer.viewport_get_measured_render_time_gpu(_vp)))
-    _frame_cpu.append(float(RenderingServer.viewport_get_measured_render_time_cpu(_vp)))
-    _frame_wall.append(delta * 1000.0)
-    if _frame_gpu.size() >= _frame_target:
-        _capturing = false
-        set_process(false)
-        _finish()
+    var key: String = _phase_keys[_phase_idx]
+    var g := float(RenderingServer.viewport_get_measured_render_time_gpu(_vp))
+    _phase_samples[key].append(g)
+    # full 态同时填整帧三通道，保持 r1 三项与帧时间证据的原有口径。
+    if key == "full":
+        _frame_gpu.append(g)
+        _frame_cpu.append(float(RenderingServer.viewport_get_measured_render_time_cpu(_vp)))
+        _frame_wall.append(delta * 1000.0)
+    if _phase_samples[key].size() >= _phase_target:
+        _phase_idx += 1
+        if _phase_idx >= _phase_keys.size():
+            _capturing = false
+            set_process(false)
+            _finish()
+            return
+        _apply_phase_visibility(_phase_keys[_phase_idx])
+        _phase_warmup_left = _warmup_initial
 
 
 func _intro_text() -> String:
@@ -317,18 +357,24 @@ func _finish() -> void:
 
 
 # 帧时间只写逐样本长表：不进 19 列、不参与 verdict、不构成正式基线。
+# Δ 隔离法的底层证据：四态各自 frame_gpu_ms 原始样本 + full 态 cpu/wall 补充。
 func _record_frame_times(probe) -> void:
-    if not _frame_available or _frame_gpu.is_empty():
+    if not _frame_available:
         probe.note("FRAME_CAPTURE_UNAVAILABLE|%s|no frame timings recorded; 19 列渲染项仍 blocked" % _frame_reason)
         return
     var note := "round=%s mode=%s fps_cap=%d warmup_dropped=%d | %s" % [
         _round_id, _window_mode, _fps_cap, _warmup_initial, FRAME_NOTE
     ]
-    probe.record_frame_samples("frame_gpu_ms", _frame_gpu, note)
+    # 四态逐样本 GPU 时间（Δ 隔离底层证据，供闭合校验与独立复算）。
+    for key in _phase_keys:
+        var g: Array = _phase_samples.get(key, [])
+        if not g.is_empty():
+            probe.record_frame_samples("frame_gpu_ms_%s" % key, g, note)
+    # full 态 CPU / 墙钟补充证据（Δ 仅看 GPU，cpu/wall 仅记整帧）。
     probe.record_frame_samples("frame_cpu_ms", _frame_cpu, note)
     probe.record_frame_samples("frame_wall_ms", _frame_wall, note)
-    probe.note("FRAME_CAPTURE|round=%s mode=%s fps_cap=%d samples=%d load=E1_PNG8 NOT_A_BASELINE" % [
-        _round_id, _window_mode, _fps_cap, _frame_gpu.size()
+    probe.note("FRAME_CAPTURE|round=%s mode=%s fps_cap=%d samples_per_phase=%d load=E1_PNG8 NOT_A_BASELINE" % [
+        _round_id, _window_mode, _fps_cap, _frame_target
     ])
 
 
@@ -485,14 +531,50 @@ func _collect_r3_ai_tick(probe) -> void:
 
 # ---------------------------------------------------------------------
 # 渲染 / 粒子 / 合计占帧比指标发射：
-#   - headless（无窗口 / 无 GPU 帧采集链）：五项全 blocked（BLOCKED-BY-HARDWARE）。
-#   - 真实 GPU PC（_frame_available 且已采到帧）：聚合帧 GPU 时间（frame_gpu_ms）
-#     可派生三项渲染预算指标，发射为 measured（r1_render_mean / r1_render_p95_spike
-#     / r3_total_frame_share）；数值一律来自真实帧采集，绝不代填。
-#   - 子系统级（实体 / 粒子）GPU 时间须「层显隐 Δ 隔离」法方可测，当前未仪表化，
-#     保持 blocked（BLOCKED-BY-METHOD）；R3 须此二项实测后方可闭合。
-# （归档 runbook §7 方法学 + PC 基线 README §2 / pc_win_02/README.md §4）
+#   - headless（无窗口 / 无 GPU 帧采集链）：五项全 blocked（BLOCKED-BY-HARDWARE / ASSET）。
+#   - 真实 GPU PC（_frame_available 且已采到帧）：构建 E1 真实渲染负载后五项均可测——
+#       · r1_render_mean / r1_render_p95_spike / r3_total_frame_share：full 态整帧 GPU 时间；
+#       · r3_entity_render / r3_particles：四态显隐 Δ 隔离法边际成本（见函数内实现）。
+#     数值一律来自真实帧采集与四态差值，绝不代填、可经 verify_probe_evidence.py 复算。
+# （归档 runbook §7 方法学 + PC 基线 README §2 / pc_win_02/README.md §4 Δ 隔离协议）
 # ---------------------------------------------------------------------
+
+# 真实 GPU PC 上构建与游戏同等的渲染负载（地板 TileMapLayer + 实体 MultiMesh +
+# 浮尘 CPUParticles2D，固定 seed 布局，确定性）；仅 _frame_available 下调用，
+# headless 不构建、不污染 CI。
+func _build_render_load(layout: Dictionary, view: Rect2i) -> void:
+    if _render_load_built:
+        return
+    _tm = FloorTilemapMod.new()
+    add_child(_tm)
+    _tm.build_from_layout(layout, view)
+    _el = EntityLayerMod.new()
+    add_child(_el)
+    _el.update_from_layout(layout, view)
+    _bp = BattleParticlesMod.new()
+    add_child(_bp)
+    _bp.configure(false)   # 高档 24 粒子（_ready 已 configure，显式保证）
+    _render_load_built = true
+
+
+# 四态可见性：full=全可见；no_entity=隐实体层；no_particles=隐粒子层；
+# base=实体+粒子全隐（仅剩地板 TileMapLayer + UI）。地板层始终可见。
+func _apply_phase_visibility(key: String) -> void:
+    if _el != null:
+        _el.visible = (key != "no_entity")
+    if _bp != null:
+        _bp.visible = (key != "no_particles")
+
+
+func _mean(a: Array) -> float:
+    if a.is_empty():
+        return 0.0
+    var t := 0.0
+    for v in a:
+        t += float(v)
+    return t / float(a.size())
+
+
 func _collect_render_metrics(probe) -> void:
     var assets_integrated: bool = (FloorTilemapMod.ASSET_SOURCE == "E1_PNG8")
 
@@ -511,22 +593,43 @@ func _collect_render_metrics(probe) -> void:
             "分项缺失，不得拼接部分和判 pass")
         return
 
-    # 真实 GPU PC：聚合帧 GPU 时间（frame_gpu_ms）即可派生三项渲染预算指标。
-    # r1_render_mean 看整帧渲染预算（≤16.6ms＝60fps 帧时）；r3_total_frame_share
-    # 看占比预算（<9.16ms＝55%）；r1_render_p95_spike 看 p95 尖峰（<50ms）。
-    # 三者同源于 frame_gpu_ms 均值 / p95，阈值不同，属指标定义冗余，照既定口径发射。
-    probe.add_measured("r1_render_mean", "ms", _frame_gpu, "≤ 16.6", 16.6)
-    probe.add_measured("r1_render_p95_spike", "ms", _frame_gpu, "< 50", 50.0)
-    probe.add_measured("r3_total_frame_share", "ms", _frame_gpu, "< 9.16（55%）", 9.16)
+    # 真实 GPU PC（已接 E1 真实渲染负载，非空场景）：
+    #   - 整帧渲染预算（r1 三项）取 full 态聚合帧 GPU 时间。
+    #   - 子系统（r3_entity_render / r3_particles）用四态显隐 Δ 隔离法测得边际 GPU 成本：
+    #       Δ_entity    = mean(full) - mean(no_entity)    （实体 MultiMesh 边际）
+    #       Δ_particles = mean(full) - mean(no_particles) （粒子边际）
+    #     逐对索引构造 Δ 样本使 mean 严格等于两段均值差、p95 反映逐帧边际波动，
+    #     原始 Δ 样本写入 raw 长表供 verify_probe_evidence.py 复算（不伪造、可核验）。
+    var full: Array = _phase_samples.get("full", [])
+    probe.add_measured("r1_render_mean", "ms", full, "≤ 16.6", 16.6)
+    probe.add_measured("r1_render_p95_spike", "ms", full, "< 50", 50.0)
+    probe.add_measured("r3_total_frame_share", "ms", full, "< 9.16（55%）", 9.16)
 
-    # 子系统级（实体 / 粒子）GPU 时间：Godot 不暴露按 mesh / 粒子的单独计时，
-    # 须「层显隐 Δ 隔离」法（仅渲染实体层 / 仅渲染粒子层测帧 GPU 时间差）方可测；
-    # 当前未仪表化，保持 blocked（BLOCKED-BY-METHOD）。R3 须此二项实测后方可闭合。
-    var method_reason := ("BLOCKED-BY-METHOD: r3_entity_render / r3_particles 为子系统级 GPU 时间，"
-        + "须按『实体层 / 粒子层显隐隔离』在真实 GPU PC 上做 Δ 测量；当前未仪表化。"
-        + "R3 须此二项实测后方可闭合（仅聚合帧 GPU 时间不足以判 R3）。")
-    probe.add_blocked("r3_entity_render", "ms", "< 4 / < 8", method_reason)
-    probe.add_blocked("r3_particles", "ms", "< 3 / < 6", method_reason)
+    var no_entity: Array = _phase_samples.get("no_entity", [])
+    var no_particles: Array = _phase_samples.get("no_particles", [])
+    var base: Array = _phase_samples.get("base", [])
+    var delta_entity: Array = []
+    var delta_particles: Array = []
+    var n_ent: int = mini(full.size(), no_entity.size())
+    var n_par: int = mini(full.size(), no_particles.size())
+    for i in range(n_ent):
+        delta_entity.append(float(full[i]) - float(no_entity[i]))
+    for i in range(n_par):
+        delta_particles.append(float(full[i]) - float(no_particles[i]))
+    probe.add_measured("r3_entity_render", "ms", delta_entity, "< 4 / < 8", 4.0)
+    probe.add_measured("r3_particles", "ms", delta_particles, "< 3 / < 6", 3.0)
+
+    # 闭合校验：base 态（地板+UI）的边际应≈ Δ_entity + Δ_particles，残差过大即告警。
+    if not base.is_empty() and n_ent > 0 and n_par > 0:
+        var d_entity := _mean(full) - _mean(no_entity)
+        var d_particles := _mean(full) - _mean(no_particles)
+        var d_base_total := _mean(full) - _mean(base)
+        var residual := d_base_total - (d_entity + d_particles)
+        var tol := max(0.3, 0.2 * abs(d_base_total))
+        probe.note("delta_isolation: mean_full=%.4f mean_base=%.4f d_entity=%.4f d_particles=%.4f d_base_total=%.4f residual=%.4f tol=%.4f %s" % [
+            _mean(full), _mean(base), d_entity, d_particles, d_base_total, residual, tol,
+            ("CLOSED" if abs(residual) <= tol else "WARN_CLOSURE_DRIFT")
+        ])
 
 
 # 结构计数（格数 / 实例数）只作证据日志，**不是性能耗时**，不进 CSV 数值列。

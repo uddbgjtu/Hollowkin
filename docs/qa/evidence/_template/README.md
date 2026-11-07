@@ -52,9 +52,9 @@
 | `r3_ai_tick` | 可测 | `CombatDirector.step_simulation(0.1)` |
 | `r1_render_mean` / `r1_render_p95_spike` | **measured（真实 GPU PC）/ blocked（headless）** | a 阶段已接 E1 真实 PNG-8（`asset_source=E1_PNG8`，提交 9a2270d）；真实 GPU PC 下由聚合帧 GPU 时间（`frame_gpu_ms`）派生为 `measured`（target ≤16.6 / <50），headless 仍 `blocked`（BLOCKED-BY-HARDWARE） |
 | `r3_total_frame_share` | **measured（真实 GPU PC）/ blocked（headless）** | 同上，由 `frame_gpu_ms` 均值派生（target <9.16＝55%） |
-| `r3_entity_render` / `r3_particles` | **blocked** | `BLOCKED-BY-METHOD`：`MultiMesh` + 剔除 / `CPUParticles2D` 已接 E1，但实体与特效为子系统级 GPU 时间，须「层显隐 Δ 隔离」法方可测，当前未仪表化；**R3 须此二项实测后方可闭合** |
+| `r3_entity_render` / `r3_particles` | **measured（真实 GPU PC）/ blocked（headless）** | 四态显隐 Δ 隔离法（full / no_entity / no_particles / base 成对显隐，Δ = 两段均值差，经 `delta_isolation` 闭合校验）；真实 GPU PC 下为 `measured`（target <4 / <8 与 <3 / <6），headless 仍 `blocked`（BLOCKED-BY-HARDWARE） |
 
-a 阶段（提交 9a2270d）已接 E1 真实 PNG-8 并产生真实负载；真实 GPU PC 下 `r1_render_mean` / `r1_render_p95_spike` / `r3_total_frame_share` 三项可由聚合帧 GPU 时间派生为 `measured`，**R1 渲染预算可闭合**；`r3_entity_render` / `r3_particles` 仍 `blocked`（`BLOCKED-BY-METHOD`，须子系统 Δ 隔离法），**R3 须此二项实测后方可闭合**。headless（无 GPU 帧采集链）下五项仍 `blocked`，CI 不受影响。
+a 阶段（提交 9a2270d）已接 E1 真实 PNG-8 并产生真实负载；G1 本地落地后探针已用四态显隐 Δ 隔离法仪表化 `r3_entity_render` / `r3_particles`。真实 GPU PC 下五项渲染指标**全部**为 `measured`（R1 三项取整帧 GPU 时间、R3 二项取 Δ 隔离边际），**R1 与 R3 渲染预算均可闭合**；headless（无 GPU 帧采集链）下五项仍 `blocked`，CI 不受影响。
 
 ## 3. 样本量下限与统计口径（沿用归档方法学）
 

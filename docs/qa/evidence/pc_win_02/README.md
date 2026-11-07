@@ -11,8 +11,8 @@
 - **渲染层真实负载**：`DEBUG_PLACEHOLDER` → `E1_PNG8`（资产纪律标记已翻转，a 阶段提交 `9a2270d`）。
 - **探针行为**（`src/qa/probe_runner.gd::_collect_render_metrics`）：
   - `headless`（无窗口 / 无 GPU 帧采集链）：5 项渲染指标仍 `blocked`（`BLOCKED-BY-HARDWARE`），与 `pc_win_01` 同口径。
-  - **真实 GPU PC**（`_frame_available` 为真）：`r1_render_mean` / `r1_render_p95_spike` / `r3_total_frame_share` 三项由聚合帧 GPU 时间（`frame_gpu_ms`）派生为 `measured`；`r3_entity_render` / `r3_particles` 仍 `blocked`（`BLOCKED-BY-METHOD`，须子系统 Δ 隔离法，见 §4）。
-- **结论**：本批 G1 可闭合 **R1** 的渲染预算；**R3** 仍须 `r3_entity_render` / `r3_particles` 实测后方可闭合（见 §4）。
+  - **真实 GPU PC**（`_frame_available` 为真）：构建 E1 真实渲染负载（地板 + 实体 + 粒子三层）后五项均可测——`r1_render_mean` / `r1_render_p95_spike` / `r3_total_frame_share` 取 full 态整帧 GPU 时间；`r3_entity_render` / `r3_particles` 用四态显隐 Δ 隔离法（full / no_entity / no_particles / base）测得边际 GPU 成本，并经 `delta_isolation` 闭合校验。
+- **结论**：本批 G1 在真实 GPU PC 上可闭合 **R1** 与 **R3** 的渲染预算（`r3_entity_render` / `r3_particles` 已由四态 Δ 隔离法实测）。
 
 ---
 
@@ -58,18 +58,23 @@ pc_win_02/<build_sha>/
 | `r1_render_mean` | `r1_render_mean` | 19 列 mean（frame_gpu_ms 均值），target ≤ 16.6 |
 | `r1_render_p95_spike` | `r1_render_p95_spike` | 19 列 p95（frame_gpu_ms），target < 50 |
 | `r3_total_frame_share` | `r3_total_frame_share` | 19 列 mean（frame_gpu_ms 均值），target < 9.16（55%） |
-| `r3_entity_render` | （本批仍 `blocked`） | 须 §4 Δ 隔离法 |
-| `r3_particles` | （本批仍 `blocked`） | 须 §4 Δ 隔离法 |
+| `r3_entity_render` | `r3_entity_render` | 四态 Δ 隔离：Δ = mean(full) − mean(no_entity)（frame_gpu_ms），target < 4 / < 8 |
+| `r3_particles` | `r3_particles` | 四态 Δ 隔离：Δ = mean(full) − mean(no_particles)（frame_gpu_ms），target < 3 / < 6 |
 
 > 帧时间样本（`frame_gpu_ms` / `frame_cpu_ms` / `frame_wall_ms`）只写逐样本长表、标 `E1_PNG8_FRAME_NOT_A_BASELINE`，不进 19 列 verdict，仅作链路证据。
 
 ---
 
-## 4. 已知缺口（R3 闭合前置，须补测量方法学）
+## 4. R3 子系统测量法（四态显隐 Δ 隔离，本批次已落地）
 
-`r3_entity_render` / `r3_particles` 为**子系统级** GPU 时间；Godot `RenderingServer` 不暴露按 mesh / 粒子的单独计时。须实现「**层显隐 Δ 隔离**」测量法（分别仅渲染实体层、仅渲染粒子层，测各自帧 GPU 时间差）方可实测；当前未仪表化，故标 `BLOCKED-BY-METHOD`。
+`r3_entity_render` / `r3_particles` 为**子系统级** GPU 时间；Godot `RenderingServer` 不暴露按 mesh / 粒子的单独计时。本批次探针已落地「**四态显隐 Δ 隔离**」法（见 `src/qa/probe_runner.gd::_collect_render_metrics` + `_build_render_load` / `_apply_phase_visibility`）：
 
-**该缺口闭合前，R3 不能由 CONCERNS 升 PASS**——即使本批 R1 渲染预算已实测通过。
+- **负载**：固定 seed 布局构建与游戏同等的渲染负载——地板 `TileMapLayer` + 实体 `MultiMeshInstance2D`（12 实例）+ 浮尘 `CPUParticles2D`（24 粒子），相机视口固定；headless 不构建。
+- **四态**：`full`（全可见）/ `no_entity`（隐实体层）/ `no_particles`（隐粒子层）/ `base`（实体+粒子全隐，仅地板+UI），各采 `--frame-samples` 帧、各预热 `--warmup-frames` 帧。
+- **Δ 派生**：`Δ_entity = mean(full) − mean(no_entity)`、`Δ_particles = mean(full) − mean(no_particles)`；逐对索引构造 Δ 样本，使 mean 严格等于两段均值差、p95 反映逐帧边际波动，原始 Δ 样本写入 raw 长表供 `verify_probe_evidence.py` 复算。
+- **闭合校验**：`delta_isolation` 笔记输出 `d_base_total = mean(full) − mean(base)` 与残差 `d_base_total − (Δ_entity + Δ_particles)`，残差超容差（max(0.3ms, 20%)）即 `WARN_CLOSURE_DRIFT`，提示温度漂移 / 耦合，须复核。
+
+**R3 现已可在真实 GPU PC 上由 Δ 隔离实测闭合**——五项 `verdict` 全 `pass`（R1 三项 + R3 二项）且核验脚本 PASS、手动字段齐全，即计 G1 闭合。headless 下仍 `blocked`，CI 不受影响。
 
 ---
 
