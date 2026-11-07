@@ -1,6 +1,6 @@
 # pouch_screen.gd — 灵囊屏（Epic F3 / ux-spec §3.2）
 # =====================================================================
-# 三栏分段控件（灵兽/符文/物资），每栏标题命中区 ≥48px。
+# 三栏分段控件（灵兽/符文/物资），每栏标题命中区 ≥48px。ADR-6 横屏。
 # 灵兽格：slug 立绘位 + 数量角标（ENG-2 裁定：重复灵兽 = +1 计数，角标 ×N）。
 # 每物品格 ≥48px；所有格常驻热区（点选记录 last_selected），分段切换仅改显示焦点。
 # 长按需查看详情、拖拽装备（交互逻辑留 UI 集成层，本模块仅暴露命中区与选择态）。
@@ -9,6 +9,8 @@
 
 class_name PouchScreen
 extends UiScreen
+
+const LayoutConfig := preload("res://src/ui/layout_config.gd")
 
 const CELL_H := 56.0
 const SEG_H := 48.0
@@ -52,7 +54,7 @@ func _items_for(col: String) -> Array:
 func _layout() -> void:
 	_zones.clear()
 	hit_zone.clear()
-	var region := Rect2(Vector2.ZERO, Vector2(720, 1280))
+	var region: Rect2 = LayoutConfig.content_rect()
 	var top := region.position.y + SEG_H + PAD
 	var col_w := (region.size.x - PAD * 4.0) / 3.0
 	for ci in range(COLS.size()):

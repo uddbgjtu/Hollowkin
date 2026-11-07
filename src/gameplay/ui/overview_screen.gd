@@ -1,6 +1,6 @@
 # overview_screen.gd — 探索总览屏（Epic F 总览 / ux-spec §3.4）
 # =====================================================================
-# 顶部：当前层/种子/资源计数（文字标签，非纯图标）。
+# 顶部：当前层/种子/资源计数（文字标签，非纯图标）。ADR-6：横屏 1280x720。
 # 中部：进入地牢主按钮（≥64px，置于热区）。
 # 底部：固定 Tab 栏（由 router 注入热区）。
 # 进入地牢 → 经 router 延迟切换到 battle 屏。
@@ -10,7 +10,7 @@
 class_name OverviewScreen
 extends UiScreen
 
-const VIEWPORT := Vector2(720, 1280)
+const LayoutConfig := preload("res://src/ui/layout_config.gd")
 const ENTER_W := 220.0
 const ENTER_H := 64.0     # ≥64px 主按钮（ux-spec §3.4）
 
@@ -23,9 +23,9 @@ func _init() -> void:
 
 func _build() -> void:
 	_build_view()
-	var region := Rect2(Vector2.ZERO, VIEWPORT)
+	var region: Rect2 = LayoutConfig.content_rect()
 	var cx := region.position.x + region.size.x * 0.5
-	var by := region.position.y + region.size.y * 0.78   # 热区偏下（单手可达）
+	var by := region.position.y + region.size.y * 0.78   # 内容区偏下（横屏键鼠主操作位）
 	_add_rect("enter_dungeon", Rect2(cx - ENTER_W * 0.5, by, ENTER_W, ENTER_H))
 
 

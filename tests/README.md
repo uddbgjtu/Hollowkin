@@ -4,7 +4,7 @@
 > **文档类型**：测试策略 + GUT 接入 + 确定性测试清单（Phase 4 脚手架，Lean）
 > **归属**：engineering-lead 起草，主理人签发
 > **引用**：`docs/architecture/adr-control-checklist.md`（ADR-1/2/3/5）、`tools/ci/lint_no_global_random.py`、`docs/qa/archive/r1r3-device-test-plan.md`（已归档·历史方法学）、`docs/phase4/epic-breakdown.md §12`
-> **版本**：v1.3 · 2026-11-06 按 ADR-6 对齐 PC 口径并补齐 7 scripts / 54 tests 基线；v1.2 已回填 Godot 4.3 实跑与 Windows CI 双绿。
+> **版本**：v1.4 · 2026-11-06 Wave 3 落地：PC 主场景可运行、新增 `test_pc_platform.gd`，GUT 基线升级为 8 scripts / 60 tests / 11511 asserts；v1.3 按 ADR-6 对齐 PC 口径，v1.2 已回填 Godot 4.3 实跑与 Windows CI 双绿。
 > **环境**：Godot `4.3.stable.official.77dcf97d8` + GUT `9.3.0`（tag `v9.3.0`）；本机 Windows 与 GitHub Actions `windows-latest` 均已 headless 实跑。
 > **范围决策**：CI 暂时只在 Windows 运行，不做 Linux 侧验证（2026-11-05 主理人决定）；Linux 恢复为后续开放项。
 
@@ -31,6 +31,7 @@ tests/
     test_pouch_vein.gd           # C1/ENG-2/DAG/activate/Save 重建/Bestiary（Epic D）
     test_ui.gd                   # 四主屏 / Tab 路由 / 可访问性 / 技能热区（Epic F 逻辑层）
     test_frame_budget.gd        # 记账级帧预算断言【非设备帧时间】（G4）
+    test_pc_platform.gd         # ADR-6 横屏布局真源 / 键鼠适配 / ADR-2 帧末结算（Wave 3）
   templates/
     rng_service_test.gd          # 模板（不被 GUT 扫描，供参考填充）
 ```
@@ -82,6 +83,7 @@ tests/
 | `test_pouch_vein.gd` | Pouch/SpiritVein/Save | C1 公式、负 atk/def 钳 0、D1 增量 API、ENG-2 +1 堆叠、满栏拒绝不静默丢、`{slug:count}` 往返、RuneEntry 格式、PartyManager slots、DAG 无环正反例、activate/ember 扣减、`ΣVeinAdd` 聚合、RunSnapshot 注入、Bestiary 解锁+联动、存档重建一致 | C1 / ENG-2 / ADR-1 |
 | `test_ui.gd` | UI（Epic F 逻辑层） | Tab 布局与命中区、路由派发、战斗中 Tab 禁用、可访问性钳制与双编码、+1 堆叠角标、灵脉节点状态分类、战斗技能热区 | UX 规格 / 可访问性 Basic |
 | `test_frame_budget.gd` | 记账级帧预算（G4） | 30fps 稳态 / 跨帧率一致性（两例为已知偏差探测）、降频恢复、ADR-2 tick 内队列结算顺序；**非设备帧时间** | ADR-2 / ADR-3 / G4 |
+| `test_pc_platform.gd` | PC 平台契约（Wave 3） | 1280×720 布局真源与整数倍缩放、所有 UI 热区落在横屏内、Tab 条带包容、鼠标/拖拽/键盘输出同构 `{"position","touch_id":0}`、右键/抬起/echo/未绑定键不臆造事件、适配层不破坏 ADR-2 帧末结算 | ADR-6 / ADR-2 |
 
 > 设备级帧预算仍标【需实测】，**未回填、不臆造**；ADR-6 后判据改由 PC 窗口 / 全屏基线采集（Wave 4），
 > 原移动端 runbook 已归档至 `docs/qa/archive/r1r3-device-test-plan.md`（仅历史方法学参考）。
@@ -113,6 +115,7 @@ func test_harness_runs():
 | 本机 Windows（G4 + 采集包复跑） | **7 scripts / 54 tests / 54 passing / 11468 asserts / `GUT_EXIT=0`**；ADR-5 lint 41 个 `.gd`、0 违规 | `test_frame_budget.gd` 4 例 +16 断言；全局类缓存 40 类不变 |
 | GitHub Actions `windows-latest`（sha `0a19159`） | test run `42045291457` **success**、Lint run `42045291552` **success**；缓存步骤 `wrote 40 global classes`；`Run GUT headless` 约 2 秒完成，输出同为 6/50/50/11452 | 远端 run/job 结论与归档日志 |
 | 首轮无超时悬挂 run `42038019907`（sha `9c33a9d`） | 已通过 Actions API 取消：`completed / cancelled` | HTTP 202 + 复查结论 |
+| 本机 Windows（Wave 3 复跑） | **8 scripts / 60 tests / 60 passing / 11511 asserts / `GUT_EXIT=0`**；PC 主场景 headless 自检 `WAVE3_SELFTEST_OK`；全局类缓存仍 40 类 | `test_pc_platform.gd` 6 例 +43 断言；`godot --headless --path . res://src/main.tscn -- --wave3-selftest` |
 
 - 残留**非致命**告警：GUT 自带字体未导入（headless 无编辑器导入）引起的 fontdata /
   ObjectDB leak 提示，本地与 CI 同样存在，不影响测试结果。
@@ -122,7 +125,7 @@ func test_harness_runs():
 
 1. **G4 PC 基线（ADR-6）**：R1/R3 60/30fps 预算待 PC 窗口 / 全屏实测（Wave 4）；单手可达性热力图与 iOS 后台强杀判据已废止，改键盘可达 / PC 进程强杀双保险。R1 / R3 仍为 CONCERNS。
 2. **Epic E**：E1 真实 AI 原图 → pipeline → manifest 登记；Godot `.import`/Import Preset 固化；`palette_validator` headless CI 与 R5/R6 实跑。
-3. **Epic F**：四主屏 `*.tscn` 场景与像素资产集成（当前 UI 为 GDScript 逻辑层）。
+3. **Epic F / Wave 3b**：四主屏 + 战斗屏 `*.tscn` 可运行骨架已落地；**TileMapLayer 真实 TileSet / 粒子效果参数 / 像素资产集成仍需 ADR-4 的 E1 真实原图**，在此之前 5 项渲染与粒子指标保持 BLOCKED-BY-SCENE。
 4. **集成层**：InputArbiter 接入 PC 键鼠事件（Wave 3 适配层）、`enemy_ai.gd` / `spirit_ai.gd` 独立文件、DungeonGen↔Save 重建联测。
 5. **Linux runner**：按主理人决策暂缓恢复。
 

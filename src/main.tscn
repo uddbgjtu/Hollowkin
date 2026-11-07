@@ -1,6 +1,54 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_main"]
+[ext_resource type="Script" path="res://src/ui/tab_bar_view.gd" id="2_tab"]
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_main")
+
+[node name="Views" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TabBarView" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_tab")
+
+[node name="StatusLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 900.0
+offset_top = 22.0
+offset_right = 1256.0
+offset_bottom = 58.0
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 2
+mouse_filter = 2
+text = "Hollowkin"
+
+[node name="HintLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 104.0
+offset_right = 1100.0
+offset_bottom = 136.0
+theme_override_font_sizes/font_size = 16
+mouse_filter = 2
+text = ""

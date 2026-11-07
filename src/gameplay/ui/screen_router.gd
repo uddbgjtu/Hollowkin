@@ -81,7 +81,7 @@ func _rebuild_combined() -> void:
 	queue.set_hit_zone(_combined)
 
 
-# 外部（InputArbiter 集成层）把 InputEvent 抽为 position 后入队（ADR-2）。
+# 外部（pc_input_adapter 集成层）把 InputEvent 抽为 position 后入队（ADR-2）。
 func push_pointer(position: Vector2, touch_id: int = -1) -> void:
 	queue.push({"position": position, "touch_id": touch_id})
 

@@ -9,7 +9,7 @@
 class_name UiScreen
 extends RefCounted
 
-const THUMB_ZONE_RATIO := 0.40   # 竖屏拇指热区：底部 40% 扇形（ux-spec §1）
+const THUMB_ZONE_RATIO := 0.40   # 历史竖屏单手度量；ADR-6 后仅作布局审计，非设计判据
 
 var id: String = ""
 var active: bool = false
@@ -81,7 +81,7 @@ func zones() -> Array:
 	return _zones
 
 
-# 单手可达性软度量（a11y §3 / ux-spec §1）：rect 中心落在底部 THUMB_ZONE_RATIO 区域。
+# 历史遗留的软度量（ADR-6 已废止单手约束）：rect 中心是否落在底部区域。
 # 仅作布局审计，不强制阻断（主操作须热区化）。viewport_h 为逻辑高度（@1x）。
 func is_in_thumb_zone(rect: Rect2, viewport_h: float) -> bool:
 	var bottom := viewport_h * (1.0 - THUMB_ZONE_RATIO)

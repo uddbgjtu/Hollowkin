@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/ui/screen_view.gd" id="1_view"]
+
+[node name="BattleView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_view")
+screen_id = "battle"
+title = "战斗 · 技能 / 防御 / 跳过"
+hint = "Esc 返回总览；Q / W 对应灵击 / 缚灵（需已注入 CombatDirector）"
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 700.0
+offset_bottom = 62.0
+theme_override_font_sizes/font_size = 28
+mouse_filter = 2
+text = "战斗"
+
+[node name="HintLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 104.0
+offset_right = 1100.0
+offset_bottom = 136.0
+theme_override_font_sizes/font_size = 16
+mouse_filter = 2
+text = ""
+
+[node name="BattleParticles" type="CPUParticles2D" parent="."]
+position = Vector2(640, 360)
+amount = 24
+lifetime = 1.2
+emitting = false

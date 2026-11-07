@@ -1,5 +1,7 @@
 extends GutTest
 
+const LayoutConfig := preload("res://src/ui/layout_config.gd")
+
 # Epic F 静态断言：绑定真实 Pouch / VeinGraph / CombatDirector / BottomTabBar /
 # ScreenRouter / Accessibility（均为 Epic D/C 生产类）。无 Godot 环境下仅按规范书写，
 # 由 CI（.github/workflows/test.yml）在装有 Godot 4.3 的 runner 上真跑。
@@ -7,7 +9,7 @@ extends GutTest
 
 func test_bottom_tab_bar_layout() -> void:
 	var tb = BottomTabBar.new()
-	tb.build(Rect2(0, 1232, 720, 48))
+	tb.build(LayoutConfig.tab_bar_rect())
 	assert_eq(tb.rects().size(), 4, "应 4 个 tab")
 	for r in tb.rects():
 		assert_true(r.size.x >= 48.0 and r.size.y >= 48.0, "tab 命中区 ≥48px")
@@ -110,7 +112,7 @@ func test_router_tab_dispatch_and_battle_disables_tab() -> void:
 	r.register(mp, 3)
 	r.register(bt, -1)
 	ov.bind(ctx); po.bind(ctx); sv.bind(ctx); mp.bind(ctx); bt.bind(ctx)
-	r.build(Rect2(0, 1232, 720, 48))
+	r.build(LayoutConfig.tab_bar_rect())
 
 	assert_true(r.switch_to("pouch"), "切到灵囊")
 	assert_eq(r.active_id, "pouch")

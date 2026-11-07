@@ -1,11 +1,11 @@
 # input_queue.gd — ADR-2 输入队列（生产版）
 # =====================================================================
-# 职责（architecture-doc.md §1.6 / ADR-2）：所有触屏事件入队，帧末结算
+# 职责（architecture-doc.md §1.6 / ADR-2）：所有键鼠指针事件入队，帧末结算
 #       （consume_into），不立即改仿真。按命中区（hit-zone id）归并去重；
 #       技能重触发 cd 下限钳 0.5s（GDD §6.4），防卡死 / 防抖动重触发。
 #       浮杆 touch_id 由 JoystickPointer 独占，本队列只管技能/按钮热区；
 #       位置→热区经 HitZone 解析。全程无全局随机（ADR-5）；无全局输入读取，
-#       事件由外部（InputArbiter 节点）从 InputEventScreenTouch/Drag 抽取后 push。
+#       ADR-6：事件由 pc_input_adapter.gd 从鼠标/键盘抽取后 push。
 # 设计为 RefCounted，可无场景树单测。
 # =====================================================================
 
@@ -33,7 +33,7 @@ func set_cooldown_exempt(ids: Array) -> void:
         _cooldown_exempt[id] = true
 
 
-# 事件由 InputArbiter 从 InputEventScreenTouch/Drag 抽取 position 后入队。
+# 事件由 pc_input_adapter 从 InputEventMouseButton/Motion/Key 抽取 position 后入队。
 # 事件字典至少含 "position"（Vector2）；"touch_id" 仅作透传/审计用。
 func push(event: Dictionary) -> void:
     _events.append({"position": event.get("position", Vector2.ZERO), "touch_id": event.get("touch_id", -1)})

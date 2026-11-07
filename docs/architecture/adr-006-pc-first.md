@@ -64,12 +64,31 @@
 | **1** | 新增本 ADR + 改 `CLAUDE.md`、`concept-doc.md`、`ux-spec.md`、`combat-system-gdd.md`、`architecture-doc.md`、`adr-control-checklist.md`、`accessibility-requirements.md`、`plan.md`（共 9 个文件） | ✅ 本次批准并落地 |
 | **2** | 约 12 份下游文档对齐（✅ 已落地）：`spirit-pouch-gdd.md`、`spirit-vein-gdd.md`、`art-bible.md`、`asset-production-spec.md`、`pixel-asset-pipeline.md`、`lighting-direction-audit.md`、`VERSION.md`、`feasibility-review.md`、`prototype-r1r3-report.md`、`epic-breakdown.md`、`tests/README.md`、`eng2-duplicate-egg-counting.md` | ✅ 本次批准并落地 |
 | **2b** | 归档移动端 runbook v1.1 → `docs/qa/archive/r1r3-device-test-plan.md`、删除 / 替换 `export_presets.cfg` 的 Android `[preset.0]` 为 Windows Desktop 骨架、`docs/qa/evidence/` 证据模板重定位为 PC 基线 | ✅ 本次批准并落地 |
-| **3** | `LayoutConfig` 抽真源、`project.godot` 横屏、Windows Desktop 导出预设、键鼠适配层、四主屏 `*.tscn` + `TileMapLayer` / 粒子层 | ⏸ 待报批 |
+| **3** | `LayoutConfig` 抽真源、`project.godot` 横屏 1280×720、键鼠适配层、四主屏 + 战斗屏 `*.tscn`、PC 主场景组装、Windows Desktop 双导出预设 | ✅ 本次批准并落地（核心可运行；边界见 §5.1） |
+| **3b** | TileMapLayer 真实 TileSet / 粒子效果参数（依赖 ADR-4 E1 真实原图） | ⏸ 待报批 |
 | **4** | 回归：GUT 全量、ADR-5 lint、文档一致性、导出 exe 启动、PC 帧预算基线 | ⏸ 待报批 |
+
+### 5.1 Wave 3 落地边界（2026-11-06，诚实记录）
+
+**已完成且 headless 实跑验证**：
+
+- `src/ui/layout_config.gd`：1280×720、Tab 条带 64px、内容区 656px、≥24×24px 点击下限、整数倍缩放钳制；4 个 UI 屏与 `test_ui.gd` 的 6 处 `720×1280` 硬编码全部改读真源。
+- `project.godot` 改横屏；`src/main.tscn` + `src/main.gd` 组装 5 个屏的逻辑层与视图层，保留 ADR-1 存档 / ADR-5 floor RNG 链路。
+- `src/gameplay/input/pc_input_adapter.gd`：左键 / 拖拽 / 键盘 → `{"position","touch_id":0}` 同构字典入 `InputQueue`；帧末结算、去重、0.5s cd、Tab 豁免全部不变；Tab / Esc 动态意图经 `request_switch` 在 flush 后生效。
+- `src/ui/screens/*.tscn`（四主屏 + 战斗屏）与 `screen_view.gd` / `tab_bar_view.gd`：绘制与 `UiScreen.zones()` 同源的热区，键鼠可见可点；`hit_zone.gd` 的 a11y 下限由触控 48px 改为 ADR-6 的 24px。
+- 新增 `tests/unit/test_pc_platform.gd` 6 例；GUT **8 scripts / 60 tests / 60 passing / 11511 asserts**；PC 主场景 `--wave3-selftest` 输出 `WAVE3_SELFTEST_OK`。
+- `export_presets.cfg` 拆为双预设：`Windows Desktop Game`（`build/hollowkin.exe`，可玩主画面）与 `Windows Desktop Probe`（`build/hollowkin_probe.exe`，仅 R1/R3 采集）；采集预设不覆盖 main_scene，临时切换流程写进文件头注释。
+
+**未完成，不得当作已交付**：
+
+- **TileMapLayer 正式接入与真实 TileSet**：ADR-4 的 E1 真实像素原图尚未产出，强造占位贴图会违反「零臆造资产」纪律；5 项渲染 / 粒子指标仍 BLOCKED-BY-SCENE。
+- **粒子效果参数与贴图**：`BattleParticles` 仅 CPUParticles2D 节点就位，未启用效果。
+- **Windows exe 实导出与启动 / PC 帧预算基线**：导出模板与 rcedit 未配置；R1 / R3 仍 CONCERNS，翻转需独立审批。
+- **战斗仿真接入**：battle 屏技能热区需注入 CombatDirector 后出现，当前仅有防御 / 跳过占位。
 
 ## 6. 质量门
 
-**CONCERNS（平台变更未回归）**：Wave 1 只改文档口径；Wave 2/2b 只改文档口径、归档与导出预设骨架，仍不改生产代码、不改测试断言、不翻转任何 CONCERNS、不写入任何性能测量数字。R1 / R3 仍为 **CONCERNS**；`architecture-doc.md §6` 状态列保持原判据，仅把「目标设备」描述改注为「PC 基线待建」。
+**CONCERNS（Wave 3 可运行骨架已落地，平台变更未完整回归）**：Wave 3 首次改动生产代码与场景层，GUT 全量与 PC 主场景 headless 自检均全绿，但 TileMapLayer / 粒子效果 / Windows exe 实导出 / PC 帧预算基线仍未完成（§5.1）。R1 / R3 仍为 **CONCERNS**，`architecture-doc.md §6` 状态列不翻转；任何 CONCERNS → PASS 属独立审批动作。全程未写入任何性能测量数字。
 
 ## 7. 审批记录
 
@@ -79,8 +98,10 @@
 | 2026-11-06 | 用户明确「移动端彻底放弃」+「批准 Wave 1」 | 已批准 |
 | 2026-11-06 | Wave 1 落地（9 个文件） | 已完成 |
 | 2026-11-06 | 用户批准「Wave 2 + 2b」 | 已批准 |
-| 2026-11-06 | Wave 2 + 2b 落地（12 份文档对齐 + 归档 + 预设 / 证据模板重定位） | 本次 |
+| 2026-11-06 | Wave 2 + 2b 落地（12 份文档对齐 + 归档 + 预设 / 证据模板重定位） | 已完成 |
+| 2026-11-06 | 用户批准 commit + push（`b6e12ed`） | 已完成 |
+| 2026-11-06 | 用户批准 Wave 3 | 已批准并落地（部分，见 §5.1） |
 
 ---
 
-*本 ADR 为平台定位的唯一新真源；与其冲突的 Phase 1–4 历史条款以本文件为准。未执行 git commit。*
+*本 ADR 为平台定位的唯一新真源；与其冲突的 Phase 1–4 历史条款以本文件为准。Wave 3 改动尚未 git commit。*

@@ -249,17 +249,18 @@ func _collect_r1_density(probe) -> void:
 
 # ---------------------------------------------------------------------
 # §3 R3：输入仲裁（HitZone 解析 + 队列去重 + 0.5s cd 钳）
+# ADR-6 Wave 3：夹具坐标改到 1280x720 横屏内容区（原 900/948 为竖屏遗留）。
 # ---------------------------------------------------------------------
 func _collect_r3_input(probe) -> void:
     var hz := HitZoneMod.new()
-    hz.register_rect("skill_lingji", Rect2(24.0, 900.0, 96.0, 96.0))
-    hz.register_rect("skill_fuling", Rect2(160.0, 900.0, 96.0, 96.0))
+    hz.register_rect("skill_lingji", Rect2(24.0, 560.0, 96.0, 96.0))
+    hz.register_rect("skill_fuling", Rect2(160.0, 560.0, 96.0, 96.0))
     var q := InputQueueMod.new()
     q.set_hit_zone(hz)
     var sink := Sink.new()
     var samples: Array = []
     for i in range(N_INPUT):
-        q.push({"position": Vector2(72.0, 948.0), "touch_id": i})
+        q.push({"position": Vector2(72.0, 608.0), "touch_id": i})
         q.advance_time(0.1)
         var t0 := Time.get_ticks_usec()
         q.consume_into(sink)

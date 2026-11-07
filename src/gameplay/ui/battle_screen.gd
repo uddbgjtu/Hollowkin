@@ -1,6 +1,6 @@
 # battle_screen.gd — 战斗屏（Epic F2 / ux-spec §3.1）
 # =====================================================================
-# 下半屏：技能键（≥56px 圆角方块，置于拇指热区）+ 防御/跳过键。
+# 下半屏：技能键（≥56px 圆角方块，置于右下角）+ 防御/跳过键。ADR-6 横屏。
 # 上半屏：敌我血条 / 状态（由 HUD view 暴露，渲染层做形状+色相双编码）。
 # 低血量：heart + 屏幕红框脉冲（不只变红，a11y §3.4）。
 # 冷却/禁用：置灰 + 锁形 + 环形遮罩（由 HUD skill_ready 表达，a11y §3.4）。
@@ -11,6 +11,8 @@
 
 class_name BattleScreen
 extends UiScreen
+
+const LayoutConfig := preload("res://src/ui/layout_config.gd")
 
 const SKILL_SIZE := 56.0
 const SKILL_GAP := 8.0
@@ -33,14 +35,14 @@ func _build() -> void:
 func _build_skill_zones() -> void:
 	_zones.clear()
 	hit_zone.clear()
-	var region := Rect2(Vector2.ZERO, Vector2(720, 1280))
+	var region: Rect2 = LayoutConfig.screen_rect()
 	var base_y := region.position.y + region.size.y - SKILL_SIZE - PAD
 	var ids: Array = []
 	if ctx != null and ctx.combat != null:
 		for sk_id in ctx.combat.skills.keys():
 			ids.append(sk_id)
 	skill_ids = ids
-	# 技能键（置于拇指热区，右下布局）
+	# 技能键（右下布局，避开内容区底部 Tab 条带）
 	var n := float(ids.size())
 	var total_w := n * SKILL_SIZE + (n - 1.0) * SKILL_GAP
 	var start_x := region.position.x + region.size.x - total_w - PAD

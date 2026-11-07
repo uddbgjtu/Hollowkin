@@ -2,7 +2,7 @@
 # =====================================================================
 # 节点：视觉 44px，命中区 ≥48px（a11y §3.2 澄清，半径 24 → 直径 48）。
 # 连接：已激活路径高亮、未激活灰（状态由 shape 表达：星=已点/锁=未解锁/高亮=可点）。
-# 缩放/平移：边缘按钮（≥48px），保证单手可触达中心节点；缩放改变布局后通知
+# 缩放/平移：边缘按钮（≥48px），键鼠可聚焦；缩放改变布局后通知
 # router 重建合并热区（rebuild_combined）。
 # 节点激活：点击 → can_activate 校验 → VeinGraph.activate 扣 ember 并刷新状态。
 # 无随机（ADR-5）。
@@ -10,6 +10,8 @@
 
 class_name SpiritVeinScreen
 extends UiScreen
+
+const LayoutConfig := preload("res://src/ui/layout_config.gd")
 
 const NODE_RADIUS := 24.0      # 直径 48 = 命中区下限
 const ZOOM_BTN := 56.0
@@ -50,7 +52,7 @@ func _layout() -> void:
 			var p := _screen_pos(Vector2(float(nd["x"]), float(nd["y"])))
 			_add_circle(nd["id"], p, NODE_RADIUS)
 	# 缩放按钮（左上角落，≥48px）
-	var region := Rect2(Vector2.ZERO, Vector2(720, 1280))
+	var region: Rect2 = LayoutConfig.content_rect()
 	_add_rect("zoom_in", Rect2(region.position.x + PAD, region.position.y + PAD, ZOOM_BTN, ZOOM_BTN))
 	_add_rect("zoom_out", Rect2(region.position.x + PAD, region.position.y + PAD + ZOOM_BTN + 8.0, ZOOM_BTN, ZOOM_BTN))
 

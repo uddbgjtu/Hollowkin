@@ -20,8 +20,9 @@ SaveSvc="*res://src/core/save/save_service.gd"
 
 [display]
 
-window/size/viewport_width=720
-window/size/viewport_height=1280
-window/handheld/orientation="portrait"
+; ADR-6 Wave 3：PC 优先，横屏 1280x720 @1x（整数倍缩放见 src/ui/layout_config.gd）。
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/handheld/orientation="landscape"
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"

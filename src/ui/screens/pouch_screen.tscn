@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/ui/screen_view.gd" id="1_view"]
+
+[node name="PouchView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_view")
+screen_id = "pouch"
+title = "灵囊 · 灵兽 / 符文 / 物资"
+hint = "三栏分段控件；点击栏目标题或物品格查看选择态"
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 700.0
+offset_bottom = 62.0
+theme_override_font_sizes/font_size = 28
+mouse_filter = 2
+text = "灵囊"
+
+[node name="HintLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 104.0
+offset_right = 1100.0
+offset_bottom = 136.0
+theme_override_font_sizes/font_size = 16
+mouse_filter = 2
+text = ""
