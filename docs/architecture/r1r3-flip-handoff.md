@@ -46,6 +46,7 @@ git push origin master        # 一次性推送 7 个本地提交
 
 - **查看位置**：仓库 Actions 页 → 最新 workflow run → 两个 job 结论；历史绿例参考 `tests/README.md`（上一次双绿：`test` run `42340493718` / `Lint` run `42340493196`）。
 - **关键验证点**：headless 探针行为不变（`probe_runner.gd` headless 分支不构建负载、不进四态采集、`rows=10` 不变量保持）；lint 无新增违规；GUT `test_render_layer` 新断言通过。
+- **⚠️ 已知陷阱（已修复）**：`test.yml` 必须在 GUT 前执行 `godot --headless --import --path .`（headless 资产导入步骤），否则全新 checkout 无 `.godot/imported` 缓存，E1 PNG-8 无法被 `load()` 解析，`asset_registry.gd` 走 1×1 回退并 `push_warning`，导致 `test_e1_assets_resolve_without_warnings` 的 `assert_eq(warnings(),[])` 失败（即 106d442 修复前 CI 由绿转红的根因）。提交 `106d442` 已补该步骤并修正 `texture()` 的 `ResourceLoader.exists()` 预筛守卫。
 - **注意**：CI 双绿**不构成** G1 实测数据，也不触发 R1/R3 翻转（纪律红线）。
 
 ---
