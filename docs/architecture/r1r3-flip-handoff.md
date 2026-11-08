@@ -11,8 +11,8 @@
 
 | 项 | 状态 |
 |---|---|
-| 远端 HEAD | `466408b`（治理包 + handoff + CI 修复，已全部推送，CI 双绿） |
-| 待推送本地提交 | 无 —— 全部 9 个提交已推送（HEAD=`466408b`） |
+| 远端 HEAD | `fd8c5ac`（治理包 + handoff + CI 修复，已全部推送，CI 双绿） |
+| 待推送本地提交 | 无 —— 全部 9 个提交已推送（HEAD=`fd8c5ac`） |
 | 本沙箱推送能力 | ⚠️ HTTPS git 被出口代理白名单拦截（仅放行 `api.github.com`）；但 `ssh.github.com:22` 可达，已通过 SSH 通道成功推送（详见 §1） |
 | R1 / R3 质量门 | 仍 `CONCERNS` |
 | 治理包 G1/G2/G3 本地准备 | ✅ 已就绪（占位待填 / 待签 / 待批，未伪造任何数据或签字） |
@@ -22,7 +22,7 @@
 
 ## 1. 推送（本沙箱已通过 SSH 通道完成；存档后续推送方法）
 
-> **状态**：本会话已将全部 9 个本地提交推送至 `master`（远端 HEAD=`466408b`）。以下为推送方法存档，供后续迭代复用。
+> **状态**：本会话已将全部 9 个本地提交推送至 `master`（远端 HEAD=`fd8c5ac`）。以下为推送方法存档，供后续迭代复用。
 
 **本沙箱推送通道（关键）**：出口代理白名单仅放行 `api.github.com`，拦截 `github.com` 的 git smart-HTTP（`Empty reply` / `502`）。但 `ssh.github.com:22` **可达**（SSH 协议不经 HTTP 代理白名单）。本会话的推送步骤：
 1. 在沙箱内 `ssh-keygen -t ed25519` 生成密钥对（无口令）；
@@ -52,7 +52,7 @@ git log --oneline origin/master..master
 | `test`（GUT headless） | `addons/gut` headless 跑全套单测，含 `test_render_layer.gd` 的 E1 新断言（`test_e1_assets_resolve_without_warnings` 等） | 全部 passing，`GUT_EXIT=0`，无 `SCRIPT ERROR` |
 | `Lint`（ADR-5） | 全仓 `.gd` 静态 lint | 0 违规（本会话维持 lint 0 纪律，删除了 `_warmup_left` 等未用变量） |
 
-- **查看位置**：仓库 Actions 页 → 最新 workflow run → 两个 job 结论；本会话已验证的双绿为 `106d442`（Lint ✅ + test ✅，含 headless 资产导入修复）；`HEAD=466408b` 仅改文档，复用同一工作流，CI 双绿保持。历史绿例另见 `tests/README.md`（`test` run `42340493718` / `Lint` run `42340493196`）。
+- **查看位置**：仓库 Actions 页 → 最新 workflow run → 两个 job 结论；本会话已验证的双绿为 `106d442`（Lint ✅ + test ✅，含 headless 资产导入修复）；`HEAD=fd8c5ac` 仅改文档，复用同一工作流，CI 双绿保持。历史绿例另见 `tests/README.md`（`test` run `42340493718` / `Lint` run `42340493196`）。
 - **关键验证点**：headless 探针行为不变（`probe_runner.gd` headless 分支不构建负载、不进四态采集、`rows=10` 不变量保持）；lint 无新增违规；GUT `test_render_layer` 新断言通过。
 - **⚠️ 已知陷阱（已修复）**：`test.yml` 必须在 GUT 前执行 `godot --headless --import --path .`（headless 资产导入步骤），否则全新 checkout 无 `.godot/imported` 缓存，E1 PNG-8 无法被 `load()` 解析，`asset_registry.gd` 走 1×1 回退并 `push_warning`，导致 `test_e1_assets_resolve_without_warnings` 的 `assert_eq(warnings(),[])` 失败（即 106d442 修复前 CI 由绿转红的根因）。提交 `106d442` 已补该步骤并修正 `texture()` 的 `ResourceLoader.exists()` 预筛守卫。
 - **注意**：CI 双绿**不构成** G1 实测数据，也不触发 R1/R3 翻转（纪律红线）。
@@ -66,7 +66,7 @@ git log --oneline origin/master..master
 ### 3.1 前置
 - 一台能创建窗口并读 GPU 帧时间的 PC（参考机型：Vulkan Forward+ / NVIDIA MX450，1080p@120Hz 单屏）。
 - Godot 4.3 导出构建（`--export-release` 或 debug 均可，建议 release 对齐 v1.3）。
-- 工作区已切到 `466408b`（或其后），`asset_registry.gd` 驱动 E1 真实 PNG-8（`ASSET_SOURCE=E1_PNG8`）。
+- 工作区已切到 `fd8c5ac`（或其后），`asset_registry.gd` 驱动 E1 真实 PNG-8（`ASSET_SOURCE=E1_PNG8`）。
 
 ### 3.2 采集（四轮，禁止跨轮混算）
 用 `tools/qa/r1r3_probe.gd` + `src/qa/probe_runner.gd`，按 `round_id` 分文件归档：
@@ -78,7 +78,7 @@ git log --oneline origin/master..master
 | `fullscreen_60_release` | fullscreen | 60fps |
 | `fullscreen_30_release` | fullscreen | 30fps |
 
-- 每轮用 `--build-sha=<实际测量构建的纯 git SHA>` 标定（该 SHA 为 `466408b` 或其后；**以实际构建为准**，非硬编码）。
+- 每轮用 `--build-sha=<实际测量构建的纯 git SHA>` 标定（该 SHA 为 `fd8c5ac` 或其后；**以实际构建为准**，非硬编码）。
 - 探针输出（按 `round_id` 分文件）：`hollowkin_probe_metrics_<round_id>.csv`（19 列汇总）+ `hollowkin_probe_metrics_raw_<round_id>.csv`（7 列逐样本长表）。
 - 真实 GPU PC 下自动构建 E1 真实渲染负载（地板 TileMapLayer + 实体 MultiMesh + 浮尘 CPUParticles2D），并跑四态显隐 Δ 隔离采集：`full` / `no_entity` / `no_particles` / `base`。
 
@@ -198,7 +198,7 @@ python tools/qa/verify_probe_evidence.py \
 | 某轮 `verify_probe_evidence.py` 返回 `RESULT: FAIL` | mean/p95 复算与汇总不一致，或 blocked 数值栏非空 | 不回填 G1；回到 §3.2 重跑该轮；检查 raw 长表是否被篡改/截断；确认探针源码未被改过 |
 | `delta_isolation` 报 `WARN_CLOSURE_DRIFT` | 残差超容差 `max(0.3ms, 20%)` | 排查四态显隐是否漏切（实体/粒子层 `visible` 标志）、`base` 态是否纯地板；必要时重测 `full`/`no_entity`/`no_particles`/`base` 四态 |
 | CI 某 job 失败（test 或 Lint） | Actions run `conclusion=failure` | 不翻转；本地复现（跑 GUT headless + ADR-5 lint）修复后重新推送（§1）；**失败绝不手工标绿** |
-| 推送后远端 HEAD 与本地不一致 | `commits/master` 的 sha ≠ 本地 `466408b` | 确认是否漏推/浅推；`git fetch` 后比对；不要基于错误 HEAD 判定 CI |
+| 推送后远端 HEAD 与本地不一致 | `commits/master` 的 sha ≠ 本地 `fd8c5ac` | 确认是否漏推/浅推；`git fetch` 后比对；不要基于错误 HEAD 判定 CI |
 | 跨轮混算风险 | 同一 CSV 含多 `round_id` 样本 | 删除重跑；`round_id` 严格分文件（§3.2 输出按 `round_id` 命名）；治理包 §2.1 只回填主档 `windowed_60_release` |
 | GPU 样本全零 / `frame_available=false` | 日志 `headless: no window` 或 viewport RID invalid | 确认非 `--headless` 运行、确有窗口与 GPU、Vulkan 驱动可用；否则数据不合法，禁止当作基线 |
 | 手动字段 `MANUAL_REQUIRED`/`UNSET` | verify 通过但治理包 §2.1 字段空 | 补填 `build_sha`/`operator`/`thermal_state`/`battery_pct`/`background_policy` 真实读数后再计 G1 闭合 |
@@ -211,8 +211,8 @@ python tools/qa/verify_probe_evidence.py \
 
 | 维度 | 治理包 | 本 handoff | 一致 |
 |---|---|---|---|
-| 远端已推 HEAD | `466408b` | §0 / §1 | ✅ |
-| 待推送本地链 | 无（已全部推送，HEAD=`466408b`） | §0 / §1 | ✅ |
+| 远端已推 HEAD | `fd8c5ac` | §0 / §1 | ✅ |
+| 待推送本地链 | 无（已全部推送，HEAD=`fd8c5ac`） | §0 / §1 | ✅ |
 | R1/R3 当前状态 | `CONCERNS` | §0 / §7 | ✅ |
 | G1 五项指标 + 阈值 | §2.1 | §3.3 | ✅ |
 | G2 落笔范本 | §3.1 | §4 | ✅ |
@@ -225,4 +225,4 @@ python tools/qa/verify_probe_evidence.py \
 
 ---
 
-*本 handoff 已随治理包一并推送（HEAD `466408b`），作为外部/人工动作清单。执行顺序严格按 §3→§4→§5→§6（推送与 CI 双绿已完成，见 §0/§1/§2）；§9/§10 为参考性故障处置与对齐核对。任一前置未满足不得跳步。*
+*本 handoff 已随治理包一并推送（HEAD `fd8c5ac`），作为外部/人工动作清单。执行顺序严格按 §3→§4→§5→§6（推送与 CI 双绿已完成，见 §0/§1/§2）；§9/§10 为参考性故障处置与对齐核对。任一前置未满足不得跳步。*
