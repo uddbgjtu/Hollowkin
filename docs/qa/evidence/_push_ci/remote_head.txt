@@ -3,10 +3,14 @@ Hollowkin · 远端 HEAD 核验（git ls-remote，权威，不经 GitHub API）
 生成时间（本地）: 2026-11-08
 来源命令: git ls-remote git@github.com:uddbgjtu/Hollowkin.git master
 
-远端 refs/heads/master = 53d64c2267bb343c433e78382e23973442a622f7
-本地  HEAD            = 53d64c2267bb343c433e78382e23973442a622f7  (git rev-parse HEAD)
+最近一次捕获:
+  远端 refs/heads/master = cb0ac31ddafa21ec2cecf63c1324ed78f4cff6bf
+  本地  HEAD            = cb0ac31ddafa21ec2cecf63c1324ed78f4cff6bf  (git rev-parse HEAD)
 
-结论: 远端 master 与本地 HEAD 一致 -> 全部本地提交已推送（HEAD 53d64c2）。
+结论: 远端 master 与本地 HEAD 一致 -> 全部本地提交已推送。
+
+注意: 本文件不钉死某一 SHA。纯文档/脚本提交（不含行为变更）会使 HEAD 前进，但
+「远端 == 本地、全部已推送」的结论不变；复核时一律以 `git ls-remote` 实际输出为准。
 
 推送通道: SSH (git@github.com:uddbgjtu/Hollowkin.git)
           本沙箱 HTTPS git 被出口代理白名单拦截（仅 api.github.com 放行），

@@ -4,7 +4,7 @@
 
 ## 已捕获证据
 
-- `remote_head_53d64c2.txt`：权威 `git ls-remote` 输出，证明远端 `master = 53d64c2267bb343c433e78382e23973442a622f7` 与本地 `HEAD` 一致；并记录 SSH 推送通道（绕过本沙箱代理白名单）与 CI 双绿基线。
+- `remote_head.txt`：权威 `git ls-remote` 输出，证明远端 `master` == 本地 `HEAD`（不钉死单一 SHA，纯文档提交会使 HEAD 前进但「全部已推送」结论不变）；并记录 SSH 推送通道（绕过本沙箱代理白名单）与 CI 双绿基线。
 - `ci_runs_106d442.json`（GitHub API 可达时捕获）：`106d442` 触发的 Actions runs 原始响应，含 `Lint` / `test` 结论。本次会话编写时 API 处未授权限流，未落盘；结论以会话内轮询确认为准（见治理包 §7）。
 
 ## 待补截图（主理人按治理包 §7.1 命名约定放入 `screenshots/`）
@@ -12,7 +12,7 @@
 | 文件 | 内容 |
 |---|---|
 | `screenshots/actions_green_106d442.png` | Actions 页 `Lint` / `test` 两 job 均 `success` 的页面截图 |
-| `screenshots/push_success.png` | GitHub 仓库 `master` 提交历史含 `53d64c2` 的截图 |
+| `screenshots/push_success.png` | GitHub 仓库 `master` 提交历史含当前 `HEAD`（如 `cb0ac31`）的截图 |
 
 ## 纪律
 
