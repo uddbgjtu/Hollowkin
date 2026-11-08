@@ -97,6 +97,7 @@ git log --oneline origin/master..master
    - `--probe-auto` 跑完自动退出；省略则需手动点界面「Start R1/R3 PC baseline probe」按钮。
    - `--user-data-dir` 把 CSV 固定到工作区 `probe_out/` 子目录，便于 `verify_probe_evidence.py` 直接读取；省略则落盘 Godot `user://`（Windows 通常 `%APPDATA%\Godot\app_userdata\<项目名>\`）。
    - 导出可执行文件名以实际 export preset 为准（上例 `Hollowkin.exe` 为示意）。
+   - **一键封装（推荐）**：四轮 + 逐轮 `verify` + `project.godot` 自动还原，可改用脚本 `tools/qa/run_g1_probe.ps1` 完成（`-GodotExe` 传 Godot 编辑器/控制台二进制或已导出 exe，`-BuildSha` 必填实际构建 SHA）；脚本以 `--user-data-dir` 落到 `evidence/pc_win_02/userdata/<round_id>/` 并自动调用 `verify_probe_evidence.py`，参数与下表四轮完全一致。
 3. 每轮产出（按 `round_id` 分文件，**禁止跨轮混算**）：
    - `hollowkin_probe_metrics_<round_id>.csv`（19 列汇总）
    - `hollowkin_probe_metrics_raw_<round_id>.csv`（7 列逐样本长表）

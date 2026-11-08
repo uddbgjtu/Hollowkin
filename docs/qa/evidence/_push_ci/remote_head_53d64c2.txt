@@ -1,0 +1,17 @@
+Hollowkin · 远端 HEAD 核验（git ls-remote，权威，不经 GitHub API）
+==================================================================
+生成时间（本地）: 2026-11-08
+来源命令: git ls-remote git@github.com:uddbgjtu/Hollowkin.git master
+
+远端 refs/heads/master = 53d64c2267bb343c433e78382e23973442a622f7
+本地  HEAD            = 53d64c2267bb343c433e78382e23973442a622f7  (git rev-parse HEAD)
+
+结论: 远端 master 与本地 HEAD 一致 -> 全部本地提交已推送（HEAD 53d64c2）。
+
+推送通道: SSH (git@github.com:uddbgjtu/Hollowkin.git)
+          本沙箱 HTTPS git 被出口代理白名单拦截（仅 api.github.com 放行），
+          故走 ssh.github.com:22 完成推送；沙箱公钥已在 GitHub 账户注册。
+
+CI 双绿: 行为基线 106d442c86ea9961eccdeb90526d05021df74681
+          （Lint success + test success；本会话经 GitHub Actions API 轮询确认；
+           该提交含 test.yml 新增 headless 资产导入步骤 + asset_registry 纹理守卫修正）

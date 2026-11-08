@@ -43,6 +43,7 @@ pc_win_02/<build_sha>/
    - `exe -- --round-id=windowed_30_release   --window-mode=windowed   --fps-cap=30 --frame-samples=120 --warmup-frames=30`
    - `exe -- --round-id=fullscreen_60_release --window-mode=fullscreen --fps-cap=60 --frame-samples=120 --warmup-frames=30`
    - `exe -- --round-id=fullscreen_30_release --window-mode=fullscreen --fps-cap=30 --frame-samples=120 --warmup-frames=30`
+   - **一键封装（推荐）**：上述四轮 + 逐轮 `verify` + `project.godot` 自动还原，可用脚本 `tools/qa/run_g1_probe.ps1` 完成（用法见脚本头部 `.EXAMPLE`）。脚本以 `--user-data-dir` 把 CSV 落到 `evidence/pc_win_02/userdata/<round_id>/`，并自动调用 `verify_probe_evidence.py`；`--build-sha` 必填实际构建 SHA。
 4. **取回**每轮的 `user://hollowkin_probe_metrics_<round>.csv`（19 列汇总）与 `..._raw_<round>.csv`（7 列逐样本），连同 console / stdout 日志，按 §1 结构落盘。
 5. **手工补齐** `MANUAL_REQUIRED` 字段（`thermal_state` / `battery_pct` / `background_policy` / `operator`），`gpu_backend` 按 PC 实际（Vulkan / D3D12 / GLES3）核对，勿以脚本代理值充当已填。
 6. **逐轮核验**：`python tools/qa/verify_probe_evidence.py <metrics.csv> <metrics_raw.csv>`，须 `RESULT: PASS`（mean / p95 由逐样本复算一致、blocked 数值栏为空、手动字段齐全）。
