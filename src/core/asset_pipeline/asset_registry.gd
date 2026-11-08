@@ -71,12 +71,12 @@ static func texture(slug: String) -> Texture2D:
         _warn("E1 资产缺件（slug 未登记 manifest）: " + slug)
         return _fallback_texture()
     var res_path := "res://" + str(_map[slug])
-    if not ResourceLoader.exists(res_path):
-        _warn("E1 资产文件缺失（未导入？）: " + res_path)
-        return _fallback_texture()
+    # 直接 load()：Godot 在缺 .godot/imported 缓存时会按需导入；
+    # 不先用 ResourceLoader.exists() 预筛——headless / 全新 checkout 下未导入资源的
+    # exists() 返回 false，会误报警告并触发 1×1 回退纹理，污染 warnings()。
     var tex: Texture2D = load(res_path) as Texture2D
     if tex == null:
-        _warn("E1 资产加载失败: " + res_path)
+        _warn("E1 资产加载失败（缺失或未导入）: " + res_path)
         return _fallback_texture()
     return tex
 

@@ -34,6 +34,17 @@ jobs:
           }
           & "godot_bin/Godot_v4.3-stable_win64_console.exe" --version
 
+      # 资产导入：全新 checkout 无 .godot/imported 缓存，headless 跑 GUT 前必须
+      # 先导入，否则 E1 PNG-8 纹理无法被 load()/ResourceLoader.exists() 解析，
+      # asset_registry.gd 会走 1×1 回退并 push_warning，使
+      # test_e1_assets_resolve_without_warnings 的 assert_eq(warnings(), []) 失败。
+      # --import 隐含 --editor --quit：启动编辑器、等待资源导入完毕、退出。
+      - name: Import assets (headless)
+        shell: pwsh
+        run: |
+          & "godot_bin/Godot_v4.3-stable_win64_console.exe" --headless --import --path .
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
       # GUT 为 Godot 编辑器插件，需先于 GUT 测试安装进工程 addons/。
       # 已核实：GUT 9.3.0 的 Release 没有独立 zip 资产（gut_9.3.0.zip 为 404），
       # 且 tag 带 v 前缀（v9.3.0）。故改用 tag 源码归档，其顶层目录为
