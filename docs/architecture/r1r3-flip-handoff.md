@@ -11,8 +11,8 @@
 
 | 项 | 状态 |
 |---|---|
-| 远端 HEAD | `6f31301`（文档层 HEAD；行为验证基线 `106d442` 已 CI 双绿，后续纯文档提交不改已验证状态） |
-| 待推送本地提交 | 无 —— 全部提交已推送（文档层 HEAD=`6f31301`） |
+| 文档定稿锚点 | `6f31301`（行为验证基线 `106d442` 已 CI 双绿；此后纯文档提交不改已验证状态，真实远端 HEAD 以 `git rev-parse origin/master` 为准） |
+| 待推送本地提交 | 无 —— 全部提交已推送（真实远端 HEAD 见 `origin/master`） |
 | 本沙箱推送能力 | ⚠️ HTTPS git 被出口代理白名单拦截（仅放行 `api.github.com`）；但 `ssh.github.com:22` 可达，已通过 SSH 通道成功推送（详见 §1） |
 | R1 / R3 质量门 | 仍 `CONCERNS` |
 | 治理包 G1/G2/G3 本地准备 | ✅ 已就绪（占位待填 / 待签 / 待批，未伪造任何数据或签字） |
@@ -22,7 +22,7 @@
 
 ## 1. 推送（本沙箱已通过 SSH 通道完成；存档后续推送方法）
 
-> **状态**：本会话已将全部 9 个本地提交推送至 `master`（远端 HEAD=`6f31301`）。以下为推送方法存档，供后续迭代复用。
+> **状态**：本会话已将全部本地提交推送至 `master`（真实远端 HEAD 见 `origin/master`；行为验证基线 `106d442` 已 CI 双绿）。以下为推送方法存档，供后续迭代复用。
 
 **本沙箱推送通道（关键）**：出口代理白名单仅放行 `api.github.com`，拦截 `github.com` 的 git smart-HTTP（`Empty reply` / `502`）。但 `ssh.github.com:22` **可达**（SSH 协议不经 HTTP 代理白名单）。本会话的推送步骤：
 1. 在沙箱内 `ssh-keygen -t ed25519` 生成密钥对（无口令）；
@@ -198,7 +198,7 @@ python tools/qa/verify_probe_evidence.py \
 | 某轮 `verify_probe_evidence.py` 返回 `RESULT: FAIL` | mean/p95 复算与汇总不一致，或 blocked 数值栏非空 | 不回填 G1；回到 §3.2 重跑该轮；检查 raw 长表是否被篡改/截断；确认探针源码未被改过 |
 | `delta_isolation` 报 `WARN_CLOSURE_DRIFT` | 残差超容差 `max(0.3ms, 20%)` | 排查四态显隐是否漏切（实体/粒子层 `visible` 标志）、`base` 态是否纯地板；必要时重测 `full`/`no_entity`/`no_particles`/`base` 四态 |
 | CI 某 job 失败（test 或 Lint） | Actions run `conclusion=failure` | 不翻转；本地复现（跑 GUT headless + ADR-5 lint）修复后重新推送（§1）；**失败绝不手工标绿** |
-| 推送后远端 HEAD 与本地不一致 | `commits/master` 的 sha ≠ 本地 `6f31301` | 确认是否漏推/浅推；`git fetch` 后比对；不要基于错误 HEAD 判定 CI |
+| 推送后远端 HEAD 与本地不一致 | `commits/master` 的 sha ≠ 本地 `git rev-parse HEAD` | 确认是否漏推/浅推；`git fetch` 后比对；不要基于错误 HEAD 判定 CI |
 | 跨轮混算风险 | 同一 CSV 含多 `round_id` 样本 | 删除重跑；`round_id` 严格分文件（§3.2 输出按 `round_id` 命名）；治理包 §2.1 只回填主档 `windowed_60_release` |
 | GPU 样本全零 / `frame_available=false` | 日志 `headless: no window` 或 viewport RID invalid | 确认非 `--headless` 运行、确有窗口与 GPU、Vulkan 驱动可用；否则数据不合法，禁止当作基线 |
 | 手动字段 `MANUAL_REQUIRED`/`UNSET` | verify 通过但治理包 §2.1 字段空 | 补填 `build_sha`/`operator`/`thermal_state`/`battery_pct`/`background_policy` 真实读数后再计 G1 闭合 |
@@ -211,7 +211,7 @@ python tools/qa/verify_probe_evidence.py \
 
 | 维度 | 治理包 | 本 handoff | 一致 |
 |---|---|---|---|
-| 远端已推 HEAD | `6f31301` | §0 / §1 | ✅ |
+| 远端已推 HEAD | ≥ `6f31301`（真实远端 HEAD 见 `origin/master`） | §0 / §1 | ✅ |
 | 待推送本地链 | 无（已全部推送，HEAD=`6f31301`） | §0 / §1 | ✅ |
 | R1/R3 当前状态 | `CONCERNS` | §0 / §7 | ✅ |
 | G1 五项指标 + 阈值 | §2.1 | §3.3 | ✅ |
